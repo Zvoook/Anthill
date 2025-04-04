@@ -1,10 +1,13 @@
 #include "Anthill.h"
 
 Anthill::Anthill() {
-    this->lvl = 1;
-    this->place_for_ants = 10;
-    this->place_for_food = 50;
-    this->place_for_materials = 50;
+    lvl = 1;
+    place_for_ants = 10;
+    place_for_food = 50;
+    place_for_materials = 50;
+    current_ants = 5;
+    current_food = 10;
+    current_materials = 10;
 }
 
 Anthill::~Anthill() {
@@ -12,10 +15,10 @@ Anthill::~Anthill() {
 }
 
 void Anthill::up_lvl() {
-    if (this->place_for_materials == 50 + lvl * 20) {
-        this->lvl++;
-        this->place_for_ants += 5;
-        this->place_for_food += 10;
-        this->place_for_materials += 20;
+    if (place_for_materials == current_materials) {
+        lvl++;
+        place_for_ants += 5;
+        place_for_food += 10;
+        place_for_materials += 20;
     }
 }
