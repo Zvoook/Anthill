@@ -1,67 +1,35 @@
-#include "Ants.h"
+#pragma once
+#include "Game Settings.h"
+#include "Position.h"
+#include "Role.h"
+#include "Resource.h"
 
-void Collector::work(shared_ptr<Ant> ant) { cout << "Collecting!\n"; }
-
-void Collector::role_up(shared_ptr<Ant> ant) {
-    int h = ant->get_max_hp();
-    if (h > 10) ant->set_role(make_shared<Solder>());
-    else ant->set_role(make_shared<Sheppert>());
-}
-
-void Cleaner::work(shared_ptr<Ant> ant) {}
-
-void Cleaner::role_up(shared_ptr<Ant> ant){}
-
-void create_cluster(vector<Resource>& resources, float x, float y, res_type type)
-{
-    int res_in_cluster = rand() % 10 + 5;
-    for (int i = 0; i < res_in_cluster; ++i) {
-        float shift_x = (rand() % 100) - 50;
-        float shift_y = (rand() % 100) - 50;
-
-        int n = rand() % 100;
-        res_size size;
-        if (n < probability_of_small_resources) { size = small; }
-        else if (n < probability_of_small_resources+ probability_of_medium_resources) { size = medium; }
-        else { size = big; }
-        Resource res(type, size);
-        res.set_posit(x + shift_x, y + shift_y);
-        resources.push_back(res);
+class Ant : public enable_shared_from_this<Ant> {
+private:
+    int hp, max_hp, life_time;
+    Position pos, target;
+    Vector2f velocity;
+    Role* role;
+    character charact;
+    res_type inventory;
+    CircleShape shape;
+    bool has_target;
+public:
+    Ant(float x, float y) : role(make_shared<Baby>()), life_time(0), hp(1), velocity(0, 0), target(0, 0), has_target(false), inventory(no_res) {
+        max_hp = rand() % 6 + 10;
+        charact = (max_hp % 2 == 0) ? passive : agressive;
+        shape.setRadius(ant_size);
+        shape.setFillColor(Color(255, 182, 193));
+        shape.setPosition(x, y);
     }
-}
-
-void Sitter::role_up(shared_ptr<Ant> ant)
-{
-}
-
-void Builder::work(shared_ptr<Ant> ant)
-{
-}
-
-void Builder::role_up(shared_ptr<Ant> ant)
-{
-}
-
-void Solder::work(shared_ptr<Ant> ant)
-{
-}
-
-void Solder::role_up(shared_ptr<Ant> ant)
-{
-}
-
-void Sheppert::work(shared_ptr<Ant> ant)
-{
-}
-
-void Sheppert::role_up(shared_ptr<Ant> ant)
-{
-}
-
-void Ant::update() {
-    life_time++;
-    set_velocity((rand() % 2 ? -1.0f : 1.0f) * ant_speed, (rand() % 2 ? -1.0f : 1.0f) * ant_speed);
-    pos.set_pos(pos.get_x() + velocity.x, pos.get_y() + velocity.y);
-    if (life_time % 20 == 0) role->role_up(shared_from_this());
-    if (life_time == life_stages * stage_time_per_ticks) kill();
-}
+    void set_role(shared_ptr<Role> new_role) { role = move(new_role); }
+    void set_velocity(float vx, float vy) { velocity.x = vx; velocity.y = vy; }
+    void work();
+    //void work() { if (role) role->work(shared_from_this()); }
+    void update();
+    void pick_res(Resource res);
+    void drop_res();
+    void kill() { hp = 0; };
+    int get_max_hp() const { return max_hp; }
+    bool is_alive() const { return hp; }
+};
