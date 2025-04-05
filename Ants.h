@@ -4,32 +4,34 @@
 #include "Role.h"
 #include "Resource.h"
 
-class Ant : public enable_shared_from_this<Ant> {
+class Ant {
 private:
     int hp, max_hp, life_time;
     Position pos, target;
     Vector2f velocity;
-    Role* role;
-    character charact;
+    //Role* role;
     res_type inventory;
     CircleShape shape;
     bool has_target;
 public:
-    Ant(float x, float y) : role(make_shared<Baby>()), life_time(0), hp(1), velocity(0, 0), target(0, 0), has_target(false), inventory(no_res) {
+    Ant(float x, float y) : life_time(0), hp(1), velocity(0, 0), target(0, 0), has_target(false), inventory(no_res) {
+        //role = new Baby();
         max_hp = rand() % 6 + 10;
-        charact = (max_hp % 2 == 0) ? passive : agressive;
         shape.setRadius(ant_size);
         shape.setFillColor(Color(255, 182, 193));
         shape.setPosition(x, y);
     }
-    void set_role(shared_ptr<Role> new_role) { role = move(new_role); }
+    //~Ant() { delete role; }
+    //void set_role(Role* new_role) { role = new_role; }
     void set_velocity(float vx, float vy) { velocity.x = vx; velocity.y = vy; }
-    void work();
-    //void work() { if (role) role->work(shared_from_this()); }
+    void set_hp(int n) { hp = n; }
     void update();
-    void pick_res(Resource res);
+    //void pick_res(Resource& res);
     void drop_res();
-    void kill() { hp = 0; };
+
+    void kill() { hp = 0; }
+    //void work() { role->work(*this); }
+
+    int get_hp() const { return hp; }
     int get_max_hp() const { return max_hp; }
-    bool is_alive() const { return hp; }
 };
