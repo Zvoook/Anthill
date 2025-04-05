@@ -22,3 +22,9 @@ void Anthill::up_lvl() {
         place_for_materials += 20;
     }
 }
+
+void Anthill::bring_material(int rank_material) {
+}
+
+void Anthill::bring_food(int rank_food) {
+}
