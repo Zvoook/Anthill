@@ -1,35 +1,29 @@
-#pragma once
-#include "Game Settings.h"
-#include "Position.h"
-#include "Role.h"
-#include "Resource.h"
+#include "Ant.h"
+void Ant::update() {
+    life_time++;  //update ticks
+    //if (!has_target) set_velocity(randomise_coordinate() * ant_speed, randomise_coordinate() * ant_speed); //randomising velocity
+    pos.set_pos(pos.get_x() + velocity.x, pos.get_y() + velocity.y); //update ant position
+    //if (life_time % 20 == 0) {
+    //    Role* new_role = role->role_up(*this); //update role
+    //    if (new_role != nullptr && new_role != role) {
+    //        delete role;
+    //        role = new_role;
+    //    }
+    //}
+}
 
-class Ant : public enable_shared_from_this<Ant> {
-private:
-    int hp, max_hp, life_time;
-    Position pos, target;
-    Vector2f velocity;
-    Role* role;
-    character charact;
-    res_type inventory;
-    CircleShape shape;
-    bool has_target;
-public:
-    Ant(float x, float y) : role(make_shared<Baby>()), life_time(0), hp(1), velocity(0, 0), target(0, 0), has_target(false), inventory(no_res) {
-        max_hp = rand() % 6 + 10;
-        charact = (max_hp % 2 == 0) ? passive : agressive;
-        shape.setRadius(ant_size);
-        shape.setFillColor(Color(255, 182, 193));
-        shape.setPosition(x, y);
-    }
-    void set_role(shared_ptr<Role> new_role) { role = move(new_role); }
-    void set_velocity(float vx, float vy) { velocity.x = vx; velocity.y = vy; }
-    void work();
-    //void work() { if (role) role->work(shared_from_this()); }
-    void update();
-    void pick_res(Resource res);
-    void drop_res();
-    void kill() { hp = 0; };
-    int get_max_hp() const { return max_hp; }
-    bool is_alive() const { return hp; }
-};
+//void Ant::pick_res(Resource& res) {
+//    Collector* col;
+//    Builder* build;
+//    Cleaner* clean;
+//    if (!res.is_visible_res()) return;
+//    else if (res.get_type() == food && role != col) return;
+//    else if (res.get_type() == stick && role != build) return;
+//    else if ((res.get_type() == body || res.get_type() == trash) && role != clean) return;
+//    res.set_invisible();
+//    //We should update ant's target after this
+//}
+
+void Ant::drop_res() {
+
+}
