@@ -1,37 +1,43 @@
-#include "Ants.h"
-#define weidth 1920
-#define high 1080
-#define update_time 250
-#define stick_claster_count 2
-#define food_cluster_count 3
+#include "Ant.h"
 
-#define COLONY
-#ifdef COLONY
+#define Colony
+#ifdef Colony
 int main() {
+    srand(static_cast<unsigned>(time(nullptr)));
+    Role* roles[9] = {new Baby, new Sitter, new Collector, new Builder, new Soldier, new Shepperd, new Collector};
     Clock time;
     float last_time = 0;
-    vector<Ant> colony, new_gen;
-    vector<Resource> resourses;
-    int count = 0;
+    vector<Ant> colony;
+    vector<Resource> resources;
+    int res_on_map = 0, x = 0, y = 0;
     for (int i = 0; i <= stick_claster_count + food_cluster_count; ++i) {
-        int x = abs(rand() % weidth - 300);
-        int y = abs(rand() % high - 100);
-        if (count <= food_cluster_count) create_cluster(resourses, x, y, food);
-        else create_cluster(resourses, x, y, stick);
+        do {
+            x = rand() % (window_weidth - 2 * dist_btw_res) + dist_btw_res;
+            y = rand() % (window_high - 2 * dist_btw_res) + dist_btw_res;
+        } while ((x > window_weidth / 2 - 3 * start_hill_size) && (x < window_weidth / 2 + 3 * start_hill_size) || (y > window_high / 2 - 3 * start_hill_size) && (y < window_high / 2 - 3 * start_hill_size));
+        if (i <= food_cluster_count) create_cluster(res_on_map, resources, x, y, food);
+        else create_cluster(res_on_map, resources, x, y, stick);
     }
 
-    while (1) {
+    /*while (1) {
         if (time.getElapsedTime().asMilliseconds() - last_time >= update_time) {
             last_time = time.getElapsedTime().asMilliseconds();
-            for (auto& ant : colony) ant.update();
+            for (auto& ant : colony) if (ant.get_hp()>0) ant.update();
         }
-    }
+    }*/
 
-	RenderWindow window(VideoMode(weidth, high), L"Муравейник");
+    CircleShape circle(start_hill_size);
+    circle.setPosition(Vector2f(window_weidth/2 - start_hill_size, window_high/2 - start_hill_size));
+    circle.setFillColor(Color(115, 66, 34));
+	RenderWindow window(VideoMode(window_weidth, window_high), L"Муравейник");
     Event event;
     while (window.isOpen()) {
         while (window.pollEvent(event)) if (event.type == Event::Closed) window.close();
-        window.clear(Color::Green);
+        window.clear(Color(102,204,0));
+        window.draw(circle);
+        for (const auto& res : resources) {
+            window.draw(res.get_shape());
+        }
         window.display();
     }
 	return 0;
