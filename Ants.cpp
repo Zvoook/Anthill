@@ -1,67 +1,29 @@
-#include "Ants.h"
-
-void Collector::work(shared_ptr<Ant> ant) { cout << "Collecting!\n"; }
-
-void Collector::role_up(shared_ptr<Ant> ant) {
-    int h = ant->get_max_hp();
-    if (h > 10) ant->set_role(make_shared<Solder>());
-    else ant->set_role(make_shared<Sheppert>());
-}
-
-void Cleaner::work(shared_ptr<Ant> ant) {}
-
-void Cleaner::role_up(shared_ptr<Ant> ant){}
-
-void create_cluster(vector<Resource>& resources, float x, float y, res_type type)
-{
-    int res_in_cluster = rand() % 10 + 5;
-    for (int i = 0; i < res_in_cluster; ++i) {
-        float shift_x = (rand() % 100) - 50;
-        float shift_y = (rand() % 100) - 50;
-
-        int n = rand() % 100;
-        res_size size;
-        if (n < probability_of_small_resources) { size = small; }
-        else if (n < probability_of_small_resources+ probability_of_medium_resources) { size = medium; }
-        else { size = big; }
-        Resource res(type, size);
-        res.set_posit(x + shift_x, y + shift_y);
-        resources.push_back(res);
-    }
-}
-
-void Sitter::role_up(shared_ptr<Ant> ant)
-{
-}
-
-void Builder::work(shared_ptr<Ant> ant)
-{
-}
-
-void Builder::role_up(shared_ptr<Ant> ant)
-{
-}
-
-void Solder::work(shared_ptr<Ant> ant)
-{
-}
-
-void Solder::role_up(shared_ptr<Ant> ant)
-{
-}
-
-void Sheppert::work(shared_ptr<Ant> ant)
-{
-}
-
-void Sheppert::role_up(shared_ptr<Ant> ant)
-{
-}
-
+#include "Ant.h"
 void Ant::update() {
-    life_time++;
-    set_velocity((rand() % 2 ? -1.0f : 1.0f) * ant_speed, (rand() % 2 ? -1.0f : 1.0f) * ant_speed);
-    pos.set_pos(pos.get_x() + velocity.x, pos.get_y() + velocity.y);
-    if (life_time % 20 == 0) role->role_up(shared_from_this());
-    if (life_time == life_stages * stage_time_per_ticks) kill();
+    life_time++;  //update ticks
+    //if (!has_target) set_velocity(randomise_coordinate() * ant_speed, randomise_coordinate() * ant_speed); //randomising velocity
+    pos.set_pos(pos.get_x() + velocity.x, pos.get_y() + velocity.y); //update ant position
+    //if (life_time % 20 == 0) {
+    //    Role* new_role = role->role_up(*this); //update role
+    //    if (new_role != nullptr && new_role != role) {
+    //        delete role;
+    //        role = new_role;
+    //    }
+    //}
+}
+
+//void Ant::pick_res(Resource& res) {
+//    Collector* col;
+//    Builder* build;
+//    Cleaner* clean;
+//    if (!res.is_visible_res()) return;
+//    else if (res.get_type() == food && role != col) return;
+//    else if (res.get_type() == stick && role != build) return;
+//    else if ((res.get_type() == body || res.get_type() == trash) && role != clean) return;
+//    res.set_invisible();
+//    //We should update ant's target after this
+//}
+
+void Ant::drop_res() {
+
 }
