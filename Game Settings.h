@@ -9,9 +9,12 @@
 using namespace std;
 using namespace sf;
 
+//TODO
+//-Масштабировать визуал элементы пропорционально размерам экрана
+
 //Window settings
-#define window_weidth 1920
-#define window_high 1080
+#define window_weidth 1000
+#define window_high 1000
 
 //Timer settings
 #define update_time 20
@@ -35,7 +38,7 @@ using namespace sf;
 #define probability_of_medium_resources 20
 
 //Anthill settings
-#define start_hill_size 100.f
+#define start_hill_size 25.f
 
 //Enemy settings
 #define wave_period 250
