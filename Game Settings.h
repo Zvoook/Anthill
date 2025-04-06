@@ -14,7 +14,7 @@ using namespace sf;
 #define window_high 1080
 
 //Timer settings
-#define update_time 250
+#define update_time 2500
 #define stage_time_per_ticks 20
 
 //Ant settings

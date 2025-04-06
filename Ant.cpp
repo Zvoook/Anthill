@@ -30,14 +30,15 @@ void Ant::upd_role() {
     case 6: {
         role_id = -1;
         hp = 0;
+        visible = 0;
         return;
     }
     }
 }
 
 void Ant::move() {
-    //if (!has_target) set_velocity(randomise_coordinate() * ant_speed, randomise_coordinate() * ant_speed); //randomising velocity
-    //pos.set_pos(pos.get_x() + velocity.x, pos.get_y() + velocity.y); //update ant position
+    if (!has_target) set_velocity(randomise_velocity() * ant_speed, randomise_velocity() * ant_speed); //randomising velocity
+    pos.set_pos(pos.get_x() + velocity.x, pos.get_y() + velocity.y); //update ant position
 }
 
 void Ant::pick_res(Resource& res) {
@@ -52,6 +53,19 @@ void Ant::pick_res(Resource& res) {
 void Ant::drop_res() 
 {
 
+}
+
+void Ant::set_color()
+{
+    switch (role_id) {
+    case 0: { shape.setFillColor(Color::Red); return; }
+    case 1: { shape.setFillColor(Color::Yellow); return; }
+    case 2: { shape.setFillColor(Color::Blue); return; }
+    case 3: { shape.setFillColor(Color::Magenta); return; }
+    case 4: { shape.setFillColor(Color::Black); return; }
+    case 5: { shape.setFillColor(Color::White); return; }
+    case 6: { shape.setFillColor(Color::Cyan); return; }
+    }
 }
 
 float randomise_velocity()
