@@ -138,30 +138,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Ant.cpp" />
-    <ClCompile Include="Ants2.cpp" />
-    <ClCompile Include="Date.cpp" />
-    <ClCompile Include="Employee.cpp" />
-    <ClCompile Include="main2.cpp" />
-    <ClCompile Include="Manager.cpp" />
-    <ClCompile Include="PROBE Ants.cpp" />
     <ClCompile Include="MAIN.cpp" />
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="Role.cpp" />
-    <ClCompile Include="SFML Probe.cpp" />
-    <ClCompile Include="Suervisor.h" />
-    <ClCompile Include="Triangle_2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ant.h" />
     <ClInclude Include="Game Settings.h" />
     <ClInclude Include="Position.h" />
-    <ClInclude Include="Ants2.h" />
-    <ClInclude Include="Date.h" />
-    <ClInclude Include="Employee.h" />
-    <ClInclude Include="Manager.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Role.h" />
-    <ClInclude Include="Triangle_2.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
