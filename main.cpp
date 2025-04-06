@@ -18,14 +18,12 @@ int main() {
         else create_cluster(res_on_map, resources, x, y, stick);
     }
 
-    /*while (1) {
+   /* while (1) {
         if (time.getElapsedTime().asMilliseconds() - last_time >= update_time) {
             last_time = time.getElapsedTime().asMilliseconds();
             for (auto& ant : colony) {
-                if (ant.get_hp() > 0) ant.update(); 
-                if (ant.get_lifetime() % stage_time_per_ticks && ant.get_lifetime()< stage_time_per_ticks*life_stages) {
-                    ant.upd_role(roles[ant.get_role()+1]);
-                }
+                if (ant.get_hp() > 0) ant.aged(); 
+                if (ant.get_age() % stage_time_per_ticks && ant.get_age()< stage_time_per_ticks*life_stages) ant.upd_role();
             }
         }
     }*/

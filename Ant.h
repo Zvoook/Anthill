@@ -16,23 +16,23 @@ private:
     bool has_target;
     res_type inventory;
 public:
-    Ant(float x=0, float y=0) : role(roles[0]), role_id(0), age(0), hp(1), velocity(0, 0), target(0, 0), has_target(false), inventory(no_res) {
+    Ant(float x=0, float y=0) : role_id(0), age(0), hp(1), velocity(0, 0), target(0, 0), has_target(false), inventory(no_res) {
+        role = roles[role_id];
         max_hp = rand() % 6 + 10;
         shape.setRadius(ant_size);
         shape.setFillColor(Color(255, 182, 193));
         shape.setPosition(x, y);
     }
-    ~Ant() { delete role; }
+    void upd_role();
+    /*void move();
+    void pick_res(Resource& res);
+    void drop_res();
+    void work() { role->work(*this); }*/
+
     void set_velocity(float vx, float vy) { velocity.x = vx; velocity.y = vy; }
     void aged() { age++; }
     void set_hp(int n) { hp = n; }
-    void upd_role();
-    void move();
-    void pick_res(Resource& res);
-    void drop_res();
-
     void kill() { hp = 0; }
-    //void work() { role->work(*this); }
 
     int get_hp() const { return hp; }
     int get_max_hp() const { return max_hp; }

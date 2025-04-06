@@ -1,6 +1,5 @@
 #pragma once
 #include "Game Settings.h"
-
 class Position {
 private:
     float x, y;
