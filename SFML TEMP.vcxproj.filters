@@ -16,6 +16,9 @@
     <Filter Include="Исходные файлы\ANTS">
       <UniqueIdentifier>{30396456-6c12-4636-b595-101d55a9685f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Исходные файлы\NOT ANTS">
+      <UniqueIdentifier>{09641d72-a6f8-4063-9a2a-1c753f36001a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MAIN.cpp">
