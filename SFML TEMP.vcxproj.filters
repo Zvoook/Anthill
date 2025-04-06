@@ -24,30 +24,6 @@
     <ClCompile Include="MAIN.cpp">
       <Filter>Исходные файлы\ANTS</Filter>
     </ClCompile>
-    <ClCompile Include="Ants2.cpp">
-      <Filter>Исходные файлы\NOT ANTS</Filter>
-    </ClCompile>
-    <ClCompile Include="Date.cpp">
-      <Filter>Исходные файлы\NOT ANTS</Filter>
-    </ClCompile>
-    <ClCompile Include="Employee.cpp">
-      <Filter>Исходные файлы\NOT ANTS</Filter>
-    </ClCompile>
-    <ClCompile Include="main2.cpp">
-      <Filter>Исходные файлы\NOT ANTS</Filter>
-    </ClCompile>
-    <ClCompile Include="Manager.cpp">
-      <Filter>Исходные файлы\NOT ANTS</Filter>
-    </ClCompile>
-    <ClCompile Include="PROBE Ants.cpp">
-      <Filter>Исходные файлы\NOT ANTS</Filter>
-    </ClCompile>
-    <ClCompile Include="SFML Probe.cpp">
-      <Filter>Исходные файлы\NOT ANTS</Filter>
-    </ClCompile>
-    <ClCompile Include="Suervisor.h">
-      <Filter>Исходные файлы\NOT ANTS</Filter>
-    </ClCompile>
     <ClCompile Include="Resource.cpp">
       <Filter>Исходные файлы\ANTS</Filter>
     </ClCompile>
@@ -57,25 +33,13 @@
     <ClCompile Include="Ant.cpp">
       <Filter>Исходные файлы\ANTS</Filter>
     </ClCompile>
-    <ClCompile Include="Triangle_2.cpp">
-      <Filter>Исходные файлы\NOT ANTS</Filter>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Position.h">
       <Filter>Исходные файлы\ANTS</Filter>
-    </ClInclude>
-    <ClInclude Include="Ants2.h">
-      <Filter>Исходные файлы\NOT ANTS</Filter>
-    </ClInclude>
-    <ClInclude Include="Date.h">
-      <Filter>Исходные файлы\NOT ANTS</Filter>
-    </ClInclude>
-    <ClInclude Include="Employee.h">
-      <Filter>Исходные файлы\NOT ANTS</Filter>
-    </ClInclude>
-    <ClInclude Include="Manager.h">
-      <Filter>Исходные файлы\NOT ANTS</Filter>
     </ClInclude>
     <ClInclude Include="Game Settings.h">
       <Filter>Исходные файлы\ANTS</Filter>
@@ -89,8 +53,11 @@
     <ClInclude Include="Ant.h">
       <Filter>Исходные файлы\ANTS</Filter>
     </ClInclude>
-    <ClInclude Include="Triangle_2.h">
-      <Filter>Исходные файлы\NOT ANTS</Filter>
+    <ClInclude Include="Enemy.h">
+      <Filter>Исходные файлы\ANTS</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

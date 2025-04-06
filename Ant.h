@@ -23,6 +23,7 @@ public:
         shape.setRadius(ant_size);
         shape.setFillColor(Color::Black);
         shape.setPosition(x, y);
+        visible = true;
     }
     void upd_role();
     void move();

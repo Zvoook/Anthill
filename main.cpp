@@ -1,4 +1,5 @@
 #include "Ant.h"
+#include "Enemy.h"
 
 #define Colony
 #ifdef Colony
@@ -7,6 +8,7 @@ int main() {
     Clock time;
     float last_time = 0;
     vector<Ant> colony;
+    vector<Enemy> raid;
     vector<Resource> resources;
     int res_on_map = 0, x = 0, y = 0;
     for (int i = 0; i <= stick_claster_count + food_cluster_count; ++i) {
@@ -28,6 +30,7 @@ int main() {
         colony.emplace_back(x2, y2);
     }
 
+    int ticks = 0;
     CircleShape circle(start_hill_size);
     circle.setPosition(Vector2f(window_weidth/2 - start_hill_size, window_high/2 - start_hill_size));
     circle.setFillColor(Color(115, 66, 34));
@@ -35,12 +38,22 @@ int main() {
     Event event;
     while (window.isOpen()) {
         if (time.getElapsedTime().asMilliseconds() - last_time >= update_time) {
+            ticks++;
             last_time = time.getElapsedTime().asMilliseconds();
             for (auto& ant : colony) {
                 //ant.set_color();
                 ant.move();
                 if (ant.get_hp() > 0) {
                     ant.aged();
+                    //if (ant.get_age() % stage_time==0 && ant.get_age()) ant.upd_role();
+                }
+            }
+            if (ticks % wave_period == 0) for (int i = 0; i < 5; ++i) raid.emplace_back(10, 10);
+            for (auto& enemy : raid) {
+                //ant.set_color();
+                enemy.move();
+                if (enemy.get_hp() > 0) {
+                    enemy.aged();
                     //if (ant.get_age() % stage_time==0 && ant.get_age()) ant.upd_role();
                 }
             }
@@ -53,6 +66,9 @@ int main() {
         }
         for (auto& ant : colony) {
             if (ant.is_visible()) window.draw(ant.get_shape());
+        }
+        for (auto& enemy : raid) {
+            if (enemy.is_visible()) window.draw(enemy.get_shape());
         }
         window.display();
     }

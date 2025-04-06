@@ -23,7 +23,7 @@ using namespace sf;
 #define life_stages 5
 
 //Resource settings
-#define form 6
+#define form 4
 #define small_resource_size 5
 #define madium_resource_size 8
 #define big_resource_size 12
@@ -36,6 +36,9 @@ using namespace sf;
 
 //Anthill settings
 #define start_hill_size 100.f
+
+//Enemy settings
+#define wave_period 250
 
 enum info_type { food_info, stick_info, enemy };
 enum res_type { no_res, food, stick, body, trash };

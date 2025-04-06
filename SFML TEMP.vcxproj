@@ -138,12 +138,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Ant.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="MAIN.cpp" />
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="Role.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ant.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game Settings.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="Resource.h" />
