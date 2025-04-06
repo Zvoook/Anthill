@@ -19,7 +19,7 @@ using namespace sf;
 
 //Ant settings
 #define ant_size 4
-#define ant_speed 8
+#define ant_speed 3
 #define life_stages 5
 
 //Resource settings

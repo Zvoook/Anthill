@@ -19,10 +19,13 @@ int main() {
     }
 
     //random generating static ants
+    int x2 = 0, y2 = 0;
     for (int i = 0; i < 50; ++i) {
-        x = rand() % window_weidth;
-        y = rand() % window_high;
-        colony.emplace_back(x, y);
+        do {
+            x2 = rand() % window_weidth;
+            y2 = rand() % window_high;
+        } while ((x2 < window_weidth / 2 - start_hill_size/2) || (x2 > window_weidth / 2 + start_hill_size/2) || (y2 < window_high / 2 - start_hill_size/2) || (y2 > window_high / 2 + start_hill_size/2));
+        colony.emplace_back(x2, y2);
     }
 
     CircleShape circle(start_hill_size);
@@ -34,11 +37,11 @@ int main() {
         if (time.getElapsedTime().asMilliseconds() - last_time >= update_time) {
             last_time = time.getElapsedTime().asMilliseconds();
             for (auto& ant : colony) {
-                ant.set_color();
+                //ant.set_color();
                 ant.move();
                 if (ant.get_hp() > 0) {
                     ant.aged();
-                    if (ant.get_age() % stage_time==0 && ant.get_age()) ant.upd_role();
+                    //if (ant.get_age() % stage_time==0 && ant.get_age()) ant.upd_role();
                 }
             }
         }
