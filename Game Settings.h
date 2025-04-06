@@ -14,12 +14,12 @@ using namespace sf;
 #define window_high 1080
 
 //Timer settings
-#define update_time 2500
-#define stage_time_per_ticks 20
+#define update_time 20
+#define stage_time 200
 
 //Ant settings
-#define ant_size 5
-#define ant_speed 2
+#define ant_size 4
+#define ant_speed 8
 #define life_stages 5
 
 //Resource settings
@@ -29,7 +29,7 @@ using namespace sf;
 #define big_resource_size 12
 #define max_resource_in_claster 15
 #define dist_btw_res 100
-#define stick_claster_count 4
+#define stick_claster_count 6
 #define food_cluster_count 6
 #define probability_of_small_resources 70
 #define probability_of_medium_resources 20

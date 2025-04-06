@@ -19,7 +19,7 @@ int main() {
     }
 
     //random generating static ants
-    for (int i = 0; i < 70; ++i) {
+    for (int i = 0; i < 50; ++i) {
         x = rand() % window_weidth;
         y = rand() % window_high;
         colony.emplace_back(x, y);
@@ -38,7 +38,7 @@ int main() {
                 ant.move();
                 if (ant.get_hp() > 0) {
                     ant.aged();
-                    if (ant.get_age() % stage_time_per_ticks && ant.get_age()) ant.upd_role();
+                    if (ant.get_age() % stage_time==0 && ant.get_age()) ant.upd_role();
                 }
             }
         }
@@ -56,3 +56,43 @@ int main() {
 	return 0;
 }
 #endif
+
+//int larvae = 0, soldiers = 0, foragers = 0, builders = 0;
+//        for (const auto& ant : ants) {
+//            if (!ant.isalive) continue;
+//            switch (ant.role) {
+//            case antrole::larva: larvae++; break;
+//            case antrole::soldier: soldiers++; break;
+//            case antrole::forager: foragers++; break;
+//            case antrole::builder: builders++; break;
+//            }
+//        }
+//
+//        int visiblefood = 0, visiblesticks = 0;
+//        for (const auto& res : resources) {
+//            if (res.shape.getfillcolor() != sf::color::transparent) {
+//                res.isfood ? visiblefood++ : visiblesticks++;
+//            }
+//        }
+//
+//        countertext.setstring(
+//            "ants: " + std::to_string(ants.size()) +
+//            " (f:" + std::to_string(foragers) +
+//            " b:" + std::to_string(builders) +
+//            " s:" + std::to_string(soldiers) +
+//            " l:" + std::to_string(larvae) + ")" +
+//            "  food: " + std::to_string(foodcollected) +
+//            "  sticks: " + std::to_string(stickscollected) +
+//            "  resources: " + std::to_string(visiblefood) + "/" + std::to_string(visiblesticks)
+//        );
+//
+//        window.clear(sf::color::green);
+//        window.draw(nest.shape);
+//        for (auto& res : resources) window.draw(res.shape);
+//        for (auto& ant : ants) if (ant.isalive) window.draw(ant.shape);
+//        window.draw(countertext);
+//        window.display();
+//    }
+//
+//    return 0;
+//}
