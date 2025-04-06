@@ -38,6 +38,14 @@ public:
     int get_max_hp() const { return max_hp; }
     int get_age() const { return age; }
     int get_role() const { return role_id; }
+
+
+ bool has_target_to_move() const { return has_target; }
+ Position get_target() const { return target; }
+ void set_target(const Position& new_target) {
+     target = new_target;
+     has_target = true;
+ }
 };
 
 float randomise_velocity();
