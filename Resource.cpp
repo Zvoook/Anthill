@@ -1,5 +1,4 @@
 #include "Resource.h"
-
 void create_cluster(int& res_on_map, vector<Resource>& resources, float x, float y, res_type type)
 {
     int res_in_cluster = rand() % max_resource_in_claster + 1;

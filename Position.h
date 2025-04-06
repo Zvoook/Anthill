@@ -13,12 +13,3 @@ public:
     float get_x() { return x; }
     float get_y() { return y; }
 };
-
-float randomise_coordinate() {
-    int n = rand() % 3;
-    switch (n) {
-    case 0: return -1.0f;
-    case 1: return 0.0f;
-    case 2: return 1.0f;
-    }
-}

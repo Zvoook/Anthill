@@ -4,7 +4,7 @@
 #ifdef Colony
 int main() {
     srand(static_cast<unsigned>(time(nullptr)));
-    Role* roles[9] = {new Baby, new Sitter, new Collector, new Builder, new Soldier, new Shepperd, new Collector};
+    Role* roles[7] = {new Baby, new Sitter, new Collector, new Builder, new Soldier, new Shepperd, new Collector};
     Clock time;
     float last_time = 0;
     vector<Ant> colony;
@@ -22,14 +22,19 @@ int main() {
     /*while (1) {
         if (time.getElapsedTime().asMilliseconds() - last_time >= update_time) {
             last_time = time.getElapsedTime().asMilliseconds();
-            for (auto& ant : colony) if (ant.get_hp()>0) ant.update();
+            for (auto& ant : colony) {
+                if (ant.get_hp() > 0) ant.update(); 
+                if (ant.get_lifetime() % stage_time_per_ticks && ant.get_lifetime()< stage_time_per_ticks*life_stages) {
+                    ant.upd_role(roles[ant.get_role()+1]);
+                }
+            }
         }
     }*/
 
     CircleShape circle(start_hill_size);
     circle.setPosition(Vector2f(window_weidth/2 - start_hill_size, window_high/2 - start_hill_size));
     circle.setFillColor(Color(115, 66, 34));
-	RenderWindow window(VideoMode(window_weidth, window_high), L"ÐœÑƒÑ€Ð°Ð²ÐµÐ¹Ð½Ð¸Ðº");
+	RenderWindow window(VideoMode(window_weidth, window_high), L"Ìóðàâåéíèê");
     Event event;
     while (window.isOpen()) {
         while (window.pollEvent(event)) if (event.type == Event::Closed) window.close();

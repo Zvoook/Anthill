@@ -1,24 +1,79 @@
 #include "Role.h"
+//Role* Sitter::role_up(Ant& ant)
+//{
+//    bool n = rand() % 2;
+//    if (n == false) {
+//        Collector* collect;
+//        ant.set_role(collect);
+//    }
+//    else {
+//        Builder* build;
+//        ant.set_role(build);
+//    }
+//}
+//Role* Builder::role_up(Ant& ant)
+//{
+//    if (ant.get_hp() > ant.get_max_hp() / 2) {
+//        Soldier* sold;
+//        ant.set_role(sold);
+//        ant.set_hp(ant.get_max_hp());
+//    }
+//    else {
+//        Shepperd* shep;
+//        ant.set_role(shep);
+//        ant.set_hp(ant.get_max_hp());
+//    }
+//}
+//Role* Collector::role_up(Ant& ant) {
+//    if (ant.get_hp() > ant.get_max_hp() / 2) {
+//        Soldier* sold;
+//        ant.set_role(sold);
+//        ant.set_hp(ant.get_max_hp());
+//    }
+//    else {
+//        Shepperd* shep;
+//        ant.set_role(shep);
+//        ant.set_hp(ant.get_max_hp());
+//    }
+//}
+//Role* Soldier::role_up(Ant& ant)
+//{
+//    Cleaner* cleaner;
+//    ant.set_role(cleaner);
+//}
+//Role* Shepperd::role_up(Ant& ant)
+//{
+//    Cleaner* cleaner;
+//    ant.set_role(cleaner);
+//}
 
-void Baby::role_up(weak_ptr<Ant> ant)
+
+void Sitter::work()
 {
-    if (auto ant = ant.lock()) {
-        ant->set_role(make_shared<Sitter>());
-    }
+
 }
 
-void Sitter::role_up(weak_ptr<Ant> ant) {}
-void Builder::work(weak_ptr<Ant> ant) {}
-void Builder::role_up(weak_ptr<Ant> ant) {}
-void Collector::work(weak_ptr<Ant> ant) { cout << "Collecting!\n"; }
-void Collector::role_up(weak_ptr<Ant> ant) {
-    int h = ant->get_max_hp();
-    if (h > 10) ant->set_role(make_shared<Soldier>());
-    else ant->set_role(make_shared<Shepperd>());
+void Builder::work() 
+{
+
 }
-void Soldier::work(weak_ptr<Ant> ant) {}
-void Soldier::role_up(weak_ptr<Ant> ant) {}
-void Shepperd::work(weak_ptr<Ant> ant) {}
-void Shepperd::role_up(weak_ptr<Ant> ant) {}
-void Cleaner::work(weak_ptr<Ant> ant) {}
-void Cleaner::role_up(weak_ptr<Ant> ant) {}
+
+void Collector::work() 
+{
+
+}
+
+void Soldier::work() 
+{
+
+}
+
+void Shepperd::work()
+{
+    
+}
+
+void Cleaner::work() 
+{
+
+}

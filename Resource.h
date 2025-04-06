@@ -1,7 +1,6 @@
 #pragma once
 #include "Game Settings.h"
 #include "Position.h"
-
 class Resource {
 private:
     res_type type;
@@ -32,5 +31,4 @@ public:
     void set_shape_size(int x) {shape.setRadius(x);}
     const CircleShape& get_shape() const { return shape; }
 };
-
 void create_cluster(int& res_on_map, vector<Resource>& resources, float x, float y, res_type type);
