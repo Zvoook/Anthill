@@ -23,8 +23,9 @@ using namespace sf;
 #define life_stages 5
 
 //Resource settings
-#define small_resource_size 3
-#define madium_resource_size 7
+#define form 6
+#define small_resource_size 5
+#define madium_resource_size 8
 #define big_resource_size 12
 #define max_resource_in_claster 15
 #define dist_btw_res 100

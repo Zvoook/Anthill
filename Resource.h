@@ -7,10 +7,12 @@ private:
     res_size size;
     Position pos;
     CircleShape shape;
+    
     int id, ants_for_collecting;
     bool visible;
 public:
     Resource(int id, res_type t = no_res, res_size s = small, Position p = Position()) : id(NULL), size(s), type(t), pos(p), visible(true) {
+        shape.setPointCount(form);
         ants_for_collecting = size * 2;
         shape.setRadius(small_resource_size);
         shape.setFillColor(Color(0, 153, 0));
