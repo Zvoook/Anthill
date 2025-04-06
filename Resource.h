@@ -13,7 +13,7 @@ public:
     Resource(int id, res_type t = no_res, res_size s = small, Position p = Position()) : id(NULL), size(s), type(t), pos(p), visible(true) {
         ants_for_collecting = size * 2;
         shape.setRadius(small_resource_size);
-        shape.setFillColor(Color::Red);
+        shape.setFillColor(Color(0, 153, 0));
         shape.setPosition(pos.get_x(), pos.get_y());
     };
     void set_posit(float a, float b) { pos.set_pos(a, b); shape.setPosition(a, b); }
@@ -25,8 +25,8 @@ public:
     bool is_visible() const { return visible; }
     void set_invisible() { visible = false; }
     void set_color(res_type type){
-        if (type == food) shape.setFillColor(Color::Red);
-        if (type == stick) shape.setFillColor(Color::Yellow);
+        if (type == food) shape.setFillColor(Color(0, 153, 0));
+        if (type == stick) shape.setFillColor(Color(115, 66, 34));
     }
     void set_shape_size(int x) {shape.setRadius(x);}
     const CircleShape& get_shape() const { return shape; }
