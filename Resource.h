@@ -8,9 +8,9 @@ private:
     Position pos;
     CircleShape shape;
     int id, ants_for_collecting;
-    bool is_visible;
+    bool visible;
 public:
-    Resource(int id, res_type t = no_res, res_size s = small, Position p = Position()) : id(NULL), size(s), type(t), pos(p), is_visible(true) {
+    Resource(int id, res_type t = no_res, res_size s = small, Position p = Position()) : id(NULL), size(s), type(t), pos(p), visible(true) {
         ants_for_collecting = size * 2;
         shape.setRadius(small_resource_size);
         shape.setFillColor(Color::Red);
@@ -22,8 +22,8 @@ public:
     Position get_posit() const { return pos; }
     int get_request_ants() const { return ants_for_collecting; }
     int get_id() const { return id; }
-    bool is_visible_res() const { return is_visible; }
-    void set_invisible() { is_visible = false; }
+    bool is_visible() const { return visible; }
+    void set_invisible() { visible = false; }
     void set_color(res_type type){
         if (type == food) shape.setFillColor(Color::Red);
         if (type == stick) shape.setFillColor(Color::Yellow);

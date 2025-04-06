@@ -34,7 +34,7 @@ using namespace sf;
 #define probability_of_medium_resources 20
 
 //Anthill settings
-#define start_hill_size 75.f
+#define start_hill_size 100.f
 
 enum info_type { food_info, stick_info, enemy };
 enum res_type { no_res, food, stick, body, trash };

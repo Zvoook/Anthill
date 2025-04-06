@@ -4,7 +4,6 @@
 #ifdef Colony
 int main() {
     srand(static_cast<unsigned>(time(nullptr)));
-    Role* roles[7] = {new Baby, new Sitter, new Collector, new Builder, new Soldier, new Shepperd, new Collector};
     Clock time;
     float last_time = 0;
     vector<Ant> colony;

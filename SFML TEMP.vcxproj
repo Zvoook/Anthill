@@ -138,8 +138,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Ant.cpp" />
-    <ClCompile Include="Ants2.cpp" />
-    <ClCompile Include="PROBE Ants.cpp" />
     <ClCompile Include="MAIN.cpp" />
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="Role.cpp" />
