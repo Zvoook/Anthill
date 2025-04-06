@@ -1,16 +1,19 @@
+#include <SFML/Audio.hpp>
 #include "Ant.h"
 #include "Enemy.h"
 
 #define Colony
 #ifdef Colony
 int main() {
-    srand(static_cast<unsigned>(time(nullptr)));
-    Clock time;
-    float last_time = 0;
+    srand(static_cast<unsigned>(time(nullptr)));  //randomazing
+    
     vector<Ant> colony;
     vector<Enemy> raid;
     vector<Resource> resources;
-    int res_on_map = 0, x = 0, y = 0;
+    int res_on_map = 0, x = 0, y = 0, ticks=0;
+
+    Clock time;
+    float last_time = 0;
     for (int i = 0; i <= stick_claster_count + food_cluster_count; ++i) {
         do {
             x = rand() % (window_weidth - 2 * dist_btw_res) + dist_btw_res;
@@ -20,33 +23,49 @@ int main() {
         else create_cluster(res_on_map, resources, x, y, stick);
     }
 
-    //random generating static ants
-    int x2 = 0, y2 = 0;
+    //generating ant colony
     for (int i = 0; i < 50; ++i) {
         do {
-            x2 = rand() % window_weidth;
-            y2 = rand() % window_high;
-        } while ((x2 < window_weidth / 2 - start_hill_size/2) || (x2 > window_weidth / 2 + start_hill_size/2) || (y2 < window_high / 2 - start_hill_size/2) || (y2 > window_high / 2 + start_hill_size/2));
-        colony.emplace_back(x2, y2);
+            x = rand() % window_weidth;
+            y = rand() % window_high;
+        } while ((x < window_weidth / 2 - start_hill_size/2) || (x > window_weidth / 2 + start_hill_size/2) || (y < window_high / 2 - start_hill_size/2) || (y > window_high / 2 + start_hill_size/2));
+        colony.emplace_back(x, y);
     }
 
-    int ticks = 0;
+    //generate anthill
     CircleShape circle(start_hill_size);
     circle.setPosition(Vector2f(window_weidth/2 - start_hill_size, window_high/2 - start_hill_size));
     circle.setFillColor(Color(115, 66, 34));
+
+    //Window render
 	RenderWindow window(VideoMode(window_weidth, window_high), L"Colony Simulator");
+    Image icon;
+    if (!icon.loadFromFile("anthill.png")) {
+        return -1;
+    }
+    window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+    Music backgroundMusic;
+    if (!backgroundMusic.openFromFile("Voroniny.ogg")) {
+        return -1;
+    }
+    backgroundMusic.setLoop(true);
+    backgroundMusic.setVolume(100);
+    backgroundMusic.play();
+
     Event event;
-    while (window.isOpen()) {
+
+    while (window.isOpen()/* && colony.size()>0*/) {
         if (time.getElapsedTime().asMilliseconds() - last_time >= update_time) {
             ticks++;
             last_time = time.getElapsedTime().asMilliseconds();
             for (auto& ant : colony) {
-                //ant.set_color();
                 ant.move();
                 if (ant.get_hp() > 0) {
-                    ant.aged();
-                    //if (ant.get_age() % stage_time==0 && ant.get_age()) ant.upd_role();
+                    ant.up_time();
+                    if (ant.get_age() % stage_time == 0 && ant.get_age()) ant.upd_role();
                 }
+                else colony.erase(remove_if(colony.begin(), colony.end(),
+                    [](const auto& ant) { return ant.get_hp() <= 0; }),colony.end());
             }
             if (ticks % wave_period == 0) for (int i = 0; i < 5; ++i) raid.emplace_back(10, 10);
             for (auto& enemy : raid) {
@@ -75,43 +94,3 @@ int main() {
 	return 0;
 }
 #endif
-
-//int larvae = 0, soldiers = 0, foragers = 0, builders = 0;
-//        for (const auto& ant : ants) {
-//            if (!ant.isalive) continue;
-//            switch (ant.role) {
-//            case antrole::larva: larvae++; break;
-//            case antrole::soldier: soldiers++; break;
-//            case antrole::forager: foragers++; break;
-//            case antrole::builder: builders++; break;
-//            }
-//        }
-//
-//        int visiblefood = 0, visiblesticks = 0;
-//        for (const auto& res : resources) {
-//            if (res.shape.getfillcolor() != sf::color::transparent) {
-//                res.isfood ? visiblefood++ : visiblesticks++;
-//            }
-//        }
-//
-//        countertext.setstring(
-//            "ants: " + std::to_string(ants.size()) +
-//            " (f:" + std::to_string(foragers) +
-//            " b:" + std::to_string(builders) +
-//            " s:" + std::to_string(soldiers) +
-//            " l:" + std::to_string(larvae) + ")" +
-//            "  food: " + std::to_string(foodcollected) +
-//            "  sticks: " + std::to_string(stickscollected) +
-//            "  resources: " + std::to_string(visiblefood) + "/" + std::to_string(visiblesticks)
-//        );
-//
-//        window.clear(sf::color::green);
-//        window.draw(nest.shape);
-//        for (auto& res : resources) window.draw(res.shape);
-//        for (auto& ant : ants) if (ant.isalive) window.draw(ant.shape);
-//        window.draw(countertext);
-//        window.display();
-//    }
-//
-//    return 0;
-//}

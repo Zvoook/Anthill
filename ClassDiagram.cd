@@ -1,23 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="Ant" Collapsed="true">
+  <Class Name="Ant">
     <Position X="7.5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>ICACAAAAAAAAAAhAIIAAAIAAAAAgAAACoARAAAAEBAg=</HashCode>
+      <HashCode>AyACABAAAAAAYAjAMAAAAJAAAASgCAAAAERACAgABAA=</HashCode>
       <FileName>Ant.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Position" Collapsed="true">
+  <Class Name="Position">
     <Position X="12.25" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAQAAAAEAAAAAAAgAAAAAQAAAEBAAAAAAABgAAAAIAA=</HashCode>
+      <HashCode>AAAAAAAEAAAAAAAgAAAAAQAAAEAAAAAAAABgAAAAAAA=</HashCode>
       <FileName>Position.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Resource" Collapsed="true">
+  <Class Name="Resource">
     <Position X="3" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>BAEgAAAIoAAAAAAAAIAAQIAAAACBAAAACAAAAAQARgA=</HashCode>
+      <HashCode>BAAgAAIIoAAAAAAAAIAAQIAAAACBCAAACABACAAARgA=</HashCode>
       <FileName>Resource.h</FileName>
     </TypeIdentifier>
   </Class>
