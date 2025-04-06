@@ -18,7 +18,7 @@ using namespace sf;
 #define stage_time_per_ticks 20
 
 //Ant settings
-#define ant_size 1000
+#define ant_size 5
 #define ant_speed 2
 #define life_stages 5
 

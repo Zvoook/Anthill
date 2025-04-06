@@ -20,16 +20,17 @@ public:
         role = roles[role_id];
         max_hp = rand() % 6 + 10;
         shape.setRadius(ant_size);
-        shape.setFillColor(Color(255, 182, 193));
+        shape.setFillColor(Color::Black);
         shape.setPosition(x, y);
     }
     void upd_role();
-    /*void move();
+    void move();
     void pick_res(Resource& res);
     void drop_res();
-    void work() { role->work(*this); }*/
+    //void work() { role->work(*this); }
 
     void set_velocity(float vx, float vy) { velocity.x = vx; velocity.y = vy; }
+    //void set_position()
     void aged() { age++; }
     void set_hp(int n) { hp = n; }
     void kill() { hp = 0; }
@@ -38,6 +39,7 @@ public:
     int get_max_hp() const { return max_hp; }
     int get_age() const { return age; }
     int get_role() const { return role_id; }
+    const CircleShape& get_shape() const { return shape; }
 };
 
 float randomise_velocity();
