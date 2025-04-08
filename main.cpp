@@ -67,7 +67,7 @@ int main() {
                 else colony.erase(remove_if(colony.begin(), colony.end(),
                     [](const auto& ant) { return ant.get_hp() <= 0; }),colony.end());
             }
-            if (ticks % wave_period == 0) for (int i = 0; i < 5; ++i) raid.emplace_back(10, 10);
+            if (ticks % enemy_wave_period == 0) for (int i = 0; i < 5; ++i) raid.emplace_back(10, 10);
             for (auto& enemy : raid) {
                 enemy.move();
                 if (enemy.get_hp() > 0) {

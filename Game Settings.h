@@ -13,36 +13,37 @@ using namespace sf;
 //Масштабировать визуал элементы пропорционально размерам экрана
 
 //Window settings
-#define window_weidth 1920
-#define window_high 1080
+const int window_weidth = 1920;
+const int window_high = 1080;
 
 //Timer settings
-#define update_time 20
-#define stage_time 200
+const int update_time = 20; //ticks per ms
+const int upd_time_per_sec = (int)1000 / update_time; //ticks per sec
+const int stage_time = 10 * upd_time_per_sec;
 
 //Ant settings
-#define ant_size 4
-#define ant_speed 4
-#define velocity_change_period 20
-#define life_stages 5
+const int ant_size = 4;
+const int ant_speed = 4;
+const int velocity_changing_period = 20;
+const int life_stages = 5;
 
 //Resource settings
-#define form 30
-#define small_resource_size 7
-#define madium_resource_size 12
-#define big_resource_size 16
-#define max_resource_in_claster 15
-#define dist_btw_res 100
-#define stick_claster_count 6
-#define food_cluster_count 6
-#define probability_of_small_resources 70
-#define probability_of_medium_resources 20
+const int count_of_angles_in_form = 30;
+const int small_resource_size = 7;
+const int madium_resource_size = 12;
+const int big_resource_size = 16;
+const int max_resource_in_claster = 15;
+const int dist_btw_res = 100;
+const int stick_claster_count = 6;
+const int food_cluster_count = 6;
+const int probability_of_small_resources = 70;
+const int probability_of_medium_resources = 20;
 
 //Anthill settings
-#define start_hill_size 50.f
+const int start_hill_size = 50.f;
 
 //Enemy settings
-#define wave_period 250
+const int enemy_wave_period = 250;
 
 enum info_type { food_info, stick_info, enemy };
 enum res_type { no_res, food, stick, body, trash };

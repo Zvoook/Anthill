@@ -12,7 +12,7 @@ private:
     bool visible;
 public:
     Resource(int id, res_type t = no_res, res_size s = small, Position p = Position()) : id(NULL), size(s), type(t), pos(p), visible(true) {
-        shape.setPointCount(form);
+        shape.setPointCount(count_of_angles_in_form);
         ants_for_collecting = size * 2;
         shape.setRadius(small_resource_size);
         shape.setFillColor(Color(0, 153, 0));

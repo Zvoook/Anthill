@@ -21,7 +21,7 @@ public:
         role = roles[role_id];
         max_hp = rand() % 6 + 10;
         shape.setRadius(ant_size);
-        shape.setFillColor(Color::Black);
+        shape.setFillColor(Color::White);
         shape.setPosition(x, y);
         visible = true;
     }

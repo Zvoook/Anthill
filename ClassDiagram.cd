@@ -3,14 +3,14 @@
   <Class Name="Ant">
     <Position X="7.5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AyACABAAAAAAYAjAMAAAAJAAAASgCAAAAERACAgABAA=</HashCode>
+      <HashCode>IyAAABAAAAAAYAiAMAAAAJIAAASgCAACgARACAgABAA=</HashCode>
       <FileName>Ant.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Position">
     <Position X="12.25" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAEAAAAAAAgAAAAAQAAAEAAAAAAAABgAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAEAAAAAAAgIAAAAQAAAEAAAAAAAABgAAAAAAA=</HashCode>
       <FileName>Position.h</FileName>
     </TypeIdentifier>
   </Class>
@@ -21,13 +21,6 @@
       <FileName>Resource.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Enum Name="info_type" Collapsed="true">
-    <Position X="17" Y="3.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAACAAI=</HashCode>
-      <FileName>Game Settings.h</FileName>
-    </TypeIdentifier>
-  </Enum>
   <Enum Name="res_type" Collapsed="true">
     <Position X="17" Y="4" Width="1.5" />
     <TypeIdentifier>
@@ -39,6 +32,13 @@
     <Position X="18.75" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAIAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Game Settings.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="info_type" Collapsed="true">
+    <Position X="17" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAACAAI=</HashCode>
       <FileName>Game Settings.h</FileName>
     </TypeIdentifier>
   </Enum>
