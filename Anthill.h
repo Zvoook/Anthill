@@ -1,6 +1,7 @@
 #ifndef ANTHILL_H
 #define ANTHILL_H
 #include <vector>
+#include "Role.h"
 
 
 
@@ -20,12 +21,20 @@ private:
     int place_for_food;
     int place_for_materials;
     int place_for_ants;
-    // std::vector<> soldiers;
-    // std::vector<> builders;
-    // std::vector<> cleaners;
-    // std::vector<> babysitters;
-    // std::vector<> babies;
-    // std::vector<> shepherds;
+    int count_soldiers;
+    int count_builders;
+    int count_cleaners;
+    int count_sitters;
+    int count_babies;
+    int count_shepherds;
+    int count_collectors;
+    // std::vector<Soldier> soldiers;
+    // std::vector<Builder> builders;
+    // std::vector<Cleaner> cleaners;
+    // std::vector<Sitter> sitters;
+    // std::vector<Baby> babies;
+    // std::vector<Shepperd> shepherds;
+    // std::vector<Collector> collectors;
 };
 
 

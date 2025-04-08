@@ -24,6 +24,13 @@ using namespace std;
 #define lvl_1_place_for_ants 30
 #define lvl_1_place_for_food 50000
 #define lvl_1_place_for_materials 1000
+#define lvl_1_count_soldiers 3;
+#define lvl_1_count_builders 3;
+#define lvl_1_count_cleaners 3;
+#define lvl_1_count_sitters 3;
+#define lvl_1_count_babies 3;
+#define lvl_1_count_shepherds 3;
+#define lvl_1_count_collectors 3;
 
 //Resource settings
 #define resource_size 2
