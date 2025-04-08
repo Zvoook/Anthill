@@ -36,11 +36,11 @@
 //        ant.set_hp(ant.get_max_hp());
 //    }
 //}
-//Role* Soldier::role_up(Ant& ant)
-//{
-//    Cleaner* cleaner;
-//    ant.set_role(cleaner);
-//}
+// Role* Soldier::role_up(Ant& ant)
+// {
+//     Soldier* soldier;
+//     ant.set_role(soldier);
+// }
 //Role* Shepperd::role_up(Ant& ant)
 //{
 //    Cleaner* cleaner;
@@ -53,27 +53,37 @@ void Sitter::work()
 
 }
 
-void Builder::work() 
+void Builder::work()
 {
 
 }
 
-void Collector::work() 
+Soldier::Soldier() {
+    damage = rand() % 100;
+}
+
+void Collector::work()
 {
 
 }
 
-void Soldier::work() 
+void Soldier::work()
 {
+    //if (raid_flag == 1)
+
+
+}
+
+void Soldier::attack() {
 
 }
 
 void Shepperd::work()
 {
-    
+
 }
 
-void Cleaner::work() 
+void Cleaner::work()
 {
 
 }

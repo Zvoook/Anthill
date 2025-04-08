@@ -7,7 +7,7 @@ static Role* roles[7] = { new Baby(), new Sitter(), new Collector(), new Builder
 
 class Ant {
 private:
-    int hp, max_hp, age;
+    int hp, age;
     Position pos, target;
     Vector2f velocity;
     Role* role;
@@ -17,9 +17,9 @@ private:
     res_type inventory;
     bool visible;
 public:
-    Ant(float x=0, float y=0) :pos(x,y), role_id(0), age(0), hp(1), velocity(0, 0), target(0, 0), has_target(false), inventory(no_res) {
+    Ant(float x=0, float y=0) :pos(x,y), role_id(0), age(0), velocity(0, 0), target(0, 0), has_target(false), inventory(no_res) {
         role = roles[role_id];
-        max_hp = rand() % 6 + 10;
+        hp = max_hp;
         shape.setRadius(ant_size);
         shape.setFillColor(Color::Black);
         shape.setPosition(x, y);

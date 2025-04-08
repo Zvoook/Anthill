@@ -38,8 +38,11 @@ public:
 
 class Soldier : public Role {
 public:
-    Soldier() = default;
+    Soldier();
     void work() override;
+    void attack();
+private:
+    int damage;
     //Role* role_up(Ant& ant) override;
 };
 

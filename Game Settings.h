@@ -5,11 +5,12 @@
 #include <memory>
 #include <cmath>
 #include <ctime>
+// #include <SFML/Graphics.hpp>
 using namespace std;
-
+// using namespace sf;
 
 //TODO
-//Масштабировать визуал элементы пропорционально размерам экрана
+
 
 //Window settings
 #define window_weidth 1920
@@ -24,6 +25,7 @@ using namespace std;
 #define ant_speed 4
 #define velocity_change_period 20
 #define life_stages 5
+#define max_hp rand() % 201 + 300
 
 //Anthill settings
 #define lvl_1_place_for_ants 30
