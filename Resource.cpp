@@ -21,7 +21,6 @@ void create_cluster(int& res_on_map, vector<Resource>& resources, float x, float
 
 void Resource::set_color(res_type type)
 {
-
     if (type == food) shape.setFillColor(Color(0, 153, 0));
     if (type == stick) shape.setFillColor(Color(115, 66, 34));
 }

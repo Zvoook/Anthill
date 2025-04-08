@@ -49,18 +49,19 @@ void Ant::move() {
     shape.setPosition(pos.x, pos.y);
 }
 
-void Ant::pick(Resource& res) {
-    if (!res.is_visible()) return;
-    else if (res.get_type() == food && role != new Collector) return;
-    else if (res.get_type() == stick && role != new Builder) return;
-    else if ((res.get_type() == body || res.get_type() == trash) && role != new Cleaner) return;
-    res.set_invisible();
+bool Ant::pick(Resource& res) {
+    if (!res.is_visible()) return 0;
+    if ((res.get_type() == food && role == new Collector) || (res.get_type() == stick && role == new Builder) || ((res.get_type() == body || res.get_type() == trash) && role != new Cleaner)) return 1;
     //We should update ant's target after this
 }
 
 void Ant::drop() 
 {
-
+    int res_count = 0;
+    if (inventory != no_res && pos.in_anthill()) {
+        res_count += 1;
+        set_inventory(no_res);
+    }
 }
 
 void Ant::upd_color()

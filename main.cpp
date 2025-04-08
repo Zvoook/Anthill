@@ -69,7 +69,6 @@ int main() {
             }
             if (ticks % wave_period == 0) for (int i = 0; i < 5; ++i) raid.emplace_back(10, 10);
             for (auto& enemy : raid) {
-                //ant.set_color();
                 enemy.move();
                 if (enemy.get_hp() > 0) {
                     enemy.aged();
@@ -77,18 +76,13 @@ int main() {
                 }
             }
         }
+
         while (window.pollEvent(event)) if (event.type == Event::Closed) window.close();
         window.clear(Color(102,204,0));
         window.draw(circle);
-        for (const auto& res : resources) {
-            window.draw(res.get_shape());
-        }
-        for (auto& ant : colony) {
-            if (ant.is_visible()) window.draw(ant.get_shape());
-        }
-        for (auto& enemy : raid) {
-            if (enemy.is_visible()) window.draw(enemy.get_shape());
-        }
+        for (const auto& res : resources) if (res.is_visible()) window.draw(res.get_shape());
+        for (auto& ant : colony) if (ant.is_visible()) window.draw(ant.get_shape());
+        for (auto& enemy : raid) if (enemy.is_visible()) window.draw(enemy.get_shape());
         window.display();
     }
 	return 0;
