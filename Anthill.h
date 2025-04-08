@@ -10,9 +10,12 @@ public:
     Anthill();
     ~Anthill();
     void up_lvl();
+    void down_lvl();
+    void work();
     void bring_material(int rank_material); //тут крч в параметрах надо указать насколько большая ветка принесена
     void bring_food(int rank_food); //тут насколько большая еда
     void print_characteristics(); //вывод всех характеристик муравейника
+    void born_baby();
     // хранить вектор колонии и добавлять/вычитать
     // реализовать постепенное разрушение: первые 10 муравьев из колонии умирают, еда уменьшается на рандом колво
 private:

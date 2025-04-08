@@ -33,7 +33,24 @@ void Anthill::up_lvl() {
     }
 }
 
+void Anthill::down_lvl() { //муравьи из колонии должны помереть
+    if (current_materials == 0) {
+        lvl--;
+        place_for_ants -= 10;
+        current_ants -= 10 + rand() % 5;
+        place_for_food -= 25000;
+        current_food -= 25000 + rand() % 5000;
+        place_for_materials -= 500;
+        radius /= 1.2;
+    }
+}
+
+void Anthill::work() { //потребление еды муравьями
+    current_food -= current_ants;
+}
+
 void Anthill::bring_material(int rank_material) {
+
 }
 
 void Anthill::bring_food(int rank_food) {
@@ -51,5 +68,11 @@ void Anthill::print_characteristics() {
         cout << "Количество ребятишек: " << count_babies << endl;
         cout << "Количество пастухов: " << count_shepherds << endl;
         cout << "Количество сборщиков: " << count_collectors << endl;
+    }
+}
+
+void Anthill::born_baby() {
+    if (!(current_ants == place_for_ants)) {
+
     }
 }
