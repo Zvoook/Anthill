@@ -16,6 +16,7 @@ Anthill::Anthill() {
     count_babies = lvl_1_count_babies;
     count_shepherds = lvl_1_count_shepherds;
     count_collectors = lvl_1_count_collectors;
+    radius = lvl_1_radius;
 }
 
 Anthill::~Anthill() {
@@ -28,6 +29,7 @@ void Anthill::up_lvl() {
         place_for_ants += 10;
         place_for_food += 25000;
         place_for_materials += 500;
+        radius *= 1.2;
     }
 }
 
@@ -49,6 +51,5 @@ void Anthill::print_characteristics() {
         cout << "Количество ребятишек: " << count_babies << endl;
         cout << "Количество пастухов: " << count_shepherds << endl;
         cout << "Количество сборщиков: " << count_collectors << endl;
-
     }
 }

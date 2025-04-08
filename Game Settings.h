@@ -38,6 +38,7 @@ using namespace std;
 #define lvl_1_count_babies 3;
 #define lvl_1_count_shepherds 3;
 #define lvl_1_count_collectors 3;
+#define lvl_1_radius 50.f
 
 //Resource settings
 #define form 30

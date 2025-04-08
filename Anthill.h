@@ -13,6 +13,8 @@ public:
     void bring_material(int rank_material); //тут крч в параметрах надо указать насколько большая ветка принесена
     void bring_food(int rank_food); //тут насколько большая еда
     void print_characteristics(); //вывод всех характеристик муравейника
+    // хранить вектор колонии и добавлять/вычитать
+    // реализовать постепенное разрушение: первые 10 муравьев из колонии умирают, еда уменьшается на рандом колво
 private:
     int lvl;
     int current_food;
@@ -28,6 +30,7 @@ private:
     int count_babies;
     int count_shepherds;
     int count_collectors;
+    int radius;
     // std::vector<Soldier> soldiers;
     // std::vector<Builder> builders;
     // std::vector<Cleaner> cleaners;

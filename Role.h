@@ -36,11 +36,13 @@ public:
     //Role* role_up(Ant& ant) override;
 };
 
-class Soldier : public Role {
+class Soldier : public Role { //функ побега от врага
 public:
     Soldier();
     void work() override;
     void attack();
+    void escape_from_enemy();
+    void set_on_enemy();
 private:
     int damage;
     //Role* role_up(Ant& ant) override;
