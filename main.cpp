@@ -59,6 +59,7 @@ int main() {
             ticks++;
             last_time = time.getElapsedTime().asMilliseconds();
             for (auto& ant : colony) {
+                ant.set_target_on_res(resources);
                 ant.move();
                 if (ant.get_hp() > 0) {
                     ant.up_time();
@@ -67,14 +68,14 @@ int main() {
                 else colony.erase(remove_if(colony.begin(), colony.end(),
                     [](const auto& ant) { return ant.get_hp() <= 0; }),colony.end());
             }
-            if (ticks % enemy_wave_period == 0) for (int i = 0; i < 5; ++i) raid.emplace_back(10, 10);
-            for (auto& enemy : raid) {
-                enemy.move();
-                if (enemy.get_hp() > 0) {
-                    enemy.aged();
-                    //if (ant.get_age() % stage_time==0 && ant.get_age()) ant.upd_role();
-                }
-            }
+            //if (ticks % enemy_wave_period == 0) for (int i = 0; i < 5; ++i) raid.emplace_back(10, 10);
+            //for (auto& enemy : raid) {
+            //    enemy.move();
+            //    if (enemy.get_hp() > 0) {
+            //        enemy.aged();
+            //        //if (ant.get_age() % stage_time==0 && ant.get_age()) ant.upd_role();
+            //    }
+            //}
         }
 
         while (window.pollEvent(event)) if (event.type == Event::Closed) window.close();
@@ -82,7 +83,7 @@ int main() {
         window.draw(circle);
         for (const auto& res : resources) if (res.is_visible()) window.draw(res.get_shape());
         for (auto& ant : colony) if (ant.is_visible()) window.draw(ant.get_shape());
-        for (auto& enemy : raid) if (enemy.is_visible()) window.draw(enemy.get_shape());
+        //for (auto& enemy : raid) if (enemy.is_visible()) window.draw(enemy.get_shape());
         window.display();
     }
 	return 0;

@@ -41,18 +41,16 @@ void Ant::upd_role() {
 }
 
 void Ant::move() {
-    if (role_id==0 || role_id == 1) { velocity.x = 0; velocity.y = 0; return; }
+    //if (role_id==0 || role_id == 1) return;
     float x = 0, y = 0;
-    if (has_target) { x = target.x; y = target.y; }
-    else if (age % velocity_changing_period == 0) { x = randomise_velocity(); y = randomise_velocity(); };
-    x *= ant_speed;
-    y *= ant_speed;
+    if (has_target) { x = target.x * ant_speed; y = target.y * ant_speed; }
+    else if (age % velocity_changing_period == 0) { x = randomise_velocity() * ant_speed; y = randomise_velocity() * ant_speed; };
 
     if (pos.x + x<0 || pos.x + x > window_weidth) x = -x;
     if (pos.y + y<0 || pos.y + y > window_high) y = y;
 
-    pos.x += velocity.x;
-    pos.y += velocity.y;
+    pos.x += x;
+    pos.y += y;
     shape.setPosition(pos.x, pos.y);
 }
 
@@ -85,6 +83,7 @@ void Ant::upd_color()
 
 void Ant::set_target_on_res(vector<Resource>& res)
 {
+    if (has_target) return;
     int n = 0;
     do {
         n = rand() % res[0].get_count();
