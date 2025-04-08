@@ -21,6 +21,11 @@ using namespace sf;
 #define ant_speed 2
 #define life_stages 5
 
+//Anthill settings
+#define lvl_1_place_for_ants 30
+#define lvl_1_place_for_food 50000
+#define lvl_1_place_for_materials 1000
+
 //Resource settings
 #define resource_size 2
 #define stick_claster_count 2
