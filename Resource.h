@@ -7,7 +7,7 @@ private:
     res_size size;
     Position pos;
     CircleShape shape;
-    
+
     int id, ants_for_collecting;
     bool visible;
 public:
@@ -18,20 +18,19 @@ public:
         shape.setRadius(small_resource_size);
         shape.setFillColor(Color(0, 153, 0));
         shape.setPosition(pos.x, pos.y);
-    }
-
+    };
+    int get_count()const { return count; }
     void set_posit(float a, float b) { pos.x = a; pos.y = b; shape.setPosition(a, b); }
     int get_request_ants() const { return ants_for_collecting; }
     int get_id() const { return id; }
     bool is_visible() const { return visible; }
     void set_invisible() { visible = false; }
     void set_color(res_type type);
-    void set_shape_size(int x) {shape.setRadius(x);}
+    void set_shape_size(int x) { shape.setRadius(x); }
 
     const CircleShape& get_shape() const { return shape; }
     res_type get_type() const { return type; }
     res_size get_size() const { return size; }
     Position get_posit() const { return pos; }
-    int get_count() const { return count; }
 };
 void create_cluster(vector<Resource>& resources, float x, float y, res_type type);

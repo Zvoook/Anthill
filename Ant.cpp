@@ -1,4 +1,5 @@
 #include "Ant.h"
+
 void Ant::upd_role() {
     switch (role_id) {
     case 0: { role = roles[role_id++]; upd_color(); return; }
@@ -41,16 +42,9 @@ void Ant::upd_role() {
 }
 
 void Ant::move() {
-    if (role_id==0 || role_id == 1) { velocity.x = 0; velocity.y = 0; return; }
-    float x = 0, y = 0;
-    if (has_target) { x = target.x; y = target.y; }
-    else if (age % velocity_changing_period == 0) { x = randomise_velocity(); y = randomise_velocity(); };
-    x *= ant_speed;
-    y *= ant_speed;
-
-    if (pos.x + x<0 || pos.x + x > window_weidth) x = -x;
-    if (pos.y + y<0 || pos.y + y > window_high) y = y;
-
+    if (age % velocity_changing_period == 0) set_velocity(randomise_velocity() * ant_speed, randomise_velocity() * ant_speed);
+    if (pos.x + velocity.x<0 || pos.x + velocity.x > window_weidth) velocity.x = -velocity.x;
+    if (pos.y + velocity.y<0 || pos.y + velocity.y > window_high) velocity.y = -velocity.y;
     pos.x += velocity.x;
     pos.y += velocity.y;
     shape.setPosition(pos.x, pos.y);
@@ -58,10 +52,10 @@ void Ant::move() {
 
 bool Ant::pick(Resource& res) {
     if (!res.is_visible()) return 0;
-    if ((res.get_type() == food && role_id == 2) || (res.get_type() == stick && role_id == 3) || ((res.get_type() == body || res.get_type() == trash) && role_id == 6)) return 1;
+    if ((res.get_type() == food && role == new Collector) || (res.get_type() == stick && role == new Builder) || ((res.get_type() == body || res.get_type() == trash) && role != new Cleaner)) return 1;
 }
 
-void Ant::drop() 
+void Ant::drop()
 {
     int res_count = 0;
     if (inventory != no_res && pos.in_anthill()) {
@@ -74,22 +68,13 @@ void Ant::upd_color()
 {
     switch (role_id) {
     case 0: { shape.setFillColor(Color::White); return; }
-    case 1: { shape.setFillColor(Color(255,102,178)); return; }
-    case 2: { shape.setFillColor(Color(255,128,0)); return; }
+    case 1: { shape.setFillColor(Color(255, 102, 178)); return; }
+    case 2: { shape.setFillColor(Color(255, 128, 0)); return; }
     case 3: { shape.setFillColor(Color::Yellow); return; }
     case 4: { shape.setFillColor(Color::Black); return; }
-    case 5: { shape.setFillColor(Color(0,0,204)); return; }
-    case 6: { shape.setFillColor(Color(102,51,0)); return; }
+    case 5: { shape.setFillColor(Color(0, 0, 204)); return; }
+    case 6: { shape.setFillColor(Color(102, 51, 0)); return; }
     }
-}
-
-void Ant::set_target_on_res(vector<Resource>& res)
-{
-    int n = 0;
-    do {
-        n = rand() % res[0].get_count();
-    } while (!pick(res[n]));
-    target = res[n].get_posit();
 }
 
 float randomise_velocity()

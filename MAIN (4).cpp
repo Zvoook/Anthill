@@ -6,12 +6,12 @@
 #define Colony
 #ifdef Colony
 int main() {
-    srand(static_cast<unsigned>(time(nullptr)));
+    srand(static_cast<unsigned>(time(nullptr)));  
 
     std::vector<Ant> colony;
     std::vector<Enemy> raid;
     std::vector<Resource> resources;
-    int x = 0, y = 0, ticks = 0;
+    int res_on_map = 0, x = 0, y = 0, ticks = 0;
 
     Clock time;
     float last_time = 0;
@@ -22,9 +22,9 @@ int main() {
         } while ((x > window_weidth / 2 - 3 * start_hill_size) && (x < window_weidth / 2 + 3 * start_hill_size) ||
             (y > window_high / 2 - 3 * start_hill_size) && (y < window_high / 2 - 3 * start_hill_size));
         if (i <= food_cluster_count)
-            create_cluster(resources, x, y, food);
+            create_cluster(res_on_map, resources, x, y, food);
         else
-            create_cluster(resources, x, y, stick);
+            create_cluster(res_on_map, resources, x, y, stick);
     }
 
     for (int i = 0; i < 20; ++i) {
@@ -49,7 +49,7 @@ int main() {
     }
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
     Music backgroundMusic;
-    if (!backgroundMusic.openFromFile("Voroniny.ogg")) {
+    if (!backgroundMusic.openFromFile("music.ogg")) {
         return -1;
     }
     backgroundMusic.setLoop(true);
@@ -80,7 +80,7 @@ int main() {
                     float dx = pos1.x - pos2.x;
                     float dy = pos1.y - pos2.y;
                     float distance = sqrt(dx * dx + dy * dy);
-                    float min_dist = ant_size * 2.0f;
+                    float min_dist = ant_size * 2.0f;  
 
                     if (distance < min_dist && distance > 0.001f) {
                         float overlap = (min_dist - distance) / 2.0f;
@@ -115,7 +115,7 @@ int main() {
                     float dx = enemy_pos1.x - enemy_pos2.x;
                     float dy = enemy_pos2.y - enemy_pos2.y;
                     float distance = sqrt(dx * dx + dy * dy);
-
+ 
                     float radius1 = raid[i].get_shape().getRadius();
                     float radius2 = raid[j].get_shape().getRadius();
                     float min_dist_enemy = radius1 + radius2;

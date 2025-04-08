@@ -6,16 +6,14 @@
 #include <memory>
 #include <cmath>
 #include <ctime>
-#include <algorithm>
+// #include <SFML/Graphics.hpp>
 using namespace std;
-using namespace sf;
+// using namespace sf;
 
-//TODO
-//Масштабировать визуал элементы пропорционально размерам экрана
 
 //Window settings
-const int window_weidth = 1920;
-const int window_high = 1080;
+const int window_weidth = 1000;
+const int window_high = 1000;
 
 //Timer settings
 const int update_time = 20; //ticks per ms
@@ -23,10 +21,24 @@ const int upd_time_per_sec = (int)1000 / update_time; //ticks per sec
 const int stage_time = 10 * upd_time_per_sec;
 
 //Ant settings
-const int ant_size = 4;
+const int ant_size = 6;
 const int ant_speed = 4;
-const int velocity_changing_period = 20;
+const int velocity_changing_period = 10;
 const int life_stages = 5;
+#define max_hp rand() % 201 + 300
+
+//Anthill settings
+#define lvl_1_place_for_ants 30
+#define lvl_1_place_for_food 50000
+#define lvl_1_place_for_materials 1000
+#define lvl_1_count_soldiers 3;
+#define lvl_1_count_builders 3;
+#define lvl_1_count_cleaners 3;
+#define lvl_1_count_sitters 3;
+#define lvl_1_count_babies 3;
+#define lvl_1_count_shepherds 3;
+#define lvl_1_count_collectors 3;
+#define lvl_1_radius 50.f
 
 //Resource settings
 const int count_of_angles_in_form = 30;
@@ -44,7 +56,7 @@ const int probability_of_medium_resources = 20;
 const int start_hill_size = 50.f;
 
 //Enemy settings
-const int enemy_wave_period = 10 * upd_time_per_sec;
+const int enemy_wave_period = 250;
 
 enum info_type { food_info, stick_info, enemy };
 enum res_type { no_res, food, stick, body, trash };

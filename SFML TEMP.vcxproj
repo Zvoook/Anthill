@@ -139,6 +139,7 @@
   <ItemGroup>
     <ClCompile Include="Ant.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Informers.cpp" />
     <ClCompile Include="MAIN.cpp" />
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="Role.cpp" />
@@ -147,6 +148,7 @@
     <ClInclude Include="Ant.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game Settings.h" />
+    <ClInclude Include="Informers.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Role.h" />
