@@ -1,12 +1,12 @@
 #include <SFML/Audio.hpp>
 #include "Ant.h"
 #include "Enemy.h"
-#include <algorithm> // для remove_if
+#include <cmath>
 
 #define Colony
 #ifdef Colony
 int main() {
-    srand(static_cast<unsigned>(time(nullptr)));  // randomizing
+    srand(static_cast<unsigned>(time(nullptr)));  
 
     std::vector<Ant> colony;
     std::vector<Enemy> raid;
@@ -15,7 +15,6 @@ int main() {
 
     Clock time;
     float last_time = 0;
-    // Создание кластеров ресурсов
     for (int i = 0; i <= stick_claster_count + food_cluster_count; ++i) {
         do {
             x = rand() % (window_weidth - 2 * dist_btw_res) + dist_btw_res;
@@ -28,8 +27,7 @@ int main() {
             create_cluster(res_on_map, resources, x, y, stick);
     }
 
-    // Генерация муравьиной колонии
-    for (int i = 0; i < 50; ++i) {
+    for (int i = 0; i < 20; ++i) {
         do {
             x = rand() % window_weidth;
             y = rand() % window_high;
@@ -40,7 +38,6 @@ int main() {
         colony.emplace_back(x, y);
     }
 
-    // Генерация муравейника – область, куда возвращаются муравьи при drop
     CircleShape circle(start_hill_size);
     circle.setPosition(Vector2f(window_weidth / 2 - start_hill_size, window_high / 2 - start_hill_size));
     circle.setFillColor(Color(115, 66, 34));
@@ -66,7 +63,6 @@ int main() {
             ticks++;
             last_time = time.getElapsedTime().asMilliseconds();
 
-            // Обновляем движение и состояние муравьев
             for (auto& ant : colony) {
                 ant.move();
                 if (ant.get_hp() > 0) {
@@ -76,7 +72,6 @@ int main() {
                 }
             }
 
-            // Коррекция столкновений между муравьями
             for (size_t i = 0; i < colony.size(); i++) {
                 for (size_t j = i + 1; j < colony.size(); j++) {
                     Vector2f pos1 = colony[i].get_shape().getPosition();
@@ -85,24 +80,22 @@ int main() {
                     float dx = pos1.x - pos2.x;
                     float dy = pos1.y - pos2.y;
                     float distance = sqrt(dx * dx + dy * dy);
-                    float minDist = ant_size * 2.0f;  // минимальное допустимое расстояние между центрами
+                    float min_dist = ant_size * 2.0f;  
 
-                    if (distance < minDist && distance > 0.001f) {
-                        float overlap = (minDist - distance) / 2.0f;
+                    if (distance < min_dist && distance > 0.001f) {
+                        float overlap = (min_dist - distance) / 2.0f;
                         float offsetX = (dx / distance) * overlap;
                         float offsetY = (dy / distance) * overlap;
 
                         CircleShape& shape1 = const_cast<CircleShape&>(colony[i].get_shape());
                         CircleShape& shape2 = const_cast<CircleShape&>(colony[j].get_shape());
 
-                        // Обновляем позиции фигур
                         shape1.setPosition(pos1.x + offsetX, pos1.y + offsetY);
                         shape2.setPosition(pos2.x - offsetX, pos2.y - offsetY);
                     }
                 }
             }
 
-            // Обновление состояния врагов
             if (ticks % enemy_wave_period == 0)
                 for (int i = 0; i < 5; ++i)
                     raid.emplace_back(10, 10);
@@ -111,6 +104,33 @@ int main() {
                 enemy.move();
                 if (enemy.get_hp() > 0) {
                     enemy.aged();
+                }
+            }
+
+            for (size_t i = 0; i < raid.size(); i++) {
+                for (size_t j = i + 1; j < raid.size(); j++) {
+                    Vector2f enemy_pos1 = raid[i].get_shape().getPosition();
+                    Vector2f enemy_pos2 = raid[j].get_shape().getPosition();
+
+                    float dx = enemy_pos1.x - enemy_pos2.x;
+                    float dy = enemy_pos2.y - enemy_pos2.y;
+                    float distance = sqrt(dx * dx + dy * dy);
+ 
+                    float radius1 = raid[i].get_shape().getRadius();
+                    float radius2 = raid[j].get_shape().getRadius();
+                    float min_dist_enemy = radius1 + radius2;
+
+                    if (distance < min_dist_enemy && distance > 0.001f) {
+                        float overlap = (min_dist_enemy - distance) / 2.0f;
+                        float offsetX = (dx / distance) * overlap;
+                        float offsetY = (dy / distance) * overlap;
+
+                        CircleShape& eShape1 = const_cast<CircleShape&>(raid[i].get_shape());
+                        CircleShape& eShape2 = const_cast<CircleShape&>(raid[j].get_shape());
+
+                        eShape1.setPosition(enemy_pos1.x + offsetX, enemy_pos1.y + offsetY);
+                        eShape2.setPosition(enemy_pos2.x - offsetX, enemy_pos2.y - offsetY);
+                    }
                 }
             }
         }
