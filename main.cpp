@@ -1,5 +1,8 @@
 #include <iostream>
 
+#include "Anthill.h"
+
 int main() {
-    std::cout << "Hello World!\n";
+    Anthill a;
+    a.print_characteristics();
 }

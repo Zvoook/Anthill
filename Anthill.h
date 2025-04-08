@@ -11,6 +11,7 @@ public:
     void up_lvl();
     void bring_material(int rank_material); //тут крч в параметрах надо указать насколько большая ветка принесена
     void bring_food(int rank_food); //тут насколько большая еда
+    void print_characteristics(); //вывод всех характеристик муравейника
 private:
     int lvl;
     int current_food;

@@ -29,3 +29,11 @@ void Anthill::bring_material(int rank_material) {
 
 void Anthill::bring_food(int rank_food) {
 }
+
+void Anthill::print_characteristics() {
+    while (1) {
+        cout << "Количество муравьев: " << current_ants << "/" << place_for_ants << endl;
+        cout << "Количество еды: " << current_food << "/" << place_for_food << endl;
+        cout << "Количество материалов: " << "/" << place_for_materials << endl;
+    }
+}

@@ -1,12 +1,11 @@
 #pragma once
-#include <SFML/Graphics.hpp>
 #include <iostream>
 #include <vector>
 #include <random>
 #include <memory>
 #include <cmath>
 using namespace std;
-using namespace sf;
+
 
 //Window settings
 #define window_weidth 1920
