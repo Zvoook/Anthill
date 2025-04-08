@@ -6,6 +6,7 @@
 #include <memory>
 #include <cmath>
 #include <ctime>
+#include <algorithm>
 using namespace std;
 using namespace sf;
 
@@ -43,7 +44,7 @@ const int probability_of_medium_resources = 20;
 const int start_hill_size = 50.f;
 
 //Enemy settings
-const int enemy_wave_period = 250;
+const int enemy_wave_period = 10 * upd_time_per_sec;
 
 enum info_type { food_info, stick_info, enemy };
 enum res_type { no_res, food, stick, body, trash };

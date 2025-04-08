@@ -31,6 +31,8 @@ public:
     void drop();
     //void work() { role->work(*this); }
     void upd_color();
+    void set_target_on_res(vector<Resource>& res);
+    void drop_target() { has_target = 0; }
 
     void set_velocity(float vx, float vy) { velocity.x = vx; velocity.y = vy; }
     void set_inventory(res_type type) { inventory = type; }
