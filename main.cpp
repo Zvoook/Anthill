@@ -1,3 +1,4 @@
+#include "fix_for_macos.hpp"
 #include <SFML/Audio.hpp>
 #include <sstream>
 #include "Ant.h"

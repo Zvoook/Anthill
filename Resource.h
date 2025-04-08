@@ -1,4 +1,5 @@
 #pragma once
+#include "fix_for_macos.hpp"
 #include "Game Settings.h"
 #include "Position.h"
 class Resource {

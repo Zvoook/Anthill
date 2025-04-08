@@ -1,4 +1,5 @@
 #pragma once
+#include "fix_for_macos.hpp"
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <vector>
@@ -6,7 +7,7 @@
 #include <memory>
 #include <cmath>
 #include <ctime>
-#include <SFML/Graphics.hpp>
+
 using namespace std;
 using namespace sf;
 
