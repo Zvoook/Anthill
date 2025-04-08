@@ -64,18 +64,18 @@ void Ant::drop()
     }
 }
 
-void Ant::upd_color()
-{
-    switch (role_id) {
-    case 0: { shape.setFillColor(Color::Red); return; }
-    case 1: { shape.setFillColor(Color::Yellow); return; }
-    case 2: { shape.setFillColor(Color::Blue); return; }
-    case 3: { shape.setFillColor(Color::Magenta); return; }
-    case 4: { shape.setFillColor(Color::Black); return; }
-    case 5: { shape.setFillColor(Color::White); return; }
-    case 6: { shape.setFillColor(Color::Cyan); return; }
-    }
-}
+// void Ant::upd_color()
+// {
+//     switch (role_id) {
+//     case 0: { shape.setFillColor(Color::Red); return; }
+//     case 1: { shape.setFillColor(Color::Yellow); return; }
+//     case 2: { shape.setFillColor(Color::Blue); return; }
+//     case 3: { shape.setFillColor(Color::Magenta); return; }
+//     case 4: { shape.setFillColor(Color::Black); return; }
+//     case 5: { shape.setFillColor(Color::White); return; }
+//     case 6: { shape.setFillColor(Color::Cyan); return; }
+//     }
+// }
 
 float randomise_velocity()
 {

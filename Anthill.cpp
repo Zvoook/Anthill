@@ -1,5 +1,6 @@
 #include "Anthill.h"
 #include "Game Settings.h"
+#include "Role.h"
 
 Anthill::Anthill() {
     lvl = 1;
@@ -37,11 +38,12 @@ void Anthill::down_lvl() { //муравьи из колонии должны п�
     if (current_materials == 0) {
         lvl--;
         place_for_ants -= 10;
-        current_ants -= 10 + rand() % 5;
+        current_ants -= 10;
         place_for_food -= 25000;
         current_food -= 25000 + rand() % 5000;
         place_for_materials -= 500;
         radius /= 1.2;
+        colony.erase(colony.begin(), colony.begin() + 10);
     }
 }
 
@@ -73,6 +75,7 @@ void Anthill::print_characteristics() {
 
 void Anthill::born_baby() {
     if (!(current_ants == place_for_ants)) {
-
+        Baby baby;
+        colony.push_back(baby);
     }
 }

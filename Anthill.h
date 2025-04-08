@@ -34,13 +34,7 @@ private:
     int count_shepherds;
     int count_collectors;
     int radius;
-    // std::vector<Soldier> soldiers;
-    // std::vector<Builder> builders;
-    // std::vector<Cleaner> cleaners;
-    // std::vector<Sitter> sitters;
-    // std::vector<Baby> babies;
-    // std::vector<Shepperd> shepherds;
-    // std::vector<Collector> collectors;
+    std::vector<Ant&> colony;
 };
 
 
