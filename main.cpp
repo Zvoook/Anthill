@@ -11,7 +11,7 @@ int main() {
     std::vector<Ant> colony;
     std::vector<Enemy> raid;
     std::vector<Resource> resources;
-    int res_on_map = 0, x = 0, y = 0, ticks = 0;
+    int x = 0, y = 0, ticks = 0;
 
     Clock time;
     float last_time = 0;
@@ -19,10 +19,12 @@ int main() {
         do {
             x = rand() % (window_weidth - 2 * dist_btw_res) + dist_btw_res;
             y = rand() % (window_high - 2 * dist_btw_res) + dist_btw_res;
-
-        } while ((x > window_weidth / 2 - 3 * start_hill_size) && (x < window_weidth / 2 + 3 * start_hill_size) || (y > window_high / 2 - 3 * start_hill_size) && (y < window_high / 2 - 3 * start_hill_size));
-        if (i <= food_cluster_count) create_cluster(resources, x, y, food);
-        else create_cluster(resources, x, y, stick);
+        } while ((x > window_weidth / 2 - 3 * start_hill_size) && (x < window_weidth / 2 + 3 * start_hill_size) ||
+            (y > window_high / 2 - 3 * start_hill_size) && (y < window_high / 2 - 3 * start_hill_size));
+        if (i <= food_cluster_count)
+            create_cluster(resources, x, y, food);
+        else
+            create_cluster(resources, x, y, stick);
     }
 
     for (int i = 0; i < 20; ++i) {

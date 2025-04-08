@@ -53,27 +53,27 @@ void Sitter::work()
 
 }
 
-void Builder::work() 
+void Builder::work()
 {
 
 }
 
-void Collector::work() 
+void Collector::work()
 {
 
 }
 
-void Soldier::work() 
+void Soldier::work()
 {
 
 }
 
 void Shepperd::work()
 {
-    
+
 }
 
-void Cleaner::work() 
+void Cleaner::work()
 {
 
 }

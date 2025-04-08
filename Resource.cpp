@@ -5,8 +5,8 @@ void create_cluster(vector<Resource>& resources, float x, float y, res_type type
 {
     int res_in_cluster = rand() % max_resource_in_claster + 1;
     for (int i = 0; i < res_in_cluster; ++i) {
-        float shift_x = (rand() % dist_btw_res) - dist_btw_res/2;
-        float shift_y = (rand() % dist_btw_res) - dist_btw_res/2;
+        float shift_x = (rand() % dist_btw_res) - dist_btw_res / 2;
+        float shift_y = (rand() % dist_btw_res) - dist_btw_res / 2;
         int n = rand() % 100;
         res_size size;
         if (n < probability_of_small_resources) { size = small; }
