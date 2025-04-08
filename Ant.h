@@ -15,37 +15,32 @@ private:
     CircleShape shape;
     bool has_target;
     res_type inventory;
+    bool visible;
 public:
-    Ant(float x=0, float y=0) : role(roles[0]), role_id(0), age(0), hp(1), velocity(0, 0), target(0, 0), has_target(false), inventory(no_res) {
+    Ant(float x=0, float y=0) :pos(x,y), role_id(0), age(0), hp(1), velocity(0, 0), target(0, 0), has_target(false), inventory(no_res) {
+        role = roles[role_id];
         max_hp = rand() % 6 + 10;
         shape.setRadius(ant_size);
-        shape.setFillColor(Color(255, 182, 193));
+        shape.setFillColor(Color::White);
         shape.setPosition(x, y);
+        visible = true;
     }
-    ~Ant() { delete role; }
-    void set_velocity(float vx, float vy) { velocity.x = vx; velocity.y = vy; }
-    void aged() { age++; }
-    void set_hp(int n) { hp = n; }
     void upd_role();
     void move();
-    void pick_res(Resource& res);
-    void drop_res();
-
-    void kill() { hp = 0; }
+    bool pick(Resource& res);
+    void drop();
     //void work() { role->work(*this); }
+    void upd_color();
+
+    void set_velocity(float vx, float vy) { velocity.x = vx; velocity.y = vy; }
+    void set_inventory(res_type type) { inventory = type; }
+    void up_time() { age++; }
 
     int get_hp() const { return hp; }
-    int get_max_hp() const { return max_hp; }
     int get_age() const { return age; }
     int get_role() const { return role_id; }
-
-
- bool has_target_to_move() const { return has_target; }
- Position get_target() const { return target; }
- void set_target(const Position& new_target) {
-     target = new_target;
-     has_target = true;
- }
+    bool is_visible() const { return visible; }
+    const CircleShape& get_shape() const { return shape; }
 };
 
 float randomise_velocity();
