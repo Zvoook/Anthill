@@ -19,12 +19,10 @@ int main() {
         do {
             x = rand() % (window_weidth - 2 * dist_btw_res) + dist_btw_res;
             y = rand() % (window_high - 2 * dist_btw_res) + dist_btw_res;
-        } while ((x > window_weidth / 2 - 3 * start_hill_size) && (x < window_weidth / 2 + 3 * start_hill_size) ||
-            (y > window_high / 2 - 3 * start_hill_size) && (y < window_high / 2 - 3 * start_hill_size));
-        if (i <= food_cluster_count)
-            create_cluster(res_on_map, resources, x, y, food);
-        else
-            create_cluster(res_on_map, resources, x, y, stick);
+          
+        } while ((x > window_weidth / 2 - 3 * start_hill_size) && (x < window_weidth / 2 + 3 * start_hill_size) || (y > window_high / 2 - 3 * start_hill_size) && (y < window_high / 2 - 3 * start_hill_size));
+        if (i <= food_cluster_count) create_cluster(resources, x, y, food);
+        else create_cluster(resources, x, y, stick);
     }
 
     for (int i = 0; i < 20; ++i) {
