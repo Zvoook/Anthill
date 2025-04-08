@@ -18,7 +18,6 @@ Anthill::Anthill() {
     count_shepherds = lvl_1_count_shepherds;
     count_collectors = lvl_1_count_collectors;
     radius = lvl_1_radius;
-}
 
 Anthill::~Anthill() {
 
