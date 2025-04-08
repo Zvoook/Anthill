@@ -9,13 +9,13 @@ Anthill::Anthill() {
     place_for_ants = lvl_1_place_for_ants;
     place_for_materials = lvl_1_place_for_materials;
     place_for_food = lvl_1_place_for_food;
-    int count_soldiers = lvl_1_count_soldiers;
-    int count_builders = lvl_1_count_builders;
-    int count_cleaners = lvl_1_count_cleaners;
-    int count_sitters = lvl_1_count_sitters;
-    int count_babies = lvl_1_count_babies;
-    int count_shepherds = lvl_1_count_shepherds;
-    int count_collectors = lvl_1_count_collectors;
+    count_soldiers = lvl_1_count_soldiers;
+    count_builders = lvl_1_count_builders;
+    count_cleaners = lvl_1_count_cleaners;
+    count_sitters = lvl_1_count_sitters;
+    count_babies = lvl_1_count_babies;
+    count_shepherds = lvl_1_count_shepherds;
+    count_collectors = lvl_1_count_collectors;
 }
 
 Anthill::~Anthill() {
@@ -41,7 +41,7 @@ void Anthill::print_characteristics() {
     while (1) {
         cout << "Количество муравьев: " << current_ants << "/" << place_for_ants << endl;
         cout << "Количество еды: " << current_food << "/" << place_for_food << endl;
-        cout << "Количество материалов: " << "/" << place_for_materials << endl;
+        cout << "Количество материалов: "<< current_materials << "/" << place_for_materials << endl;
         cout << "Количество солдат: " << count_soldiers << endl;
         cout << "Количество строителей: " << count_builders << endl;
         cout << "Количество уборщиков: " << count_cleaners << endl;
