@@ -6,9 +6,9 @@
 #include <memory>
 #include <cmath>
 #include <ctime>
-// #include <SFML/Graphics.hpp>
+#include <SFML/Graphics.hpp>
 using namespace std;
-// using namespace sf;
+using namespace sf;
 
 
 //Window settings
@@ -25,20 +25,19 @@ const int ant_size = 6;
 const int ant_speed = 4;
 const int velocity_changing_period = 10;
 const int life_stages = 5;
-#define max_hp rand() % 201 + 300
 
 //Anthill settings
-#define lvl_1_place_for_ants 30
-#define lvl_1_place_for_food 50000
-#define lvl_1_place_for_materials 1000
-#define lvl_1_count_soldiers 3;
-#define lvl_1_count_builders 3;
-#define lvl_1_count_cleaners 3;
-#define lvl_1_count_sitters 3;
-#define lvl_1_count_babies 3;
-#define lvl_1_count_shepherds 3;
-#define lvl_1_count_collectors 3;
-#define lvl_1_radius 50.f
+const int start_ant_count = 30;
+const int lvl_1_place_for_food = 50000;
+const int lvl_1_place_for_materials = 1000;
+const int lvl_1_count_soldiers = 3;
+const int lvl_1_count_builders = 3;
+const int lvl_1_count_cleaners = 3;
+const int lvl_1_count_sitters = 3;
+const int lvl_1_count_babies = 3;
+const int lvl_1_count_shepherds = 3;
+const int lvl_1_count_collectors = 3;
+const int lvl_1_radius = 50.f;
 
 //Resource settings
 const int count_of_angles_in_form = 30;

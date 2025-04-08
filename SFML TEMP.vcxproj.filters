@@ -39,6 +39,9 @@
     <ClCompile Include="Informers.cpp">
       <Filter>Исходные файлы\ANTS</Filter>
     </ClCompile>
+    <ClCompile Include="Anthill.cpp">
+      <Filter>Исходные файлы\ANTS</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Position.h">
@@ -60,6 +63,9 @@
       <Filter>Исходные файлы\ANTS</Filter>
     </ClInclude>
     <ClInclude Include="Informers.h">
+      <Filter>Исходные файлы\ANTS</Filter>
+    </ClInclude>
+    <ClInclude Include="Anthill.h">
       <Filter>Исходные файлы\ANTS</Filter>
     </ClInclude>
   </ItemGroup>

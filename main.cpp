@@ -1,14 +1,15 @@
 #include <SFML/Audio.hpp>
+#include <sstream>
 #include "Ant.h"
 #include "Enemy.h"
-#include <cmath>
+#include "Anthill.h"
 
 #define Colony
 #ifdef Colony
 int main() {
     srand(static_cast<unsigned>(time(nullptr)));
-
-    std::vector<Ant> colony;
+    Anthill anthill;
+    //std::vector<Ant> colony;
     std::vector<Enemy> raid;
     std::vector<Resource> resources;
     int x = 0, y = 0, ticks = 0;
@@ -27,16 +28,7 @@ int main() {
             create_cluster(resources, x, y, stick);
     }
 
-    for (int i = 0; i < 20; ++i) {
-        do {
-            x = rand() % window_weidth;
-            y = rand() % window_high;
-        } while ((x < window_weidth / 2 - start_hill_size / 2) ||
-            (x > window_weidth / 2 + start_hill_size / 2) ||
-            (y < window_high / 2 - start_hill_size / 2) ||
-            (y > window_high / 2 + start_hill_size / 2));
-        colony.emplace_back(x, y);
-    }
+    for (int i = 0; i < 20; ++i) anthill.born_baby();
 
     CircleShape circle(start_hill_size);
     circle.setPosition(Vector2f(window_weidth / 2 - start_hill_size, window_high / 2 - start_hill_size));
@@ -58,13 +50,22 @@ int main() {
 
     Event event;
 
+    Font font;
+    if (!font.loadFromFile("Arial.ttf")) {
+        return -1; 
+    }
+    Text statsText("", font, 20);
+    statsText.setFillColor(Color::White);
+    statsText.setPosition(10, 10);
+
     while (window.isOpen()) {
         if (time.getElapsedTime().asMilliseconds() - last_time >= update_time) {
             ticks++;
             last_time = time.getElapsedTime().asMilliseconds();
 
-            for (auto& ant : colony) {
+            for (auto& ant : anthill.colony) {
                 ant.move();
+                anthill.feeding();
                 if (ant.get_hp() > 0) {
                     ant.up_time();
                     if (ant.get_age() % stage_time == 0 && ant.get_age())
@@ -72,10 +73,10 @@ int main() {
                 }
             }
 
-            for (size_t i = 0; i < colony.size(); i++) {
-                for (size_t j = i + 1; j < colony.size(); j++) {
-                    Vector2f pos1 = colony[i].get_shape().getPosition();
-                    Vector2f pos2 = colony[j].get_shape().getPosition();
+            for (size_t i = 0; i < anthill.colony.size(); i++) {
+                for (size_t j = i + 1; j < anthill.colony.size(); j++) {
+                    Vector2f pos1 = anthill.colony[i].get_shape().getPosition();
+                    Vector2f pos2 = anthill.colony[j].get_shape().getPosition();
 
                     float dx = pos1.x - pos2.x;
                     float dy = pos1.y - pos2.y;
@@ -87,8 +88,8 @@ int main() {
                         float offsetX = (dx / distance) * overlap;
                         float offsetY = (dy / distance) * overlap;
 
-                        CircleShape& shape1 = const_cast<CircleShape&>(colony[i].get_shape());
-                        CircleShape& shape2 = const_cast<CircleShape&>(colony[j].get_shape());
+                        CircleShape& shape1 = const_cast<CircleShape&>(anthill.colony[i].get_shape());
+                        CircleShape& shape2 = const_cast<CircleShape&>(anthill.colony[j].get_shape());
 
                         shape1.setPosition(pos1.x + offsetX, pos1.y + offsetY);
                         shape2.setPosition(pos2.x - offsetX, pos2.y - offsetY);
@@ -135,16 +136,31 @@ int main() {
             }
         }
 
+        std::stringstream stats;
+        stats << "Ants: " << anthill.colony.size() << "\n";
+        stats << "Soldiers: " << anthill.get_soldier_count() << "\n";
+        stats << "Builders: " << anthill.get_builder_count() << "\n";
+        stats << "Cleaners: " << anthill.get_cleaner_count() << "\n";
+        stats << "Sitters: " << anthill.get_sitter_count() << "\n";
+        stats << "Babies: " << anthill.get_baby_count() << "\n";
+        stats << "Shepherds: " << anthill.get_shepherd_count() << "\n";
+        stats << "Collectors: " << anthill.get_collector_count() << "\n";
+        stats << "Food: " << anthill.get_food_count() << "\n";
+        stats << "Sticks: " << anthill.get_stick_count() << "\n";
+
+        statsText.setString(stats.str());
+
         while (window.pollEvent(event))
             if (event.type == Event::Closed)
                 window.close();
 
         window.clear(Color(102, 204, 0));
         window.draw(circle);
+        window.draw(statsText);
         for (const auto& res : resources)
             if (res.is_visible())
                 window.draw(res.get_shape());
-        for (auto& ant : colony)
+        for (auto& ant : anthill.colony)
             if (ant.is_visible())
                 window.draw(ant.get_shape());
         for (auto& enemy : raid)
