@@ -66,7 +66,8 @@ void Anthill::upd_ant_stats()
 {
     default_count();
     for (auto& ant : colony) {
-        if (ant.get_hp() != 0) {
+        if (food_count == 0) ant.set_hp(0);
+        else if (ant.get_hp() != 0) {
             ants++;
             switch (ant.get_role()) {
             case 0:babies++; break;

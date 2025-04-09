@@ -58,6 +58,7 @@ int main() {
         if (time.getElapsedTime().asMilliseconds() - last_time >= scene_update_time) {
             last_time = time.getElapsedTime().asMilliseconds();
             ticks++;
+            if (ticks%feeding_period==0) anthill.feeding();
             anthill.upd_ant_stats();
 
             //Spawn entities
@@ -65,13 +66,15 @@ int main() {
                 for (int i = 0; i < 10; ++i) anthill.born_baby();
                 //for (int i = 0; i < 5; ++i) raid.emplace_back(10, 10);
             }
-            //anthill.feeding();
-
+            
             for (auto& ant : anthill.colony) {
                 ant.move();
                 if (ant.get_hp() > 0) {
                     ant.up_time();
                     if (ant.get_age() % stage_time == 0 && ant.get_age()) ant.upd_role();
+                }
+                else {
+                    ant.set_invisible();
                 }
             }
 

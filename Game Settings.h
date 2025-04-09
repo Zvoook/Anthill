@@ -16,7 +16,8 @@ const int window_high = 1000;
 
 //Timer settings
 const int scene_update_time = 20; //ticks per ms
-const int stage_time = 2 * (int)(1000/scene_update_time);
+const int ticks_per_second = (int)(1000 / scene_update_time);
+const int stage_time = 2 * ticks_per_second;
 
 //Ant settings
 const int ant_size = 6;
@@ -39,9 +40,10 @@ const int probability_of_medium_resources = 20;
 //Anthill settings
 const int start_radius = 50.f;
 const int start_max_ant_count = 20;
-const int start_food_limit = 50000;
+const int start_food_limit = 100;
 const int start_stick_limit = 1000;
 const int start_ant_count = 3;
+const int feeding_period = ticks_per_second;
 
 //Enemy settings
 const int enemy_wave_period = 250;
