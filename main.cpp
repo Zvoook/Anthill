@@ -27,8 +27,6 @@ int main() {
             create_cluster(resources, x, y, stick);
     }
 
-    for (int i = 0; i < 20; ++i) anthill.born_baby();
-
     CircleShape circle(start_hill_size);
     circle.setPosition(Vector2f(window_weidth / 2 - start_hill_size, window_high / 2 - start_hill_size));
     circle.setFillColor(Color(115, 66, 34));
@@ -38,11 +36,11 @@ int main() {
     if (!icon.loadFromFile("anthill.png")) return -1;
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
-    Music backgroundMusic;
+    /*Music backgroundMusic;
     if (!backgroundMusic.openFromFile("Voroniny.ogg")) return -1;
     backgroundMusic.setLoop(true);
     backgroundMusic.setVolume(100);
-    backgroundMusic.play();
+    backgroundMusic.play();*/
 
     Event event;
     Font font;
@@ -123,9 +121,10 @@ int main() {
                 }
             }
 
-            if (ticks % enemy_wave_period == 0)
-                for (int i = 0; i < 5; ++i)
-                    raid.emplace_back(10, 10);
+            if (ticks % enemy_wave_period == 0) {
+                for (int i = 0; i < 10; ++i) anthill.born_baby();
+                //for (int i = 0; i < 5; ++i) raid.emplace_back(10, 10);
+            }
 
             for (auto& enemy : raid) {
                 enemy.move();
@@ -176,22 +175,14 @@ int main() {
 
         statsText.setString(stats.str());
 
-        while (window.pollEvent(event))
-            if (event.type == Event::Closed)
-                window.close();
+        while (window.pollEvent(event)) if (event.type == Event::Closed) window.close();
 
         window.clear(Color(102, 204, 0));
         window.draw(circle);
+        for (const auto& res : resources) if (res.is_visible()) window.draw(res.get_shape());
+        for (auto& ant : anthill.colony) if (ant.is_visible()) window.draw(ant.get_shape());
+        for (auto& enemy : raid) if (enemy.is_visible()) window.draw(enemy.get_shape());
         window.draw(statsText);
-        for (const auto& res : resources)
-            if (res.is_visible())
-                window.draw(res.get_shape());
-        for (auto& ant : anthill.colony)
-            if (ant.is_visible())
-                window.draw(ant.get_shape());
-        for (auto& enemy : raid)
-            if (enemy.is_visible())
-                window.draw(enemy.get_shape());
         window.display();
     }
     return 0;
