@@ -41,7 +41,8 @@ public:
 
     //Target
     void set_target(const Position& p) { target = p; has_target = true; }
-    void look_around(const std::vector<Resource>& resources);
+    void look_around(std::vector<Resource>& resources);
+    // void go_home();
     void clear_target() { has_target = false; }
     bool has_valid_target() const { return has_target; }
     Position get_pos() const { return pos; }

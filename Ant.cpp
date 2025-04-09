@@ -49,30 +49,38 @@ void Ant::move() {
         if (dist > 1.5f) {
             velocity.x = (dx / dist) * ant_speed;
             velocity.y = (dy / dist) * ant_speed;
-        }
-        else {
+        } else {
             velocity.x = 0;
             velocity.y = 0;
-            has_target = false;  // цель достигнута
+
+
+            if (inventory != no_res) {
+                set_target(Position(window_weidth / 2, window_high / 2));
+            } else {
+                has_target = false;
+            }
         }
+
         pos.x += velocity.x;
         pos.y += velocity.y;
         shape.setPosition(pos.x, pos.y);
         return;
     }
 
-    if (age % velocity_changing_period == 0)  set_velocity(randomise_velocity() * ant_speed, randomise_velocity() * ant_speed);
+    if (age % velocity_changing_period == 0)
+        set_velocity(randomise_velocity() * ant_speed, randomise_velocity() * ant_speed);
     if (pos.x + velocity.x < 0 || pos.x + velocity.x > window_weidth) velocity.x = -velocity.x;
     if (pos.y + velocity.y < 0 || pos.y + velocity.y > window_high) velocity.y = -velocity.y;
+
     pos.x += velocity.x;
     pos.y += velocity.y;
-
     shape.setPosition(pos.x, pos.y);
 }
 
-void Ant::look_around(const std::vector<Resource>& resources) {
+
+void Ant::look_around(std::vector<Resource>& resources) {
     if (has_target || inventory != no_res) return;
-    for (const auto &res: resources) {
+    for (auto &res: resources) {
         if (!res.is_visible()) {
             continue;
         }
@@ -81,7 +89,9 @@ void Ant::look_around(const std::vector<Resource>& resources) {
         float dist = std::sqrt(dx * dx + dy * dy);
         if (dist < radius_vision) {
             if ((res.get_type() == food && role_id == 2) || (res.get_type() == stick && role_id == 3)) {// добавить трупы и мусор
+                set_inventory(res.get_type());
                 set_target(res.get_posit());
+                res.set_invisible();
                 break;
             }
         }
