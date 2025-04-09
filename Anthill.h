@@ -8,9 +8,10 @@ public:
     ~Anthill()=default;
     void up_lvl();
     void down_lvl();
-    void feeding();
-    void bring_res(res_type type); 
+    void feeding() { food_count -= current_ants;}
+    void bring_res(res_type type);
     void born_baby();
+    void upd_stats() {};
 
     int get_soldier_count() const { return count_soldiers; }
     int get_builder_count() const { return count_builders; }

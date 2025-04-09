@@ -10,7 +10,6 @@
 int main() {
     srand(static_cast<unsigned>(time(nullptr)));
     Anthill anthill;
-    //std::vector<Ant> colony;
     std::vector<Enemy> raid;
     std::vector<Resource> resources;
     int x = 0, y = 0, ticks = 0;
@@ -29,32 +28,24 @@ int main() {
             create_cluster(resources, x, y, stick);
     }
 
-    for (int i = 0; i < 20; ++i) anthill.born_baby();
-
     CircleShape circle(start_hill_size);
     circle.setPosition(Vector2f(window_weidth / 2 - start_hill_size, window_high / 2 - start_hill_size));
     circle.setFillColor(Color(115, 66, 34));
 
     RenderWindow window(VideoMode(window_weidth, window_high), L"Colony Simulator");
     Image icon;
-    if (!icon.loadFromFile("anthill.png")) {
-        return -1;
-    }
+    if (!icon.loadFromFile("anthill.png")) return -1;
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
-    Music backgroundMusic;
-    if (!backgroundMusic.openFromFile("Voroniny.ogg")) {
-        return -1;
-    }
+
+    /*Music backgroundMusic;
+    if (!backgroundMusic.openFromFile("Voroniny.ogg")) return -1;
     backgroundMusic.setLoop(true);
     backgroundMusic.setVolume(100);
-    backgroundMusic.play();
+    backgroundMusic.play();*/
 
     Event event;
-
     Font font;
-    if (!font.loadFromFile("Arial.ttf")) {
-        return -1; 
-    }
+    if (!font.loadFromFile("Arial.ttf")) return -1;
     Text statsText("", font, 20);
     statsText.setFillColor(Color::White);
     statsText.setPosition(10, 10);
@@ -65,6 +56,37 @@ int main() {
             last_time = time.getElapsedTime().asMilliseconds();
 
             for (auto& ant : anthill.colony) {
+                // Назначаем цель
+                if (!ant.has_valid_target() && ant.get_inventory() == no_res) {
+                    for (auto& res : resources) {
+                        if (res.is_visible()) {
+                            if ((res.get_type() == food && ant.get_role() == 2) ||
+                                (res.get_type() == stick && ant.get_role() == 3)) {
+                                ant.set_target(res.get_posit());
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                // Подбор ресурса
+                for (auto& res : resources) {
+                    if (res.is_visible() && ant.get_inventory() == no_res) {
+                        if (ant.get_pos().distance(res.get_posit()) < ant_size * 1.5f && ant.pick(res)) {
+                            ant.set_inventory(res.get_type());
+                            res.set_invisible();
+                            ant.set_target(Position(window_weidth / 2, window_high / 2));
+                            break;
+                        }
+                    }
+                }
+
+                // Доставка ресурса
+                if (ant.get_inventory() != no_res && ant.get_pos().in_anthill()) {
+                    ant.drop();
+                    ant.clear_target();
+                }
+
                 ant.move();
                 anthill.feeding();
                 if (ant.get_hp() > 0) {
@@ -74,10 +96,12 @@ int main() {
                 }
             }
 
+            // Столкновения муравьёв
             for (size_t i = 0; i < anthill.colony.size(); i++) {
                 for (size_t j = i + 1; j < anthill.colony.size(); j++) {
                     Vector2f pos1 = anthill.colony[i].get_shape().getPosition();
                     Vector2f pos2 = anthill.colony[j].get_shape().getPosition();
+
 
                     float dx = pos1.x - pos2.x;
                     float dy = pos1.y - pos2.y;
@@ -98,9 +122,10 @@ int main() {
                 }
             }
 
-            if (ticks % enemy_wave_period == 0)
-                for (int i = 0; i < 5; ++i)
-                    raid.emplace_back(10, 10);
+            if (ticks % enemy_wave_period == 0) {
+                for (int i = 0; i < 10; ++i) anthill.born_baby();
+                //for (int i = 0; i < 5; ++i) raid.emplace_back(10, 10);
+            }
 
             for (auto& enemy : raid) {
                 enemy.move();
@@ -151,22 +176,14 @@ int main() {
 
         statsText.setString(stats.str());
 
-        while (window.pollEvent(event))
-            if (event.type == Event::Closed)
-                window.close();
+        while (window.pollEvent(event)) if (event.type == Event::Closed) window.close();
 
         window.clear(Color(102, 204, 0));
         window.draw(circle);
+        for (const auto& res : resources) if (res.is_visible()) window.draw(res.get_shape());
+        for (auto& ant : anthill.colony) if (ant.is_visible()) window.draw(ant.get_shape());
+        for (auto& enemy : raid) if (enemy.is_visible()) window.draw(enemy.get_shape());
         window.draw(statsText);
-        for (const auto& res : resources)
-            if (res.is_visible())
-                window.draw(res.get_shape());
-        for (auto& ant : anthill.colony)
-            if (ant.is_visible())
-                window.draw(ant.get_shape());
-        for (auto& enemy : raid)
-            if (enemy.is_visible())
-                window.draw(enemy.get_shape());
         window.display();
     }
     return 0;
