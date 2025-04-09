@@ -67,12 +67,13 @@ int main() {
             //anthill.feeding();
 
             for (auto& ant : anthill.colony) {
-            ant.move();
-            if (ant.get_hp() > 0) {
-                ant.up_time();
-                if (ant.get_age() % stage_time == 0 && ant.get_age())
-                    ant.upd_role();
-            }
+                ant.look_around(resources);
+                ant.move();
+                if (ant.get_hp() > 0) {
+                    ant.up_time();
+                    if (ant.get_age() % stage_time == 0 && ant.get_age())
+                        ant.upd_role();
+                }
             }
 
             //Enemy's update
