@@ -82,7 +82,7 @@ int main() {
                 if (enemy.get_hp() > 0) enemy.aged();
             }
 
-            // for (auto& ant : anthill.colony) {
+            for (auto& ant : anthill.colony) {
             //     if (!ant.has_valid_target() && ant.get_inventory() == no_res) {
             //         for (auto& res : resources) {
             //             if (res.is_visible()) {
@@ -107,11 +107,11 @@ int main() {
                 // }
 
                 // �������� �������
-            //     if (ant.get_inventory() != no_res && ant.get_pos().in_anthill()) {
-            //         anthill.drop(ant);
-            //         ant.clear_target();
-            //     }
-            // }
+                if (ant.get_inventory() != no_res && ant.get_pos().in_anthill()) {
+                    anthill.drop(ant);
+
+                }
+            }
 
             // ������������ ��������
             for (size_t i = 0; i < anthill.colony.size(); i++) {

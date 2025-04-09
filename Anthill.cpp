@@ -60,12 +60,13 @@ void Anthill::born_baby() {
 
 void Anthill::drop(Ant& ant)
 {
-    int res_count = 0;
+    ant.set_target(Position(window_weidth / 2, window_high / 2));
     if (ant.get_inventory() != no_res && ant.check_pos()) {
         if (ant.get_inventory() == food) food_count ++;
         if (ant.get_inventory() == stick) stick_count++;
         ant.set_inventory(no_res);
     }
+
 }
 
 //void Anthill::upd_stats()
