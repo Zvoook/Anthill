@@ -40,9 +40,9 @@ const int start_radius = 50.f;
 
 //Resource settings
 const int count_of_angles_in_form = 30;
-const int small_resource_size = 7;
-const int madium_resource_size = 12;
-const int big_resource_size = 16;
+const int small_resource_size = 1;
+const int madium_resource_size = 5;
+const int big_resource_size = 10;
 const int max_resource_in_claster = 15;
 const int dist_btw_res = 100;
 const int stick_claster_count = 6;
