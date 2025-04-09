@@ -96,7 +96,7 @@ int main() {
 
                 for (auto& res : resources) {
                     if (res.is_visible() && ant.get_inventory() == no_res) {
-                        if (ant.get_pos().distance(res.get_posit()) < ant_size * 1.5f && ant.pick(res)) {
+                        if (ant.get_pos().distance(res.get_posit()) < ant_size * 3.0f && ant.pick(res)) {
                             ant.set_inventory(res.get_type());
                             res.set_invisible();
                             ant.set_target(Position(window_weidth / 2, window_high / 2));
