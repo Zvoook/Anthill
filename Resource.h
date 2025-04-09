@@ -10,7 +10,7 @@ private:
     CircleShape shape;
 
     int id, ants_for_collecting;
-    bool visible;
+    bool visible = true;
 public:
     static int count;
     Resource(res_type t = no_res, res_size s = small, Position p = Position()) : id(count++), size(s), type(t), pos(p), visible(true) {

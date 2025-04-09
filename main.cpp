@@ -96,7 +96,7 @@ int main() {
 
                 for (auto& res : resources) {
                     if (res.is_visible() && ant.get_inventory() == no_res) {
-                        if (ant.get_pos().distance(res.get_posit()) < ant_size * 3.0f && ant.pick(res)) {
+                        if (ant.get_pos().distance(res.get_posit()) < ant_size * 1.5f && ant.pick(res)) {
                             ant.set_inventory(res.get_type());
                             res.set_invisible();
                             ant.set_target(Position(window_weidth / 2, window_high / 2));
@@ -105,14 +105,14 @@ int main() {
                     }
                 }
 
-                // Доставка ресурса
+                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
                 if (ant.get_inventory() != no_res && ant.get_pos().in_anthill()) {
                     anthill.drop(ant);
                     ant.clear_target();
                 }
             }
 
-            // Столкновения муравьёв
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             for (size_t i = 0; i < anthill.colony.size(); i++) {
                 for (size_t j = i + 1; j < anthill.colony.size(); j++) {
                     Vector2f pos1 = anthill.colony[i].get_shape().getPosition();

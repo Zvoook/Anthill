@@ -46,14 +46,14 @@ void Ant::move() {
         float dx = target.x - pos.x;
         float dy = target.y - pos.y;
         float dist = sqrt(dx * dx + dy * dy);
-        /*if (dist > 1.5f) {*/
+        if (dist > 1.5f) {
             velocity.x = (dx / dist) * ant_speed;
             velocity.y = (dy / dist) * ant_speed;
-        //}
-        /*else {
+        }
+        else {
             velocity.x = 0;
             velocity.y = 0;
-        }*/
+        }
         pos.x += velocity.x;
         pos.y += velocity.y;
     }
@@ -67,9 +67,10 @@ void Ant::move() {
     shape.setPosition(pos.x, pos.y);
 }
 
+
 bool Ant::pick(Resource& res) {
-    if (!res.is_visible() || role_id!=2 || role_id!=3) return 0;
-    if ((res.get_type() == food && role_id == 3) || (res.get_type() == stick && role_id == 2) || ((res.get_type() == body || res.get_type() == trash) && role_id == 6)) return 1;
+    if (!res.is_visible()) return 0;
+    if ((res.get_type() == food && role == new Collector) || (res.get_type() == stick && role == new Builder) || ((res.get_type() == body || res.get_type() == trash) && role != new Cleaner)) return 1;
 }
 
 void Ant::upd_color()
