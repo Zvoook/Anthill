@@ -120,30 +120,30 @@ int main() {
             }
 
             // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-            for (size_t i = 0; i < anthill.colony.size(); i++) {
-                for (size_t j = i + 1; j < anthill.colony.size(); j++) {
-                    Vector2f pos1 = anthill.colony[i].get_shape().getPosition();
-                    Vector2f pos2 = anthill.colony[j].get_shape().getPosition();
-
-
-                    float dx = pos1.x - pos2.x;
-                    float dy = pos1.y - pos2.y;
-                    float distance = sqrt(dx * dx + dy * dy);
-                    float min_dist = ant_size * 2.0f;
-
-                    if (distance < min_dist && distance > 0.001f) {
-                        float overlap = (min_dist - distance) / 2.0f;
-                        float offsetX = (dx / distance) * overlap;
-                        float offsetY = (dy / distance) * overlap;
-
-                        CircleShape& shape1 = const_cast<CircleShape&>(anthill.colony[i].get_shape());
-                        CircleShape& shape2 = const_cast<CircleShape&>(anthill.colony[j].get_shape());
-
-                        shape1.setPosition(pos1.x + offsetX, pos1.y + offsetY);
-                        shape2.setPosition(pos2.x - offsetX, pos2.y - offsetY);
-                    }
-                }
-            }
+            // for (size_t i = 0; i < anthill.colony.size(); i++) {
+            //     for (size_t j = i + 1; j < anthill.colony.size(); j++) {
+            //         Vector2f pos1 = anthill.colony[i].get_shape().getPosition();
+            //         Vector2f pos2 = anthill.colony[j].get_shape().getPosition();
+            //
+            //
+            //         float dx = pos1.x - pos2.x;
+            //         float dy = pos1.y - pos2.y;
+            //         float distance = sqrt(dx * dx + dy * dy);
+            //         float min_dist = ant_size * 2.0f;
+            //
+            //         if (distance < min_dist && distance > 0.001f) {
+            //             float overlap = (min_dist - distance) / 2.0f;
+            //             float offsetX = (dx / distance) * overlap;
+            //             float offsetY = (dy / distance) * overlap;
+            //
+            //             CircleShape& shape1 = const_cast<CircleShape&>(anthill.colony[i].get_shape());
+            //             CircleShape& shape2 = const_cast<CircleShape&>(anthill.colony[j].get_shape());
+            //
+            //             shape1.setPosition(pos1.x + offsetX, pos1.y + offsetY);
+            //             shape2.setPosition(pos2.x - offsetX, pos2.y - offsetY);
+            //         }
+            //     }
+            // }
 
             for (size_t i = 0; i < raid.size(); i++) {
                 for (size_t j = i + 1; j < raid.size(); j++) {

@@ -106,7 +106,7 @@ CircleShape Ant::get_vision_circle() const {
     vision.setPosition(pos.x, pos.y);
     vision.setFillColor(sf::Color(255, 255, 255, 20));  // белый, почти прозрачный
     vision.setOutlineColor(sf::Color(0, 0, 255, 20)); // полупрозрачный контур
-    vision.setOutlineThickness(10.f);
+    vision.setOutlineThickness(1.f);
     return vision;
 }
 
