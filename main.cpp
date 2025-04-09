@@ -20,8 +20,8 @@ int main() {
         do {
             x = rand() % (window_weidth - 2 * dist_btw_res) + dist_btw_res;
             y = rand() % (window_high - 2 * dist_btw_res) + dist_btw_res;
-        } while ((x > window_weidth / 2 - 3 * start_hill_size) && (x < window_weidth / 2 + 3 * start_hill_size) ||
-            (y > window_high / 2 - 3 * start_hill_size) && (y < window_high / 2 - 3 * start_hill_size));
+        } while ((x > window_weidth / 2 - 3 * start_radius) && (x < window_weidth / 2 + 3 * start_radius) ||
+            (y > window_high / 2 - 3 * start_radius) && (y < window_high / 2 - 3 * start_radius));
         if (i <= food_cluster_count)
             create_cluster(resources, x, y, food);
         else
@@ -29,8 +29,8 @@ int main() {
     }
 
      //Anthil setting
-    CircleShape circle(start_hill_size);
-    circle.setPosition(Vector2f(window_weidth / 2 - start_hill_size, window_high / 2 - start_hill_size));
+    CircleShape circle(start_radius);
+    circle.setPosition(Vector2f(window_weidth / 2 - start_radius, window_high / 2 - start_radius));
     circle.setFillColor(Color(115, 66, 34));
 
     //Window setting
@@ -155,10 +155,10 @@ int main() {
         }
 
         std::stringstream stats;
-        stats << "Ants: " << anthill.colony.size() << "\n";
+        stats << "Ants: " << anthill.get_ant_count() << "\n";
         stats << "Food: " << anthill.get_food_count() << "\n";
         stats << "Sticks: " << anthill.get_stick_count() << "\n";
-        stats << "---\n";
+        stats << "---------------\n";
         stats << "Babies: " << anthill.get_baby_count() << "\n";
         stats << "Sitters: " << anthill.get_sitter_count() << "\n";
         stats << "Collectors: " << anthill.get_collector_count() << "\n";

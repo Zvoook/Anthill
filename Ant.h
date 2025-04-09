@@ -35,6 +35,7 @@ public:
     void set_velocity(float vx, float vy) { velocity.x = vx; velocity.y = vy; }
     void set_inventory(res_type type) { inventory = type; }
     void up_time() { age++; }
+    void set_hp(int x) { if (hp > 0) hp = x;  else hp = 0; }
     //void set_target_on_res(vector<Resource>& res);
 
     //Target
