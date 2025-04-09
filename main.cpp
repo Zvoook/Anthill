@@ -1,4 +1,3 @@
-#include "fix_for_macos.hpp"
 #include <SFML/Audio.hpp>
 #include <sstream>
 #include "Ant.h"
@@ -194,9 +193,10 @@ int main() {
         for (const auto& res : resources) if (res.is_visible()) window.draw(res.get_shape());
         // for (auto& ant : anthill.colony) if (ant.is_visible()) window.draw(ant.get_shape());
         for (const auto& ant : anthill.colony) {
-            window.draw(ant.get_vision_circle());
-            if (ant.is_visible())
+            if (ant.is_visible()) {
                 window.draw(ant.get_shape());
+                window.draw(ant.get_vision_circle());
+            }
         }
         for (auto& enemy : raid) if (enemy.is_visible()) window.draw(enemy.get_shape());
         window.draw(statsText);

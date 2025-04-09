@@ -1,5 +1,4 @@
 #pragma once
-#include "fix_for_macos.hpp"
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <vector>
@@ -18,7 +17,7 @@ const int window_high = 1000;
 //Timer settings
 const int scene_update_time = 20; //ticks per ms
 const int ticks_per_second = (int)(1000 / scene_update_time);
-const int stage_time = 2 * ticks_per_second;
+const int stage_time = 7 * ticks_per_second;
 
 //Ant settings
 const int ant_size = 6;
