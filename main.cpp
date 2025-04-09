@@ -9,8 +9,8 @@
 int main() {
     srand(static_cast<unsigned>(time(nullptr)));
     Anthill anthill;
-    std::vector<Enemy> raid;
-    std::vector<Resource> resources;
+    vector<Enemy> raid;
+    vector<Resource> resources;
     int x = 0, y = 0, ticks = 0;
 
     //Resource spawn
@@ -27,6 +27,7 @@ int main() {
         else
             create_cluster(resources, x, y, stick);
     }
+
      //Anthil setting
     CircleShape circle(start_hill_size);
     circle.setPosition(Vector2f(window_weidth / 2 - start_hill_size, window_high / 2 - start_hill_size));
@@ -49,14 +50,15 @@ int main() {
     Event event;
     Font font;
     if (!font.loadFromFile("Arial.ttf")) return -1;
-    Text statsText("", font, 20);
+    Text statsText("", font, 25);
     statsText.setFillColor(Color::White);
-    statsText.setPosition(10, 10);
+    statsText.setPosition(5, 5);
 
     while (window.isOpen()) {
-        if (time.getElapsedTime().asMilliseconds() - last_time >= update_time) {
-            ticks++;
+        if (time.getElapsedTime().asMilliseconds() - last_time >= scene_update_time) {
             last_time = time.getElapsedTime().asMilliseconds();
+            ticks++;
+            anthill.upd_ant_stats();
 
             //Spawn entities
             if (ticks % enemy_wave_period == 0) {
@@ -66,12 +68,11 @@ int main() {
             //anthill.feeding();
 
             for (auto& ant : anthill.colony) {
-            ant.move();
-            if (ant.get_hp() > 0) {
-                ant.up_time();
-                if (ant.get_age() % stage_time == 0 && ant.get_age())
-                    ant.upd_role();
-            }
+                ant.move();
+                if (ant.get_hp() > 0) {
+                    ant.up_time();
+                    if (ant.get_age() % stage_time == 0 && ant.get_age()) ant.upd_role();
+                }
             }
 
             //Enemy's update
@@ -155,16 +156,16 @@ int main() {
 
         std::stringstream stats;
         stats << "Ants: " << anthill.colony.size() << "\n";
-        stats << "Soldiers: " << anthill.get_soldier_count() << "\n";
-        stats << "Builders: " << anthill.get_builder_count() << "\n";
-        stats << "Cleaners: " << anthill.get_cleaner_count() << "\n";
-        stats << "Sitters: " << anthill.get_sitter_count() << "\n";
-        stats << "Babies: " << anthill.get_baby_count() << "\n";
-        stats << "Shepherds: " << anthill.get_shepherd_count() << "\n";
-        stats << "Collectors: " << anthill.get_collector_count() << "\n";
         stats << "Food: " << anthill.get_food_count() << "\n";
         stats << "Sticks: " << anthill.get_stick_count() << "\n";
-
+        stats << "---\n";
+        stats << "Babies: " << anthill.get_baby_count() << "\n";
+        stats << "Sitters: " << anthill.get_sitter_count() << "\n";
+        stats << "Collectors: " << anthill.get_collector_count() << "\n";
+        stats << "Builders: " << anthill.get_builder_count() << "\n";
+        stats << "Soldiers: " << anthill.get_soldier_count() << "\n";
+        stats << "Shepherds: " << anthill.get_shepherd_count() << "\n";
+        stats << "Cleaners: " << anthill.get_cleaner_count() << "\n";
         statsText.setString(stats.str());
 
         while (window.pollEvent(event)) if (event.type == Event::Closed) window.close();

@@ -15,9 +15,8 @@ const int window_weidth = 1000;
 const int window_high = 1000;
 
 //Timer settings
-const int update_time = 20; //ticks per ms
-const int upd_time_per_sec = (int)1000 / update_time; //ticks per sec
-const int stage_time = 10 * upd_time_per_sec;
+const int scene_update_time = 20; //ticks per ms
+const int stage_time = 2 * (int)(1000/scene_update_time);
 
 //Ant settings
 const int ant_size = 6;
