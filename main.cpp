@@ -1,3 +1,4 @@
+#include "fix_for_macos.hpp"
 #include <SFML/Audio.hpp>
 #include <sstream>
 #include "Ant.h"
@@ -63,18 +64,19 @@ int main() {
 
             //Spawn entities
             if (ticks % enemy_wave_period == 0) {
-                for (int i = 0; i < 10; ++i) anthill.born_baby();
+                for (int i = 0; i < 5; ++i) anthill.born_baby();
                 //for (int i = 0; i < 5; ++i) raid.emplace_back(10, 10);
             }
             
             for (auto& ant : anthill.colony) {
+
+                ant.look_around(resources);
                 ant.move();
                 if (ant.get_hp() > 0) {
                     ant.up_time();
-                    if (ant.get_age() % stage_time == 0 && ant.get_age()) ant.upd_role();
-                }
-                else {
-                    ant.set_invisible();
+                    if (ant.get_age() % stage_time == 0 && ant.get_age())
+                        ant.upd_role();
+
                 }
             }
 
@@ -85,25 +87,39 @@ int main() {
             }
 
             for (auto& ant : anthill.colony) {
-                if (!ant.has_valid_target() && ant.get_inventory() == no_res) {
-                    for (auto& res : resources) {
-                        if (ant.get_pos().distance(res.get_posit()) < ant_size * 3.0f && ant.pick(res)) {
-                            ant.set_inventory(res.get_type());
-                            res.set_invisible();
-                            ant.set_target(Position(window_weidth / 2, window_high / 2));
-                            break;
-                        }
-                    }
-                }
 
-                // �������� �������
+            //     if (!ant.has_valid_target() && ant.get_inventory() == no_res) {
+            //         for (auto& res : resources) {
+            //             if (res.is_visible()) {
+            //                 if ((res.get_type() == food && ant.get_role() == 2) ||
+            //                     (res.get_type() == stick && ant.get_role() == 3)) {
+            //                     ant.set_target(res.get_posit());
+            //                     break;
+            //                 }
+            //             }
+            //         }
+            //     }
+
+                // for (auto& res : resources) {
+                //     if (res.is_visible() && ant.get_inventory() == no_res) {
+                //         if (ant.get_pos().distance(res.get_posit()) < ant_size * 1.5f && ant.pick(res)) {
+                //             ant.set_inventory(res.get_type());
+                //             res.set_invisible();
+                //             ant.set_target(Position(window_weidth / 2, window_high / 2));
+                //             break;
+                //         }
+                //     }
+                // }
+
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+
                 if (ant.get_inventory() != no_res && ant.get_pos().in_anthill()) {
                     anthill.drop(ant);
-                    ant.clear_target();
+
                 }
             }
 
-            // ������������ ��������
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             for (size_t i = 0; i < anthill.colony.size(); i++) {
                 for (size_t j = i + 1; j < anthill.colony.size(); j++) {
                     Vector2f pos1 = anthill.colony[i].get_shape().getPosition();
@@ -176,7 +192,12 @@ int main() {
         window.clear(Color(102, 204, 0));
         window.draw(circle);
         for (const auto& res : resources) if (res.is_visible()) window.draw(res.get_shape());
-        for (auto& ant : anthill.colony) if (ant.is_visible()) window.draw(ant.get_shape());
+        // for (auto& ant : anthill.colony) if (ant.is_visible()) window.draw(ant.get_shape());
+        for (const auto& ant : anthill.colony) {
+            window.draw(ant.get_vision_circle());
+            if (ant.is_visible())
+                window.draw(ant.get_shape());
+        }
         for (auto& enemy : raid) if (enemy.is_visible()) window.draw(enemy.get_shape());
         window.draw(statsText);
         window.display();
