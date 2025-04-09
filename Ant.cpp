@@ -67,6 +67,7 @@ void Ant::move() {
         return;
     }
 
+
     if (age % velocity_changing_period == 0)
         set_velocity(randomise_velocity() * ant_speed, randomise_velocity() * ant_speed);
     if (pos.x + velocity.x < 0 || pos.x + velocity.x > window_weidth) velocity.x = -velocity.x;
@@ -74,7 +75,7 @@ void Ant::move() {
 
     pos.x += velocity.x;
     pos.y += velocity.y;
-    shape.setPosition(pos.x, pos.y);
+
 }
 
 
@@ -111,7 +112,9 @@ CircleShape Ant::get_vision_circle() const {
 
 
 bool Ant::pick(Resource& res) {
+
     if (!res.is_visible() /*|| role_id!=2 || role_id!=3*/) return 0;
+
     if ((res.get_type() == food && role_id == 3) || (res.get_type() == stick && role_id == 2) || ((res.get_type() == body || res.get_type() == trash) && role_id == 6)) return 1;
 }
 

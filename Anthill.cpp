@@ -1,41 +1,38 @@
 #include "Anthill.h"
 
-Anthill::Anthill():lvl(1), rad(start_hill_size) {
-    current_ants = ants - 9;
-    food_count = food_limit - 25000;
-    stick_count = stick_limit - 500;
-    place_for_ants = ants;
-    place_for_materials = stick_limit;
-    place_for_food = food_limit;
-    count_soldiers = soldiers;
-    count_builders = builders;
-    count_cleaners = cleaners;
-    count_sitters = sitters;
-    count_babies = babies;
-    count_shepherds = shepherds;
-    count_collectors = collectors;
+Anthill::Anthill():lvl(1), rad(start_radius) {
+    food_count = start_food_limit / 2;
+    stick_count = start_stick_limit / 2;
+    default_count();
+    max_ants = 100/*start_max_ant_count*/;
+    max_sticks = start_stick_limit;
+    max_food = start_food_limit;
 }
 
 void Anthill::up_lvl() {
-    if (stick_count == place_for_materials) {
+    if (stick_count == max_sticks) {
         lvl++;
-        place_for_ants += 10;
-        place_for_food += 25000;
-        place_for_materials += 500;
+        max_ants *= 1.2;
+        max_food *= 1.2;
+        max_sticks *= 1.2;
         rad *= 1.2;
     }
 }
 
-void Anthill::down_lvl() { //муравьи из колонии должны помереть
+void Anthill::down_lvl() {
     if (stick_count == 0) {
         lvl--;
-        place_for_ants -= 10;
-        current_ants -= 10;
-        place_for_food -= 25000;
-        food_count -= 25000 + rand() % 5000;
-        place_for_materials -= 500;
         rad *= 0.8;
-        //colony.erase(colony.begin(), colony.begin() + 10);
+        max_ants = ants;
+        max_food *= 0.8;
+        max_sticks *= 0.8;
+        if (food_count > max_food) food_count = max_food;
+        if (stick_count > max_sticks) stick_count = max_sticks;
+        /*int killed_role = 0;
+        while (ants > max_ants) {
+            for (auto& ant : colony) if (ant.get_role() == killed_role) { ant.set_hp(0); }
+            killed_role++;
+        }*/
     }
 }
 
@@ -46,21 +43,21 @@ void Anthill::bring_res(res_type type) {
 
 void Anthill::born_baby() {
     int x, y;
-    if (current_ants != place_for_ants) {
+    if (ants <= max_ants) {
         do {
             x = rand() % window_weidth;
             y = rand() % window_high;
-        } while ((x < window_weidth / 2 - start_hill_size / 2) ||
-            (x > window_weidth / 2 + start_hill_size / 2) ||
-            (y < window_high / 2 - start_hill_size / 2) ||
-            (y > window_high / 2 + start_hill_size / 2));
+        } while ((x < window_weidth / 2 - start_radius / 2) || (x > window_weidth / 2 + start_radius / 2) ||
+            (y < window_high / 2 - start_radius / 2) || (y > window_high / 2 + start_radius / 2));
         colony.emplace_back(x, y);
     }
 }
 
 void Anthill::drop(Ant& ant)
 {
+
     ant.set_target(Position(window_weidth / 2, window_high / 2));
+
     if (ant.get_inventory() != no_res && ant.check_pos()) {
         if (ant.get_inventory() == food) food_count ++;
         if (ant.get_inventory() == stick) stick_count++;
@@ -69,9 +66,22 @@ void Anthill::drop(Ant& ant)
 
 }
 
-//void Anthill::upd_stats()
-//{
-//    for (auto& ant : colony) {
-//        if (ant.get_role()==1) 
-//    }
-//}
+void Anthill::upd_ant_stats()
+{
+    default_count();
+    for (auto& ant : colony) {
+        if (food_count == 0) ant.set_hp(0);
+        else if (ant.get_hp() != 0) {
+            ants++;
+            switch (ant.get_role()) {
+            case 0:babies++; break;
+            case 1:sitters++; break;
+            case 2:collectors++; break;
+            case 3:builders++; break;
+            case 4:soldiers++; break;
+            case 5:shepherds++; break;
+            case 6:cleaners++; break;
+            }
+        }
+    }
+}
