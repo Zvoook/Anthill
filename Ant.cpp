@@ -64,11 +64,12 @@ void Ant::move() {
         pos.x += velocity.x;
         pos.y += velocity.y;
     }
+
     shape.setPosition(pos.x, pos.y);
 }
 
 bool Ant::pick(Resource& res) {
-    if (!res.is_visible() || role_id!=2 || role_id!=3) return 0;
+    if (!res.is_visible() /*|| role_id!=2 || role_id!=3*/) return 0;
     if ((res.get_type() == food && role_id == 3) || (res.get_type() == stick && role_id == 2) || ((res.get_type() == body || res.get_type() == trash) && role_id == 6)) return 1;
 }
 

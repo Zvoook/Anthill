@@ -83,18 +83,6 @@ int main() {
             for (auto& ant : anthill.colony) {
                 if (!ant.has_valid_target() && ant.get_inventory() == no_res) {
                     for (auto& res : resources) {
-                        if (res.is_visible()) {
-                            if ((res.get_type() == food && ant.get_role() == 2) ||
-                                (res.get_type() == stick && ant.get_role() == 3)) {
-                                ant.set_target(res.get_posit());
-                                break;
-                            }
-                        }
-                    }
-                }
-
-                for (auto& res : resources) {
-                    if (res.is_visible() && ant.get_inventory() == no_res) {
                         if (ant.get_pos().distance(res.get_posit()) < ant_size * 3.0f && ant.pick(res)) {
                             ant.set_inventory(res.get_type());
                             res.set_invisible();
