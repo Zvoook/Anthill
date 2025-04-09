@@ -1,19 +1,19 @@
 #include "Anthill.h"
 
 Anthill::Anthill():lvl(1), rad(start_hill_size) {
-    current_ants = start_ant_count - 9;
-    food_count = lvl_1_place_for_food - 25000;
-    stick_count = lvl_1_place_for_materials - 500;
-    place_for_ants = start_ant_count;
-    place_for_materials = lvl_1_place_for_materials;
-    place_for_food = lvl_1_place_for_food;
-    count_soldiers = lvl_1_count_soldiers;
-    count_builders = lvl_1_count_builders;
-    count_cleaners = lvl_1_count_cleaners;
-    count_sitters = lvl_1_count_sitters;
-    count_babies = lvl_1_count_babies;
-    count_shepherds = lvl_1_count_shepherds;
-    count_collectors = lvl_1_count_collectors;
+    current_ants = ants - 9;
+    food_count = food_limit - 25000;
+    stick_count = stick_limit - 500;
+    place_for_ants = ants;
+    place_for_materials = stick_limit;
+    place_for_food = food_limit;
+    count_soldiers = soldiers;
+    count_builders = builders;
+    count_cleaners = cleaners;
+    count_sitters = sitters;
+    count_babies = babies;
+    count_shepherds = shepherds;
+    count_collectors = collectors;
 }
 
 void Anthill::up_lvl() {
@@ -39,12 +39,9 @@ void Anthill::down_lvl() { //муравьи из колонии должны п�
     }
 }
 
-void Anthill::feeding() { //потребление еды муравьями
-    food_count -= current_ants;
-}
-
 void Anthill::bring_res(res_type type) {
-
+    if (type == food) food_count += rand() % 50 + 100;
+    else if (type == stick) stick_count += rand() % 50 + 100;
 }
 
 void Anthill::born_baby() {
@@ -60,3 +57,10 @@ void Anthill::born_baby() {
         colony.emplace_back(x, y);
     }
 }
+
+//void Anthill::upd_stats()
+//{
+//    for (auto& ant : colony) {
+//        if (ant.get_role()==1) 
+//    }
+//}

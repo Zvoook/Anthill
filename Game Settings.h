@@ -10,7 +10,6 @@
 using namespace std;
 using namespace sf;
 
-
 //Window settings
 const int window_weidth = 1000;
 const int window_high = 1000;
@@ -27,17 +26,17 @@ const int velocity_changing_period = 10;
 const int life_stages = 5;
 
 //Anthill settings
-const int start_ant_count = 30;
-const int lvl_1_place_for_food = 50000;
-const int lvl_1_place_for_materials = 1000;
-const int lvl_1_count_soldiers = 3;
-const int lvl_1_count_builders = 3;
-const int lvl_1_count_cleaners = 3;
-const int lvl_1_count_sitters = 3;
-const int lvl_1_count_babies = 3;
-const int lvl_1_count_shepherds = 3;
-const int lvl_1_count_collectors = 3;
-const int lvl_1_radius = 50.f;
+const int ants = 30;
+const int food_limit = 50000;
+const int stick_limit = 1000;
+const int soldiers = 3;
+const int builders = 3;
+const int cleaners = 3;
+const int sitters = 3;
+const int babies = 3;
+const int shepherds = 3;
+const int collectors = 3;
+const int start_radius = 50.f;
 
 //Resource settings
 const int count_of_angles_in_form = 30;
