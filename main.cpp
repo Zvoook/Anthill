@@ -13,6 +13,7 @@ int main() {
     std::vector<Resource> resources;
     int x = 0, y = 0, ticks = 0;
 
+    //Resource spawn
     Clock time;
     float last_time = 0;
     for (int i = 0; i <= stick_claster_count + food_cluster_count; ++i) {
@@ -26,22 +27,25 @@ int main() {
         else
             create_cluster(resources, x, y, stick);
     }
-
+     //Anthil setting
     CircleShape circle(start_hill_size);
     circle.setPosition(Vector2f(window_weidth / 2 - start_hill_size, window_high / 2 - start_hill_size));
     circle.setFillColor(Color(115, 66, 34));
 
+    //Window setting
     RenderWindow window(VideoMode(window_weidth, window_high), L"Colony Simulator");
     Image icon;
     if (!icon.loadFromFile("anthill.png")) return -1;
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
+    //MUSIC
     /*Music backgroundMusic;
     if (!backgroundMusic.openFromFile("Voroniny.ogg")) return -1;
     backgroundMusic.setLoop(true);
     backgroundMusic.setVolume(100);
     backgroundMusic.play();*/
 
+    //Events and font
     Event event;
     Font font;
     if (!font.loadFromFile("Arial.ttf")) return -1;
@@ -54,8 +58,29 @@ int main() {
             ticks++;
             last_time = time.getElapsedTime().asMilliseconds();
 
+            //Spawn entities
+            if (ticks % enemy_wave_period == 0) {
+                for (int i = 0; i < 10; ++i) anthill.born_baby();
+                //for (int i = 0; i < 5; ++i) raid.emplace_back(10, 10);
+            }
+            //anthill.feeding();
+
             for (auto& ant : anthill.colony) {
-                // Назначаем цель
+            ant.move();
+            if (ant.get_hp() > 0) {
+                ant.up_time();
+                if (ant.get_age() % stage_time == 0 && ant.get_age())
+                    ant.upd_role();
+            }
+            }
+
+            //Enemy's update
+            for (auto& enemy : raid) {
+                enemy.move();
+                if (enemy.get_hp() > 0) enemy.aged();
+            }
+
+            for (auto& ant : anthill.colony) {
                 if (!ant.has_valid_target() && ant.get_inventory() == no_res) {
                     for (auto& res : resources) {
                         if (res.is_visible()) {
@@ -68,7 +93,6 @@ int main() {
                     }
                 }
 
-                // Подбор ресурса
                 for (auto& res : resources) {
                     if (res.is_visible() && ant.get_inventory() == no_res) {
                         if (ant.get_pos().distance(res.get_posit()) < ant_size * 1.5f && ant.pick(res)) {
@@ -82,16 +106,8 @@ int main() {
 
                 // Доставка ресурса
                 if (ant.get_inventory() != no_res && ant.get_pos().in_anthill()) {
-                    ant.drop();
+                    anthill.drop(ant);
                     ant.clear_target();
-                }
-
-                ant.move();
-                anthill.feeding();
-                if (ant.get_hp() > 0) {
-                    ant.up_time();
-                    if (ant.get_age() % stage_time == 0 && ant.get_age())
-                        ant.upd_role();
                 }
             }
 
@@ -118,18 +134,6 @@ int main() {
                         shape1.setPosition(pos1.x + offsetX, pos1.y + offsetY);
                         shape2.setPosition(pos2.x - offsetX, pos2.y - offsetY);
                     }
-                }
-            }
-
-            if (ticks % enemy_wave_period == 0) {
-                for (int i = 0; i < 10; ++i) anthill.born_baby();
-                //for (int i = 0; i < 5; ++i) raid.emplace_back(10, 10);
-            }
-
-            for (auto& enemy : raid) {
-                enemy.move();
-                if (enemy.get_hp() > 0) {
-                    enemy.aged();
                 }
             }
 

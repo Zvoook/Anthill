@@ -12,6 +12,7 @@ public:
     void bring_res(res_type type);
     void born_baby();
     void upd_stats() {};
+    void drop(Ant& ant);
 
     int get_soldier_count() const { return count_soldiers; }
     int get_builder_count() const { return count_builders; }

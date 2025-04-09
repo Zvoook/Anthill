@@ -73,15 +73,6 @@ bool Ant::pick(Resource& res) {
     if ((res.get_type() == food && role == new Collector) || (res.get_type() == stick && role == new Builder) || ((res.get_type() == body || res.get_type() == trash) && role != new Cleaner)) return 1;
 }
 
-void Ant::drop()
-{
-    int res_count = 0;
-    if (inventory != no_res && pos.in_anthill()) {
-        res_count += 1;
-        set_inventory(no_res);
-    }
-}
-
 void Ant::upd_color()
 {
     switch (role_id) {

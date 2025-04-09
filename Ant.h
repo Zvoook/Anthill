@@ -26,10 +26,10 @@ public:
         shape.setPosition(x, y);
         visible = true;
     }
+    bool check_pos() { if (pos.in_anthill()) return 1; }
     void upd_role();
     void move();
     bool pick(Resource& res);
-    void drop();
     //void work() { role->work(*this); }
     void upd_color();
     void set_velocity(float vx, float vy) { velocity.x = vx; velocity.y = vy; }
