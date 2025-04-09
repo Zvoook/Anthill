@@ -25,8 +25,11 @@ public:
     int get_food_count() const { return food_count; }
     int get_stick_count() const { return stick_count; }
     int get_ant_count() const { return ants; }
+    static void add_food() { food_count++; } //пока так
+    static void add_stick() { stick_count++; } //тож пока так
 private:
     float rad;
-    int lvl, food_count, stick_count, max_food, max_sticks, max_ants;
+    int lvl, max_food, max_sticks, max_ants;
+    static int food_count, stick_count;
     int ants, babies, sitters, collectors, builders, soldiers, shepherds, cleaners;
 };

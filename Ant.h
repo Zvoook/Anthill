@@ -14,11 +14,12 @@ private:
     int role_id;
     CircleShape shape;
     bool has_target;
+    bool going_home;
     res_type inventory;
     bool visible;
     float radius_vision;
 public:
-    Ant(float x = 0, float y = 0) :pos(x, y), role_id(0), age(0), hp(1), velocity(0, 0), target(0, 0), has_target(false), inventory(no_res), radius_vision(30.f) {
+    Ant(float x = 0, float y = 0) :pos(x, y), role_id(0), age(0), hp(1), velocity(0, 0), target(0, 0), has_target(false), going_home(false), inventory(no_res), radius_vision(80.f) {
         max_hp = rand() % 201 + 300;
         role = roles[role_id];
         hp = max_hp;
@@ -27,7 +28,7 @@ public:
         shape.setPosition(x, y);
         visible = true;
     }
-    bool check_pos() { if (pos.in_anthill()) return 1; }
+    bool check_pos() { if (pos.in_anthill()) return 1; return 0; }
     CircleShape get_vision_circle() const;
     void upd_role();
     void move();

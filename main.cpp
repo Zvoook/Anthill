@@ -1,3 +1,4 @@
+#include "fix_for_macos.hpp"
 #include <SFML/Audio.hpp>
 #include <sstream>
 #include "Ant.h"
@@ -85,7 +86,7 @@ int main() {
                 if (enemy.get_hp() > 0) enemy.aged();
             }
 
-            for (auto& ant : anthill.colony) {
+            // for (auto& ant : anthill.colony) {
 
             //     if (!ant.has_valid_target() && ant.get_inventory() == no_res) {
             //         for (auto& res : resources) {
@@ -112,11 +113,8 @@ int main() {
 
                 // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-                if (ant.get_inventory() != no_res && ant.get_pos().in_anthill()) {
-                    anthill.drop(ant);
 
-                }
-            }
+            // }
 
             // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             // for (size_t i = 0; i < anthill.colony.size(); i++) {

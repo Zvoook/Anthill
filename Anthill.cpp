@@ -1,5 +1,9 @@
 #include "Anthill.h"
 
+int Anthill::food_count = 0;
+int Anthill::stick_count = 0;
+
+
 Anthill::Anthill():lvl(1), rad(start_radius) {
     food_count = start_food_limit / 2;
     stick_count = start_stick_limit / 2;
@@ -55,7 +59,6 @@ void Anthill::born_baby() {
 
 void Anthill::drop(Ant& ant)
 {
-    ant.set_target(Position(window_weidth / 2, window_high / 2));
     if (ant.get_inventory() != no_res && ant.check_pos()) {
         if (ant.get_inventory() == food) food_count ++;
         if (ant.get_inventory() == stick) stick_count++;
