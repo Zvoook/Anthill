@@ -11,5 +11,4 @@ public:
         float dy = y - window_high / 2;
         return (dx * dx + dy * dy) < (start_radius * start_radius);
     }
-    bool operator==(const Position& last) { return x == last.x && y == last.y; }
 };
