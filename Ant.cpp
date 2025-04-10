@@ -1,7 +1,8 @@
 #include "Ant.h"
+#include "Anthill.h"
 
 void Ant::upd_role() {
-    switch (role_id) {
+    switch (role_id) { //потом поменять на role_id
     case 0: { role = roles[role_id++]; upd_color(); return; }
     case 1: {
         bool n = rand() % 2;
@@ -46,39 +47,93 @@ void Ant::move() {
         float dx = target.x - pos.x;
         float dy = target.y - pos.y;
         float dist = sqrt(dx * dx + dy * dy);
-        if (dist > 1.5f) {
+
+        if (dist > 5.f) {
             velocity.x = (dx / dist) * ant_speed;
             velocity.y = (dy / dist) * ant_speed;
         }
         else {
+            pos.x = target.x;
+            pos.y = target.y;
             velocity.x = 0;
             velocity.y = 0;
+
+
+            if (inventory != no_res && !pos.in_anthill()) {
+                set_target(Position(window_weidth / 2, window_high / 2));
+                going_home = true;
+            }
+            else if (inventory != no_res && pos.in_anthill()) {
+
+                if (inventory == food) Anthill::add_food();
+                else if (inventory == stick) Anthill::add_stick();
+
+                inventory = no_res;
+                clear_target();
+                going_home = false;
+            }
+            else {
+                has_target = false;
+            }
         }
+
         pos.x += velocity.x;
         pos.y += velocity.y;
+        shape.setPosition(pos.x, pos.y);
+        return;
     }
-    else {
-        if (age % velocity_changing_period == 0)  set_velocity(randomise_velocity() * ant_speed, randomise_velocity() * ant_speed);
-        if (pos.x + velocity.x < 0 || pos.x + velocity.x > window_weidth) velocity.x = -velocity.x;
-        if (pos.y + velocity.y < 0 || pos.y + velocity.y > window_high) velocity.y = -velocity.y;
-        pos.x += velocity.x;
-        pos.y += velocity.y;
-    }
+
+    if (age % velocity_changing_period == 0)
+        set_velocity(randomise_velocity() * ant_speed, randomise_velocity() * ant_speed);
+
+    if (pos.x + velocity.x < 0 || pos.x + velocity.x > window_weidth)
+        velocity.x = -velocity.x;
+
+    if (pos.y + velocity.y < 0 || pos.y + velocity.y > window_high)
+        velocity.y = -velocity.y;
+
+    pos.x += velocity.x;
+    pos.y += velocity.y;
     shape.setPosition(pos.x, pos.y);
 }
 
-bool Ant::pick(Resource& res) {
-    if (!res.is_visible()) return 0;
-    if ((res.get_type() == food && role == new Collector) || (res.get_type() == stick && role == new Builder) || ((res.get_type() == body || res.get_type() == trash) && role != new Cleaner)) return 1;
+
+
+void Ant::look_around(std::vector<Resource>& resources) {
+    if (has_target || inventory != no_res || going_home) return;
+    for (auto& res : resources) {
+        if (!res.is_visible()) {
+            continue;
+        }
+        float dx = res.get_posit().x - pos.x;
+        float dy = res.get_posit().y - pos.y;
+        float dist = std::sqrt(dx * dx + dy * dy);
+        if (dist < radius_vision) {
+            if ((res.get_type() == food && role_id == 2) || (res.get_type() == stick && role_id == 3)) {// добавить трупы и мусор
+                set_inventory(res.get_type());
+                set_target(res.get_posit());
+                res.set_invisible();
+                break;
+            }
+        }
+    }
+
 }
 
-void Ant::drop()
-{
-    int res_count = 0;
-    if (inventory != no_res && pos.in_anthill()) {
-        res_count += 1;
-        set_inventory(no_res);
-    }
+CircleShape Ant::get_vision_circle() const {
+    CircleShape vision(radius_vision);
+    vision.setOrigin(radius_vision, radius_vision); // центр круга
+    vision.setPosition(pos.x, pos.y);
+    vision.setFillColor(sf::Color(255, 255, 255, 20));  // белый, почти прозрачный
+    vision.setOutlineColor(sf::Color(0, 0, 255, 20)); // полупрозрачный контур
+    vision.setOutlineThickness(1.f);
+    return vision;
+}
+
+
+bool Ant::pick(Resource& res) {
+    if (!res.is_visible() /*|| role_id!=2 || role_id!=3*/) return 0;
+    if ((res.get_type() == food && role_id == 3) || (res.get_type() == stick && role_id == 2) || ((res.get_type() == body || res.get_type() == trash) && role_id == 6)) return 1;
 }
 
 void Ant::upd_color()
