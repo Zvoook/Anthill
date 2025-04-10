@@ -13,7 +13,7 @@ public:
     void born_baby();
     void drop(Ant& ant);
     void upd_ant_stats();
-    void default_count() {ants = soldiers = builders = cleaners = cleaners = sitters = babies = shepherds = collectors = 0;}
+    void default_count() {ants = soldiers = builders = cleaners = sitters = babies = shepherds = collectors = 0;}
 
     int get_soldier_count() const { return soldiers; }
     int get_builder_count() const { return builders; }

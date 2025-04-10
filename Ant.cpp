@@ -6,12 +6,14 @@ void Ant::upd_role() {
     switch (role_id) { //потом поменять на role_id
     case 0: { role = roles[role_id++]; upd_color(); return; }
     case 1: {
-        bool n = rand() % 2;
-        if (n == false) { role = roles[role_id++]; }
-        else {
-            role_id = 3;
-            role = roles[role_id];
-        }
+        role_id = rand() % 2 + 2;
+        //bool n = rand() % 2;
+        // if (n == false) { role = roles[role_id++]; }
+        // else {
+        //     role_id = 3;
+        //     role = roles[role_id];
+        // }
+        role = roles[role_id];
         upd_color();
         return;
     }

@@ -64,7 +64,7 @@ int main() {
 
             //Spawn entities
             if (ticks % enemy_wave_period == 0) {
-                for (int i = 0; i < 5; ++i) anthill.born_baby();
+                for (int i = 0; i < 1; ++i) anthill.born_baby();
                 //for (int i = 0; i < 5; ++i) raid.emplace_back(10, 10);
             }
             
@@ -85,36 +85,6 @@ int main() {
                 enemy.move();
                 if (enemy.get_hp() > 0) enemy.aged();
             }
-
-            // for (auto& ant : anthill.colony) {
-
-            //     if (!ant.has_valid_target() && ant.get_inventory() == no_res) {
-            //         for (auto& res : resources) {
-            //             if (res.is_visible()) {
-            //                 if ((res.get_type() == food && ant.get_role() == 2) ||
-            //                     (res.get_type() == stick && ant.get_role() == 3)) {
-            //                     ant.set_target(res.get_posit());
-            //                     break;
-            //                 }
-            //             }
-            //         }
-            //     }
-
-                // for (auto& res : resources) {
-                //     if (res.is_visible() && ant.get_inventory() == no_res) {
-                //         if (ant.get_pos().distance(res.get_posit()) < ant_size * 1.5f && ant.pick(res)) {
-                //             ant.set_inventory(res.get_type());
-                //             res.set_invisible();
-                //             ant.set_target(Position(window_weidth / 2, window_high / 2));
-                //             break;
-                //         }
-                //     }
-                // }
-
-                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-
-
-            // }
 
             // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             // for (size_t i = 0; i < anthill.colony.size(); i++) {
@@ -169,20 +139,33 @@ int main() {
                 }
             }
         }
+        std::vector<Text> statsLines;  // Вместо одного statsText
 
-        std::stringstream stats;
-        stats << "Ants: " << anthill.get_ant_count() << "\n";
-        stats << "Food: " << anthill.get_food_count() << "\n";
-        stats << "Sticks: " << anthill.get_stick_count() << "\n";
-        stats << "---------------\n";
-        stats << "Babies: " << anthill.get_baby_count() << "\n";
-        stats << "Sitters: " << anthill.get_sitter_count() << "\n";
-        stats << "Collectors: " << anthill.get_collector_count() << "\n";
-        stats << "Builders: " << anthill.get_builder_count() << "\n";
-        stats << "Soldiers: " << anthill.get_soldier_count() << "\n";
-        stats << "Shepherds: " << anthill.get_shepherd_count() << "\n";
-        stats << "Cleaners: " << anthill.get_cleaner_count() << "\n";
-        statsText.setString(stats.str());
+
+        statsLines.clear();  // Обновляем каждый тик
+        int line = 0;
+        auto makeText = [&](const std::string& text, sf::Color color) {
+            sf::Text t(text, font, 20);
+            t.setFillColor(color);
+            t.setPosition(10, 10 + line * 24);
+            line++;
+            statsLines.push_back(t);
+        };
+
+        // Теперь добавляем строки с цветами:
+        makeText("Ants: " + std::to_string(anthill.get_ant_count()), Color::White);
+        makeText("Food: " + std::to_string(anthill.get_food_count()), Color(0, 255, 0));
+        makeText("Sticks: " + std::to_string(anthill.get_stick_count()), Color(139, 69, 19)); // Коричневый
+
+        makeText("---------------", sf::Color(200, 200, 200));
+        makeText("Babies: " + std::to_string(anthill.get_baby_count()), Color::White);
+        makeText("Sitters: " + std::to_string(anthill.get_sitter_count()), Color(255, 102, 178));
+        makeText("Collectors: " + std::to_string(anthill.get_collector_count()), Color(255, 128, 0));
+        makeText("Builders: " + std::to_string(anthill.get_builder_count()), Color::Yellow);
+        makeText("Soldiers: " + std::to_string(anthill.get_soldier_count()), sf::Color::Black);
+        makeText("Shepherds: " + std::to_string(anthill.get_shepherd_count()), sf::Color(0, 0, 204));
+        makeText("Cleaners: " + std::to_string(anthill.get_cleaner_count()), sf::Color(102, 51, 0));
+
 
         while (window.pollEvent(event)) if (event.type == Event::Closed) window.close();
 
@@ -197,7 +180,10 @@ int main() {
             }
         }
         for (auto& enemy : raid) if (enemy.is_visible()) window.draw(enemy.get_shape());
-        window.draw(statsText);
+        for (const auto& text : statsLines) {
+            window.draw(text);
+        }
+
         window.display();
     }
     return 0;
