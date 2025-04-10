@@ -1,44 +1,33 @@
 #include "Anthill.h"
+int Anthill::food_count = 0;
+int Anthill::stick_count = 0;
 
-Anthill::Anthill():lvl(1), rad(start_radius) {
+Anthill::Anthill() :lvl(1), rad(start_radius) {
     food_count = start_food_limit / 2;
     stick_count = start_stick_limit / 2;
     default_count();
-    max_ants = 100/*start_max_ant_count*/;
-    max_sticks = start_stick_limit;
+    max_ants = start_max_ant_count;
+    sticks_for_upd = start_stick_limit;
     max_food = start_food_limit;
 }
 
 void Anthill::up_lvl() {
-    if (stick_count == max_sticks) {
         lvl++;
+        stick_count /= 2;
         max_ants *= 1.2;
         max_food *= 1.2;
-        max_sticks *= 1.2;
+        sticks_for_upd *= 1.2;
         rad *= 1.2;
-    }
 }
 
 void Anthill::down_lvl() {
-    if (stick_count == 0) {
         lvl--;
         rad *= 0.8;
         max_ants = ants;
         max_food *= 0.8;
-        max_sticks *= 0.8;
+        sticks_for_upd *= 0.8;
         if (food_count > max_food) food_count = max_food;
-        if (stick_count > max_sticks) stick_count = max_sticks;
-        /*int killed_role = 0;
-        while (ants > max_ants) {
-            for (auto& ant : colony) if (ant.get_role() == killed_role) { ant.set_hp(0); }
-            killed_role++;
-        }*/
-    }
-}
-
-void Anthill::bring_res(res_type type) {
-    if (type == food) food_count += rand() % 50 + 100;
-    else if (type == stick) stick_count += rand() % 50 + 100;
+        if (stick_count > sticks_for_upd) stick_count = sticks_for_upd;
 }
 
 void Anthill::born_baby() {
@@ -53,23 +42,11 @@ void Anthill::born_baby() {
     }
 }
 
-void Anthill::drop(Ant& ant)
-{
-    ant.set_target(Position(window_weidth / 2, window_high / 2));
-    if (ant.get_inventory() != no_res && ant.check_pos()) {
-        if (ant.get_inventory() == food) food_count ++;
-        if (ant.get_inventory() == stick) stick_count++;
-        ant.set_inventory(no_res);
-    }
-
-}
-
 void Anthill::upd_ant_stats()
 {
     default_count();
     for (auto& ant : colony) {
-        if (food_count == 0) ant.set_hp(0);
-        else if (ant.get_hp() != 0) {
+        if (ant.get_hp() != 0) {
             ants++;
             switch (ant.get_role()) {
             case 0:babies++; break;
@@ -82,4 +59,17 @@ void Anthill::upd_ant_stats()
             }
         }
     }
+}
+
+void Anthill::upd_anthill(int ticks)
+{
+    upd_ant_stats();
+    if (stick_count == sticks_for_upd) up_lvl();
+    else if (stick_count == 0) down_lvl();
+    //if (ticks % feeding_period == 0) feeding();
+    if (food_count > food_for_born && ticks % min_born_period == 0) {
+        born_baby();
+        food_count -= food_for_born;
+    }
+    //colony.erase(std::remove_if(vec.begin(), vec.end(), [](int n) { return n % 2 == 0; }), vec.end()); // Удаляет все четные числа
 }

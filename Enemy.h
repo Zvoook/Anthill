@@ -21,7 +21,7 @@ public:
         shape.setPosition(x, y);
         visible = true;
     }
-    void move();
+    //void move();
     void set_velocity(float vx, float vy) { velocity.x = vx; velocity.y = vy; }
     void aged() { age++; }
     bool is_visible() const { return visible; }

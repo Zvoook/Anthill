@@ -5,15 +5,16 @@ class Anthill {
 public:
     vector<Ant> colony;
     Anthill();
-    ~Anthill()=default;
+    ~Anthill() = default;
     void up_lvl();
     void down_lvl();
-    void feeding() { food_count -= ants;}
-    void bring_res(res_type type);
+    void feeding() { food_count -= ants; }
     void born_baby();
-    void drop(Ant& ant);
     void upd_ant_stats();
-    void default_count() {ants = soldiers = builders = cleaners = cleaners = sitters = babies = shepherds = collectors = 0;}
+    void upd_anthill(int ticks);
+    void default_count() { ants = soldiers = builders = cleaners = sitters = babies = shepherds = collectors = 0; }
+    static void add_food() { food_count++; } //пока так
+    static void add_stick() { stick_count++; } //тож пока так
 
     int get_soldier_count() const { return soldiers; }
     int get_builder_count() const { return builders; }
@@ -25,8 +26,10 @@ public:
     int get_food_count() const { return food_count; }
     int get_stick_count() const { return stick_count; }
     int get_ant_count() const { return ants; }
+
 private:
     float rad;
-    int lvl, food_count, stick_count, max_food, max_sticks, max_ants;
+    int lvl, max_food, sticks_for_upd, max_ants;
+    static int food_count, stick_count;
     int ants, babies, sitters, collectors, builders, soldiers, shepherds, cleaners;
 };

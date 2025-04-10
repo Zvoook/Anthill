@@ -7,7 +7,7 @@ private:
     res_size size;
     Position pos;
     CircleShape shape;
-
+    int quantity;
     int id, ants_for_collecting;
     bool visible = true;
 public:
@@ -18,7 +18,12 @@ public:
         shape.setRadius(small_resource_size);
         shape.setFillColor(Color(0, 153, 0));
         shape.setPosition(pos.x, pos.y);
+        if (s == small) quantity = 1;
+        else if (s == medium) quantity = 3;
+        else if (s == big) quantity = 7;
     };
+    int get_quantity() const { return quantity; }
+    void decrease_quantity(int amount);
     int get_count()const { return count; }
     void set_posit(float a, float b) { pos.x = a; pos.y = b; shape.setPosition(a, b); }
     int get_request_ants() const { return ants_for_collecting; }

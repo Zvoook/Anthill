@@ -25,3 +25,21 @@ void Resource::set_color(res_type type)
     if (type == food) shape.setFillColor(Color(0, 153, 0));
     if (type == stick) shape.setFillColor(Color(115, 66, 34));
 }
+
+void Resource::decrease_quantity(int amount) {
+    quantity -= amount;
+    if (quantity < 0) quantity = 0;
+    float radius = 0.0f;
+    float k = 1.0f;
+    if (size == small) radius = small_resource_size;
+    else if (size == medium) {
+        radius = madium_resource_size;
+        k = static_cast<float>(quantity) / 3.0f;
+    }
+    else if (size == big) {
+        radius = big_resource_size;
+        k = static_cast<float>(quantity) / 7.0f;
+    }
+    shape.setRadius(k * radius);
+    if (quantity == 0) set_invisible();
+}
