@@ -1,7 +1,4 @@
 #include "Informers.h"
-#include <algorithm>
-#include <cmath>
-#include <limits>
 
 void Informers::subscribe_ant(Ant* ant) {
     int role_id = ant->get_role();
@@ -15,7 +12,7 @@ void Informers::unsubscribe_ant(Ant* ant) {
 }
 
 void Informers::subscribe_resource(Resource* resource) {
-    int type = resource->get_type(); 
+    int type = resource->get_type();
     if (type >= 0 && type < resources.size()) {
         resources[type].push_back(resource);
     }
@@ -36,7 +33,7 @@ bool Informers::can_see(Ant* ant, Resource* resource) {
     float dx = ant_pos.x - res_pos.x;
     float dy = ant_pos.y - res_pos.y;
     float distance = sqrt(dx * dx + dy * dy);
-    // Ресурс считается видимым, если находится в зоне обнаружения, является видимым и его количество > 0.
+    // ������ ��������� �������, ���� ��������� � ���� �����������, �������� ������� � ��� ���������� > 0.
     return (distance <= detect_dist && resource->is_visible() && resource->get_quantity() > 0);
 }
 
@@ -102,7 +99,7 @@ Ant* Informers::find_free_ant(Resource* resource, int role_id) {
             Vector2f ant_pos(ant->get_pos().x, ant->get_pos().y);
             float dx = ant_pos.x - res_pos.x;
             float dy = ant_pos.y - res_pos.y;
-            float dist =  sqrt(dx * dx + dy * dy);
+            float dist = sqrt(dx * dx + dy * dy);
 
             if (!first_found || dist < min_dist) {
                 first_found = true;

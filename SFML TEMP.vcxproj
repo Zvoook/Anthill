@@ -138,16 +138,22 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Ant.cpp" />
+    <ClCompile Include="Anthill.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="Informers.cpp" />
     <ClCompile Include="MAIN.cpp" />
+    <ClCompile Include="Raid.cpp" />
     <ClCompile Include="Resource.cpp" />
     <ClCompile Include="Role.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ant.h" />
+    <ClInclude Include="Anthill.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Raid.h" />
     <ClInclude Include="Game Settings.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="Informers.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="Resource.h" />

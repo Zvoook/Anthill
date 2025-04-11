@@ -21,8 +21,6 @@ Soldier::Soldier() {
 void Soldier::work()
 {
     //if (raid_flag == 1)
-
-
 }
 
 void Soldier::attack() {
@@ -30,6 +28,7 @@ void Soldier::attack() {
 }
 
 void Soldier::escape_from_enemy() {
+
 }
 
 void Soldier::set_on_enemy() {
