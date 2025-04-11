@@ -22,6 +22,28 @@ void create_cluster(vector<Resource>& resources, float x, float y, res_type type
 
 void Resource::set_color(res_type type)
 {
-    if (type == food) shape.setFillColor(Color(0, 153, 0));
-    if (type == stick) shape.setFillColor(Color(115, 66, 34));
+    switch (type) {
+    case food:shape.setFillColor(Color(0, 153, 0)); break;
+    case stick:shape.setFillColor(Color(115, 66, 34)); break;
+    case body:shape.setFillColor(Color(134, 138, 142)); break;
+    case trash:shape.setFillColor(Color(128, 128, 50)); break;
+    }
+}
+
+void Resource::decrease_quantity(int amount) {
+    quantity -= amount;
+    if (quantity < 0) quantity = 0;
+    float radius = 0.0f;
+    float k = 1.0f;
+    if (size == small) radius = small_resource_size;
+    else if (size == medium) {
+        radius = madium_resource_size;
+        k = static_cast<float>(quantity) / 3.0f;
+    }
+    else if (size == big) {
+        radius = big_resource_size;
+        k = static_cast<float>(quantity) / 7.0f;
+    }
+    shape.setRadius(k * radius);
+    if (quantity == 0) set_invisible();
 }

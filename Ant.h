@@ -28,34 +28,40 @@ public:
         shape.setPosition(x, y);
         visible = true;
     }
+    //Position
     bool check_pos() { if (pos.in_anthill()) return 1; return 0; }
-    CircleShape get_vision_circle() const;
-    void upd_role();
     void move();
-    bool pick(Resource& res);
-    void set_invisible() { visible = 0; }
-    //void work() { role->work(*this); }
-    void upd_color();
     void set_velocity(float vx, float vy) { velocity.x = vx; velocity.y = vy; }
-    void set_inventory(res_type type) { inventory = type; }
-    void up_time() { age++; }
+
+    //Updating textures & role
+    void upd_role();
+    void upd_color();
+    void set_invisible() { visible = 0; }
+    void dead(vector<Resource> resources);
+
+    //Setting
     void set_hp(int x) { if (hp > 0) hp = x;  else hp = 0; }
-    //void set_target_on_res(vector<Resource>& res);
+    void set_inventory(res_type type) { inventory = type; }
+    void up() { age++; }
+
+    //Should be used
+    bool pick(Resource& res);
+    void work() { role->work(); }
 
     //Target
     void set_target(const Position& p) { target = p; has_target = true; }
-    void look_around(std::vector<Resource>& resources);
-    // void go_home();
+    void look_around(vector<Resource>& resources);
     void clear_target() { has_target = false; }
     bool has_valid_target() const { return has_target; }
-    Position get_pos() const { return pos; }
-    res_type get_inventory() const { return inventory; }
 
     int get_hp() const { return hp; }
     int get_age() const { return age; }
     int get_role() const { return role_id; }
     bool is_visible() const { return visible; }
+    Position get_pos() const { return pos; }
+    res_type get_inventory() const { return inventory; }
     const CircleShape& get_shape() const { return shape; }
+    CircleShape get_vision_circle() const;
 };
 
 float randomise_velocity();
