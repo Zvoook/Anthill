@@ -14,8 +14,10 @@ public:
     void upd_anthill(int ticks);
     void default_count() { ants = soldiers = builders = cleaners = sitters = babies = shepherds = collectors = 0; }
     void kill_colony() { colony.clear(); }
-    static void add_food() { food_count++; } //пока так
-    static void add_stick() { stick_count++; } //тож пока так
+    static void add_food() { food_count++; } //пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ
+    static void add_stick() { stick_count++; } //пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ
+    static void del_food() { food_count--; }
+    static void del_stick() { stick_count--; }
 
     int get_soldier_count() const { return soldiers; }
     int get_builder_count() const { return builders; }

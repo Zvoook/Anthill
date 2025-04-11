@@ -1,3 +1,4 @@
+#include "fix_for_macos.hpp"
 #include "Game.h"
 void Game::add_stats(Font& font) {
     int line = 0;

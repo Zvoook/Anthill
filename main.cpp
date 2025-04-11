@@ -1,3 +1,4 @@
+#include "fix_for_macos.hpp"
 #include "Game.h"
 
 #define Colony

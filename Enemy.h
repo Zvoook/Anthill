@@ -6,15 +6,14 @@ private:
     int hp, age;
     Position pos, target;
     Vector2f velocity;
-    Role* role;
     CircleShape shape;
     bool has_target;
+    bool robbed;
     bool going_home;
-    res_type inventory;
     bool visible;
     float radius_vision;
 public:
-    Enemy(float x = 0, float y = 0) :age(0), pos(x, y), hp(1), velocity(0, 0), target(0, 0), has_target(false), going_home(false), inventory(no_res), radius_vision(80.f) {
+    Enemy(float x = 0, float y = 0) :age(0), pos(x, y), hp(1), velocity(0, 0), target(0, 0), has_target(true), going_home(false), robbed(false), radius_vision(80.f) {
         hp = rand() % 201 + 300;
         shape.setRadius(ant_size);
         shape.setFillColor(Color::Red);
