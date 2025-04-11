@@ -15,8 +15,8 @@ const int window_weidth = 1100;
 const int window_high = 1080;
 
 //Timer settings
-const int scene_update_time = 20; //ticks per ms
-const int in_second = (int)(1000 / scene_update_time); //second
+const int fps = 20; //ticks per ms
+const int in_second = (int)(1000 / fps); //second
 const int stage_time = 7 * in_second; //time of live in stage
 
 //Ant settings
@@ -51,7 +51,9 @@ const int food_for_born = 10;
 const int feeding_period = 3 * in_second;
 
 //Enemy settings
-const int enemy_wave_period = 10 * in_second;
+const int enemy_wave_period = 5 * in_second;
+const int life_time = 5 * in_second;
+const int enemy_in_wave = 5;
 
 enum info_type { food_info, stick_info, enemy };
 enum res_type { no_res, food, stick, body, trash };

@@ -45,6 +45,9 @@
     <ClCompile Include="Game.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="Raid.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Position.h">
@@ -72,6 +75,9 @@
       <Filter>Исходные файлы\ANTS</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
+      <Filter>Исходные файлы\ANTS</Filter>
+    </ClInclude>
+    <ClInclude Include="Raid.h">
       <Filter>Исходные файлы\ANTS</Filter>
     </ClInclude>
   </ItemGroup>

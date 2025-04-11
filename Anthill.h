@@ -13,6 +13,7 @@ public:
     void upd_ant_stats();
     void upd_anthill(int ticks);
     void default_count() { ants = soldiers = builders = cleaners = sitters = babies = shepherds = collectors = 0; }
+    void kill_colony() { colony.clear(); }
     static void add_food() { food_count++; } //пока так
     static void add_stick() { stick_count++; } //тож пока так
 
