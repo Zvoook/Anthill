@@ -11,7 +11,7 @@ int main() {
 
     game.spawn_res();
 
-     //Anthil setting
+    //Anthil setting
     CircleShape circle(start_radius);
     CircleShape enemy_hill_1(start_radius);
     CircleShape enemy_hill_2(start_radius);

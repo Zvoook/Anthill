@@ -115,7 +115,6 @@ CircleShape Ant::get_vision_circle() const {
         return vision;
 }
 
-
 bool Ant::pick(Resource& res) {
     if (!res.is_visible()) return 0;
     if ((res.get_type() == food && role_id == 3) || (res.get_type() == stick && role_id == 2) || ((res.get_type() == body || res.get_type() == trash) && role_id == 6)) return 1;

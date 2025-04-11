@@ -11,8 +11,8 @@ using namespace std;
 using namespace sf;
 
 //Window settings
-const int window_weidth = 1100;
-const int window_high = 1080;
+const int window_weidth = 1000;
+const int window_high = 1000;
 
 //Timer settings
 const int fps = 20; //ticks per ms
@@ -54,6 +54,7 @@ const int feeding_period = 3 * in_second;
 const int enemy_wave_period = 5 * in_second;
 const int life_time = 5 * in_second;
 const int enemy_in_wave = 5;
+const int enemy_speed = 4;
 
 enum info_type { food_info, stick_info, enemy };
 enum res_type { no_res, food, stick, body, trash };
