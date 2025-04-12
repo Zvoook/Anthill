@@ -78,8 +78,8 @@ void Ant::move() {
         }
         else {
             if (age % (velocity_changing_period * 2) == 0) set_velocity(randomise_velocity() * ant_speed, randomise_velocity() * ant_speed);
-            if (pos.x + velocity.x < window_weidth/2- 2 * start_radius || pos.x + velocity.x > window_weidth / 2 + 2 * start_radius) velocity.x = -velocity.x;
-            if (pos.y + velocity.y < window_high / 2 - 2 * start_radius || pos.y + velocity.y > window_high / 2 - 2 * start_radius) velocity.y = -velocity.y;
+            if (pos.x + velocity.x < window_weidth / 2 - 2 * start_radius || pos.x + velocity.x > window_weidth / 2 + 2 * start_radius)velocity.x = -velocity.x;
+            if (pos.y + velocity.y < window_high / 2 - 2 * start_radius || pos.y + velocity.y > window_high / 2 + 2 * start_radius) velocity.y = -velocity.y;
         }
         pos.x += velocity.x;
         pos.y += velocity.y;
