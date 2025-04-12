@@ -19,6 +19,7 @@ public:
 	void reset();
 	void spawn_res();
 	void spawn_body();
+	void kill_raid();
 	//void clean_ants();
 	//void clean_enemy();
 	void kill_all() { anthill.kill_colony(); }

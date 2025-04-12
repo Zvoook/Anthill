@@ -24,7 +24,7 @@ void Game::add_stats(Font& font) {
 
 void Game::reset() {
     anthill = Anthill();
-    raid.kill_raid();
+    kill_raid();
     resources.clear();
     statsLines.clear();
     ticks = 0;
@@ -53,9 +53,17 @@ void Game::spawn_body()
     }
 }
 
+void Game::kill_raid()
+{
+    for (auto& enemy : raid.crowd) if (enemy.get_robbed()) {
+        raid.crowd.clear();
+        break;
+    }
+}
+
 string Game::to_K(int x)
 {
-    int y = int(x / 1000);
+    int y = (int)(x / 1000);
     if (y > 0) return to_string(y) + "." + to_string((x % 1000)/100) + "K";
     return to_string(x);
 }

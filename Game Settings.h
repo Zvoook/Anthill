@@ -42,7 +42,7 @@ const int probability_of_medium_resources = 20;
 //Anthill settings
 const int start_radius = 0.07 * window_weidth;
 const int start_max_ant_count = 20;
-const int start_food_limit = 5800;
+const int start_food_limit = 32500;
 const int start_stick_for_update = 1000;
 const int start_ant_count = 30;
 

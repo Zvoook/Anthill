@@ -4,8 +4,8 @@
 
 void Enemy::move() {
     if (going_home) {
-        float dx = 1090 - pos.x;
-        float dy = 10 - pos.y;
+        float dx = home.x - pos.x;
+        float dy = home.y - pos.y;
         float dist = sqrt(dx * dx + dy * dy);
 
         if (dist > 5.f) {
@@ -13,8 +13,8 @@ void Enemy::move() {
             velocity.y = (dy / dist) * enemy_speed;
         }
         else {
-            pos.x = 1090;
-            pos.y = 10;
+            pos.x = home.x;
+            pos.y = home.y;
             velocity.x = 0;
             velocity.y = 0;
         }
@@ -25,7 +25,7 @@ void Enemy::move() {
         return;
     }
 
-    if (has_target && !going_home) {
+    else if (has_target && !going_home) {
         float dx = window_weidth / 2 - pos.x;
         float dy = window_high / 2 - pos.y;
         float dist = sqrt(dx * dx + dy * dy);
@@ -43,12 +43,10 @@ void Enemy::move() {
             Anthill::del_food();
             Anthill::del_stick();
         }
-
         if (robbed) {
             going_home = true;
             has_target = false;
         }
-
         if (age % velocity_changing_period == 0)
             set_velocity(randomise_velocity() * ant_speed, randomise_velocity() * enemy_speed);
 
@@ -62,4 +60,5 @@ void Enemy::move() {
         pos.y += velocity.y;
         shape.setPosition(pos.x, pos.y);
     }
+    else yet_robbed = 1;
 }

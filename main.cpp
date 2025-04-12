@@ -35,11 +35,11 @@ int main() {
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
     //MUSIC
-    Music backgroundMusic;
+    /*Music backgroundMusic;
     if (!backgroundMusic.openFromFile("Voroniny.ogg")) return -1;
     backgroundMusic.setLoop(true);
     backgroundMusic.setVolume(100);
-    backgroundMusic.play();
+    backgroundMusic.play();*/
 
     //Events and font
     Event event;
@@ -72,12 +72,14 @@ int main() {
             }
 
             //Enemy's update
-            for (auto& enemy : game.raid.raid) {
+            for (auto& enemy : game.raid.crowd) {
                 if (enemy.get_hp() > 0) {
                     enemy.move();
                     enemy.aged();
                 }
             }
+            game.kill_raid();
+
             for (size_t i = 0; i < game.anthill.colony.size(); i++) {
                  for (size_t j = i + 1; j < game.anthill.colony.size(); j++) {
                      Vector2f pos1 = game.anthill.colony[i].get_shape().getPosition();
@@ -104,15 +106,15 @@ int main() {
 
             for (size_t i = 0; i < game.raid.get_size(); i++) {
                 for (size_t j = i + 1; j < game.raid.get_size(); j++) {
-                    Vector2f enemy_pos1 = game.raid.raid[i].get_shape().getPosition();
-                    Vector2f enemy_pos2 = game.raid.raid[j].get_shape().getPosition();
+                    Vector2f enemy_pos1 = game.raid.crowd[i].get_shape().getPosition();
+                    Vector2f enemy_pos2 = game.raid.crowd[j].get_shape().getPosition();
 
                     float dx = enemy_pos1.x - enemy_pos2.x;
                     float dy = enemy_pos2.y - enemy_pos2.y;
                     float distance = sqrt(dx * dx + dy * dy);
 
-                    float radius1 = game.raid.raid[i].get_shape().getRadius();
-                    float radius2 = game.raid.raid[j].get_shape().getRadius();
+                    float radius1 = game.raid.crowd[i].get_shape().getRadius();
+                    float radius2 = game.raid.crowd[j].get_shape().getRadius();
                     float min_dist_enemy = radius1 + radius2;
 
                     if (distance < min_dist_enemy && distance > 0.001f) {
@@ -120,8 +122,8 @@ int main() {
                         float offsetX = (dx / distance) * overlap;
                         float offsetY = (dy / distance) * overlap;
 
-                        CircleShape& eShape1 = const_cast<CircleShape&>(game.raid.raid[i].get_shape());
-                        CircleShape& eShape2 = const_cast<CircleShape&>(game.raid.raid[j].get_shape());
+                        CircleShape& eShape1 = const_cast<CircleShape&>(game.raid.crowd[i].get_shape());
+                        CircleShape& eShape2 = const_cast<CircleShape&>(game.raid.crowd[j].get_shape());
 
                         eShape1.setPosition(enemy_pos1.x + offsetX, enemy_pos1.y + offsetY);
                         eShape2.setPosition(enemy_pos2.x - offsetX, enemy_pos2.y - offsetY);
@@ -150,7 +152,7 @@ int main() {
                 if (vision_circle && ant.get_role()!=0 && ant.get_role() != 1) window.draw(ant.get_vision_circle());
             }
         }
-        for (auto& enemy : game.raid.raid) if (enemy.is_visible()) window.draw(enemy.get_shape());
+        for (auto& enemy : game.raid.crowd) if (enemy.is_visible()) window.draw(enemy.get_shape());
         for (const auto& text : game.statsLines) window.draw(text);
         window.display();
     }

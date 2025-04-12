@@ -12,5 +12,5 @@ void Raid::spawn_raid()
 		y = window_high - y;
 	}
 	}
-	for (int i=0; i < c; ++i) raid.emplace_back(x, y);
+	for (int i=0; i < c; ++i) crowd.emplace_back(x, y);
 }
