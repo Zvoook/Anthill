@@ -1,4 +1,5 @@
-#include "Game.h"
+﻿#include "Game.h"
+
 void Game::add_stats(Font& font) {
     int line = 0;
     auto makeText = [&](const string& text, Color color) {
@@ -7,28 +8,59 @@ void Game::add_stats(Font& font) {
         t.setPosition(10, 10 + line * 24);
         statsLines.push_back(t);
         line++;
-    };
-    makeText("Ants: " + std::to_string(anthill.get_ant_count()), Color::White);
-    makeText("Enemies: " + std::to_string(raid.get_size()), Color::Red);
-    makeText("Food: " + std::to_string(anthill.get_food_count()), Color(0, 255, 0));
-    makeText("Sticks: " + std::to_string(anthill.get_stick_count()), Color(139, 69, 19));
+     };
+    makeText("Ants: " + to_K(anthill.get_ant_count()) + " (" + to_K(anthill.get_max_ants()) + ")", Color::White);
+    makeText("Enemies: " + to_string(raid.get_size()), Color::Red);
+    makeText("Aphids: " + to_string(aphids.size()), Color(153, 153, 255));
+    makeText("Food: " + to_K(anthill.get_food_count()) + " (" + to_K(anthill.get_max_food()) + ")", Color(0, 255, 0));
+    makeText("Sticks: " + to_K(anthill.get_stick_count()) + " (FU: " + to_K(anthill.get_for_upd() - anthill.get_stick_count()) + ")", Color(139, 69, 19));
     makeText("---------------", Color(200, 200, 200));
-    makeText("Babies: " + std::to_string(anthill.get_baby_count()), Color::White);
-    makeText("Sitters: " + std::to_string(anthill.get_sitter_count()), Color(255, 102, 178));
-    makeText("Collectors: " + std::to_string(anthill.get_collector_count()), Color(255, 128, 0));
-    makeText("Builders: " + std::to_string(anthill.get_builder_count()), Color::Yellow);
-    makeText("Soldiers: " + std::to_string(anthill.get_soldier_count()), Color::Black);
-    makeText("Shepherds: " + std::to_string(anthill.get_shepherd_count()), Color(0, 0, 204));
-    makeText("Cleaners: " + std::to_string(anthill.get_cleaner_count()), Color(102, 51, 0));
+    makeText("Babies: " + to_string(anthill.get_baby_count()), Color::White);
+    makeText("Sitters: " + to_string(anthill.get_sitter_count()), Color(255, 102, 178));
+    makeText("Collectors: " + to_string(anthill.get_collector_count()), Color(255, 128, 0));
+    makeText("Builders: " + to_string(anthill.get_builder_count()), Color::Yellow);
+    makeText("Soldiers: " + to_string(anthill.get_soldier_count()), Color::Black);
+    makeText("Shepherds: " + to_string(anthill.get_shepherd_count()), Color(0, 0, 204));
+    makeText("Cleaners: " + to_string(anthill.get_cleaner_count()), Color(102, 51, 0));
+    
+}
+void Game::spawn_aphids() {
+    for (int i = 0; i < aphid_cluster_count; ++i) {
+        int x, y;
+        do {
+            x = rand() % (window_weidth - 2 * dist_btw_res) + dist_btw_res;
+            y = rand() % (window_high - 2 * dist_btw_res) + dist_btw_res;
+        } while ((x > window_weidth / 2 - 3 * start_radius && x < window_weidth / 2 + 3 * start_radius) ||
+            (y > window_high / 2 - 3 * start_radius && y < window_high / 2 + 3 * start_radius) ||
+            ((x < 0.2 * window_weidth) && (y < 0.3 * window_high)));
+
+        int count = rand() % max_aphids_in_cluster + 1;
+        create_aphid_cluster(aphids, x, y, count);
+    }
+}
+
+void Game::update_aphids() {
+    for (auto& aphid : aphids) {
+        if (aphid.is_visible()) {
+            aphid.update();
+        }
+    }
+    aphids.erase(
+        remove_if(aphids.begin(), aphids.end(),
+            [](const Aphid& aphid) { return !aphid.is_visible() || aphid.is_dead(); }),
+        aphids.end()
+    );
 }
 
 void Game::reset() {
     anthill = Anthill();
-    raid.kill_raid();
+    kill_raid();
     resources.clear();
+    aphids.clear(); 
     statsLines.clear();
     ticks = 0;
     spawn_res();
+    spawn_aphids(); 
 }
 
 void Game::spawn_res()
@@ -39,8 +71,34 @@ void Game::spawn_res()
             x = rand() % (window_weidth - 2 * dist_btw_res) + dist_btw_res;
             y = rand() % (window_high - 2 * dist_btw_res) + dist_btw_res;
         } while ((x > window_weidth / 2 - 3 * start_radius && x < window_weidth / 2 + 3 * start_radius) ||
-            (y > window_high / 2 - 3 * start_radius && y < window_high / 2 + 3 * start_radius));
+            (y > window_high / 2 - 3 * start_radius && y < window_high / 2 + 3 * start_radius) || ((x < 0.2 * window_weidth) && (y < 0.3 * window_high)));
         if (i <= food_cluster_count) create_cluster(resources, x, y, food);
         else create_cluster(resources, x, y, stick);
     }
+}
+
+void Game::spawn_body()
+{
+    for (auto& ant : anthill.colony) {
+        if (ant.get_hp() <= 0) {
+            ant.dead(resources);
+
+        }
+        anthill.colony.erase(remove_if(anthill.colony.begin(), anthill.colony.end(), [](const Ant& ant) { return ant.get_hp() <= 0; }), anthill.colony.end());
+    }
+}
+
+void Game::kill_raid()
+{
+    for (auto& enemy : raid.crowd) if (enemy.get_robbed()) {
+        raid.crowd.clear();
+        break;
+    }
+}
+
+string Game::to_K(int x)
+{
+    int y = (int)(x / 1000);
+    if (y > 0) return to_string(y) + "." + to_string((x % 1000) / 100) + "K";
+    return to_string(x);
 }
