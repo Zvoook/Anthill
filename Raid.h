@@ -4,13 +4,12 @@
 
 class Raid {
 public:
-    vector<Enemy> raid;
+    vector<Enemy> crowd;
     Raid() :rad(start_radius) {};
     ~Raid() = default;
     void spawn_raid();
-    void kill_raid() { raid.clear(); }
 
-    int get_size() const { return raid.size(); }
+    int get_size() const { return crowd.size(); }
 private:
     float rad;
 };
