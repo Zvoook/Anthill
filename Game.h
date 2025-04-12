@@ -21,7 +21,6 @@ public:
 	//void clean_ants();
 	//void clean_enemy();
 	void kill_all() { anthill.kill_colony(); };
-
 	int get_ticks() const { return ticks; }
 private:
 	int ticks;

@@ -25,6 +25,7 @@ const int ant_speed = 8;
 const int velocity_changing_period = 10;
 //const int life_stages = 5;
 const bool vision_circle = true;
+const int hungry_damage = 1;
 
 //Resource settings
 const int count_of_angles_in_form = 16;
@@ -53,7 +54,7 @@ const int feeding_period = 3 * in_second;
 //Enemy settings
 const int enemy_wave_period = 5 * in_second;
 const int life_time = 5 * in_second;
-const int enemy_in_wave = 5;
+const int min_enemy_in_wave = 5;
 const int enemy_speed = 4;
 
 enum info_type { food_info, stick_info, enemy };

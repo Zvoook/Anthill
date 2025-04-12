@@ -8,9 +8,8 @@ private:
     Vector2f velocity;
     CircleShape shape;
     bool has_target;
-    bool going_home;
     bool robbed;
-    res_type inventory;
+    bool going_home;
     bool visible;
     float radius_vision;
 public:

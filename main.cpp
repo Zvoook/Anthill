@@ -15,14 +15,18 @@ int main() {
     CircleShape circle(start_radius);
     CircleShape enemy_hill_1(start_radius);
     CircleShape enemy_hill_2(start_radius);
+    CircleShape enemy_hill_3(start_radius);
+
 
     circle.setPosition(Vector2f(window_weidth / 2 - start_radius, window_high / 2 - start_radius));
-    enemy_hill_1.setPosition(Vector2f(-start_radius / 2, -start_radius / 2));
-    enemy_hill_2.setPosition(Vector2f(window_high - start_radius * 1.5, window_weidth - start_radius * 1.5));
+    enemy_hill_1.setPosition(Vector2f(-start_radius, window_high -start_radius));
+    enemy_hill_2.setPosition(Vector2f(window_weidth - start_radius, -start_radius));
+    enemy_hill_3.setPosition(Vector2f(window_weidth - start_radius, window_high - start_radius));
 
     circle.setFillColor(Color(115, 66, 34));
-    enemy_hill_1.setFillColor(Color::Black);
-    enemy_hill_2.setFillColor(Color::Black);
+    enemy_hill_1.setFillColor(Color(0,0,0,100));
+    enemy_hill_2.setFillColor(Color(0, 0, 0, 100));
+    enemy_hill_3.setFillColor(Color(0, 0, 0, 100));
 
     //Window setting
     RenderWindow window(VideoMode(window_weidth, window_high), L"Colony Simulator");
@@ -51,6 +55,8 @@ int main() {
             last_time = time.getElapsedTime().asMilliseconds();
             game.tick();
             game.anthill.upd_anthill(game.get_ticks());
+            game.statsLines.clear();
+            game.add_stats(font);
 
             //Spawn entities
             if (game.get_ticks() % enemy_wave_period == 0) game.raid.spawn_raid();
@@ -130,11 +136,13 @@ int main() {
                 last_time = time.getElapsedTime().asMilliseconds();
             }
         }
-        //game.statsLines.clear();  // Обновляем каждый тик
+
         window.clear(Color(102, 204, 0));
         window.draw(circle);
         window.draw(enemy_hill_1);
         window.draw(enemy_hill_2);
+        window.draw(enemy_hill_3);
+
         for (const auto& res : game.resources) if (res.is_visible()) window.draw(res.get_shape());
         for (const auto& ant : game.anthill.colony) {
             if (ant.is_visible()) {

@@ -9,13 +9,14 @@ public:
     void up_lvl();
     void down_lvl();
     void feeding() { food_count -= ants; }
+    void hunger();
     void born_baby();
     void upd_ant_stats();
     void upd_anthill(int ticks);
     void default_count() { ants = soldiers = builders = cleaners = sitters = babies = shepherds = collectors = 0; }
     void kill_colony() { colony.clear(); }
-    static void add_food() { food_count++; }
-    static void add_stick() { stick_count++; }
+    static void add_food() { food_count++; } 
+    static void add_stick() { stick_count++; } 
     static void del_food() { food_count--; }
     static void del_stick() { stick_count--; }
 

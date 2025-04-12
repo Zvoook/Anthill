@@ -78,8 +78,8 @@ void Ant::move() {
         }
         else {
             if (age % (velocity_changing_period * 2) == 0) set_velocity(randomise_velocity() * ant_speed, randomise_velocity() * ant_speed);
-            if (pos.x + velocity.x < window_weidth/2- 2 * start_radius || pos.x + velocity.x > window_weidth / 2 + 2 * start_radius) velocity.x = -velocity.x;
-            if (pos.y + velocity.y < window_high / 2 - 2 * start_radius || pos.y + velocity.y > window_high / 2 - 2 * start_radius) velocity.y = -velocity.y;
+            if (pos.x + velocity.x < window_weidth / 2 - 2 * start_radius || pos.x + velocity.x > window_weidth / 2 + 2 * start_radius)velocity.x = -velocity.x;
+            if (pos.y + velocity.y < window_high / 2 - 2 * start_radius || pos.y + velocity.y > window_high / 2 + 2 * start_radius) velocity.y = -velocity.y;
         }
         pos.x += velocity.x;
         pos.y += velocity.y;
@@ -106,13 +106,13 @@ void Ant::look_around(std::vector<Resource>& resources) {
 }
 
 CircleShape Ant::get_vision_circle() const {
-        CircleShape vision(radius_vision);
-        vision.setOrigin(radius_vision, radius_vision); // центр круга
-        vision.setPosition(pos.x, pos.y);
-        vision.setFillColor(sf::Color(255, 255, 255, 20));  // белый, почти прозрачный
-        vision.setOutlineColor(sf::Color(0, 0, 255, 20)); // полупрозрачный контур
-        vision.setOutlineThickness(1.f);
-        return vision;
+    CircleShape vision(radius_vision);
+    vision.setOrigin(radius_vision, radius_vision); // центр круга
+    vision.setPosition(pos.x, pos.y);
+    vision.setFillColor(sf::Color(255, 255, 255, 20));  // белый, почти прозрачный
+    vision.setOutlineColor(sf::Color(0, 0, 255, 20)); // полупрозрачный контур
+    vision.setOutlineThickness(1.f);
+    return vision;
 }
 
 bool Ant::pick(Resource& res) {
@@ -136,7 +136,7 @@ void Ant::upd_color()
 void Ant::dead(vector<Resource> resources)
 {
     Resource res(body, small);
-    res.set_posit(pos.x,pos.y);
+    res.set_posit(pos.x, pos.y);
     res.set_color(body);
     res.set_shape_size(small);
     resources.push_back(res);

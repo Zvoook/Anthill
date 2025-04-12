@@ -8,18 +8,18 @@ void Game::add_stats(Font& font) {
         statsLines.push_back(t);
         line++;
     };
-    makeText("Ants: " + std::to_string(anthill.get_ant_count()), Color::White);
-    makeText("Enemies: " + std::to_string(raid.get_size()), Color::Red);
-    makeText("Food: " + std::to_string(anthill.get_food_count()), Color(0, 255, 0));
-    makeText("Sticks: " + std::to_string(anthill.get_stick_count()), Color(139, 69, 19));
+    makeText("Ants: " + to_string(anthill.get_ant_count()), Color::White);
+    makeText("Enemies: " + to_string(raid.get_size()), Color::Red);
+    makeText("Food: " + to_string(anthill.get_food_count()), Color(0, 255, 0));
+    makeText("Sticks: " + to_string(anthill.get_stick_count()), Color(139, 69, 19));
     makeText("---------------", Color(200, 200, 200));
-    makeText("Babies: " + std::to_string(anthill.get_baby_count()), Color::White);
-    makeText("Sitters: " + std::to_string(anthill.get_sitter_count()), Color(255, 102, 178));
-    makeText("Collectors: " + std::to_string(anthill.get_collector_count()), Color(255, 128, 0));
-    makeText("Builders: " + std::to_string(anthill.get_builder_count()), Color::Yellow);
-    makeText("Soldiers: " + std::to_string(anthill.get_soldier_count()), Color::Black);
-    makeText("Shepherds: " + std::to_string(anthill.get_shepherd_count()), Color(0, 0, 204));
-    makeText("Cleaners: " + std::to_string(anthill.get_cleaner_count()), Color(102, 51, 0));
+    makeText("Babies: " + to_string(anthill.get_baby_count()), Color::White);
+    makeText("Sitters: " + to_string(anthill.get_sitter_count()), Color(255, 102, 178));
+    makeText("Collectors: " + to_string(anthill.get_collector_count()), Color(255, 128, 0));
+    makeText("Builders: " + to_string(anthill.get_builder_count()), Color::Yellow);
+    makeText("Soldiers: " + to_string(anthill.get_soldier_count()), Color::Black);
+    makeText("Shepherds: " + to_string(anthill.get_shepherd_count()), Color(0, 0, 204));
+    makeText("Cleaners: " + to_string(anthill.get_cleaner_count()), Color(102, 51, 0));
 }
 
 void Game::reset() {
@@ -39,7 +39,7 @@ void Game::spawn_res()
             x = rand() % (window_weidth - 2 * dist_btw_res) + dist_btw_res;
             y = rand() % (window_high - 2 * dist_btw_res) + dist_btw_res;
         } while ((x > window_weidth / 2 - 3 * start_radius && x < window_weidth / 2 + 3 * start_radius) ||
-            (y > window_high / 2 - 3 * start_radius && y < window_high / 2 + 3 * start_radius));
+            (y > window_high / 2 - 3 * start_radius && y < window_high / 2 + 3 * start_radius) || ((x < 0.2 * window_weidth) && (y<0.3*window_high)));
         if (i <= food_cluster_count) create_cluster(resources, x, y, food);
         else create_cluster(resources, x, y, stick);
     }
