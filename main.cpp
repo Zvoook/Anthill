@@ -32,11 +32,11 @@ int main() {
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
     //MUSIC
-    /*Music backgroundMusic;
+    Music backgroundMusic;
     if (!backgroundMusic.openFromFile("Voroniny.ogg")) return -1;
     backgroundMusic.setLoop(true);
     backgroundMusic.setVolume(100);
-    backgroundMusic.play();*/
+    backgroundMusic.play();
 
     //Events and font
     Event event;

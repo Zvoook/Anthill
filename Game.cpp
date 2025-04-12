@@ -2,9 +2,9 @@
 void Game::add_stats(Font& font) {
     int line = 0;
     auto makeText = [&](const string& text, Color color) {
-        Text t(text, font, 20);
+        Text t(text, font, 18);
         t.setFillColor(color);
-        t.setPosition(10, 10 + line * 24);
+        t.setPosition(10, 10 + line * 20);
         statsLines.push_back(t);
         line++;
     };
@@ -13,7 +13,7 @@ void Game::add_stats(Font& font) {
     makeText("Aphids: " + to_string(aphids.size()), Color(75, 0, 130));
     makeText("Food: " + to_K(anthill.get_food_count()) + " (" + to_K(anthill.get_max_food()) + ")", Color(0, 255, 0));
     makeText("Sticks: " + to_K(anthill.get_stick_count()) + " (FU: " + to_K(anthill.get_for_upd() - anthill.get_stick_count()) + ")", Color(139, 69, 19));
-    makeText("---------------", Color(200, 200, 200));
+    makeText("---------------", Color(0, 0, 0));
     makeText("Babies: " + to_string(anthill.get_baby_count()), Color::White);
     makeText("Sitters: " + to_string(anthill.get_sitter_count()), Color(255, 102, 178));
     makeText("Collectors: " + to_string(anthill.get_collector_count()), Color(255, 128, 0));
@@ -101,7 +101,7 @@ void Game::over(Font& font) {
     FloatRect textBounds2 = YOU.getLocalBounds();
     YOU.setOrigin(textBounds2.left + textBounds2.width / 2.0f,
         textBounds2.top + textBounds2.height / 2.0f);
-    YOU.setPosition(window_width / 2.0f + 80, window_height / 2.0f + 80);
+    YOU.setPosition(window_width / 2.0f + 100, window_height / 2.0f + 80);
 }
 
 string Game::to_K(int x)
