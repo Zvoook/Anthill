@@ -11,7 +11,7 @@ using namespace std;
 using namespace sf;
 
 //Window settings
-const int window_width = 1000;
+const int window_width = 1200;
 const int window_height = 1000;
 
 //Timer settings
@@ -20,7 +20,7 @@ const int second = (int)(1000 / fps); //second
 const int stage_time = 7 * second; //time of live in stage
 
 //Ant settings
-const int ant_size = 0.006 * window_width;
+const int ant_size = 0.0075 * window_width;
 const int ant_speed = 8;
 const int velocity_changing_period = 10;
 //const int life_stages = 5;
@@ -38,6 +38,14 @@ const int stick_claster_count = 0.01 * window_width;
 const int food_cluster_count = 0.01 * window_width;
 const int probability_of_small_resources = 70;
 const int probability_of_medium_resources = 20;
+
+//Aphid settings
+const int aphid_cluster_count = 0.003 * window_width;
+const int max_aphids_in_cluster = 4;
+const float aphid_speed = 0.2;
+const float aphid_size = ant_size * 0.7f;
+const int aphid_honey_value = 2;
+const int honey_collect_time = 3 * second;
 
 //Anthill settings
 const int start_radius = 0.07 * window_width;

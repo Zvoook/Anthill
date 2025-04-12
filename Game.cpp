@@ -10,6 +10,7 @@ void Game::add_stats(Font& font) {
     };
     makeText("Ants: " + to_K(anthill.get_ant_count()) + " ("+ to_K(anthill.get_max_ants()) + ")", Color::White);
     makeText("Enemies: " + to_string(raid.get_size()), Color::Red);
+    makeText("Aphids: " + to_string(aphids.size()), Color(75, 0, 130));
     makeText("Food: " + to_K(anthill.get_food_count()) + " (" + to_K(anthill.get_max_food()) + ")", Color(0, 255, 0));
     makeText("Sticks: " + to_K(anthill.get_stick_count()) + " (FU: " + to_K(anthill.get_for_upd() - anthill.get_stick_count()) + ")", Color(139, 69, 19));
     makeText("---------------", Color(200, 200, 200));
@@ -26,7 +27,7 @@ void Game::add_stats(Font& font) {
 
 void Game::reset() {
     anthill = Anthill();
-    kill_raid();
+    raid.crowd.clear();
     resources.clear();
     statsLines.clear();
     ticks = 0;
@@ -55,12 +56,28 @@ void Game::spawn_body()
     }
 }
 
-void Game::kill_raid()
-{
-    for (auto& enemy : raid.crowd) if (enemy.get_robbed()) {
-        raid.crowd.clear();
-        break;
+void Game::spawn_aphids() {
+    for (int i = 0; i < aphid_cluster_count; ++i) {
+        int x, y;
+        do {
+            x = rand() % (window_width - 2 * dist_btw_res) + dist_btw_res;
+            y = rand() % (window_height - 2 * dist_btw_res) + dist_btw_res;
+        } while ((x > window_width / 2 - 3 * start_radius && x < window_width / 2 + 3 * start_radius) ||
+            (y > window_height / 2 - 3 * start_radius && y < window_height / 2 + 3 * start_radius) ||
+            ((x < 0.2 * window_width) && (y < 0.3 * window_height)));
+
+        int count = rand() % max_aphids_in_cluster + 1;
+        create_aphid_cluster(aphids, x, y, count);
     }
+}
+
+void Game::update_aphids() {
+    for (auto& aphid : aphids) if (aphid.is_visible()) aphid.update();
+    aphids.erase(
+        remove_if(aphids.begin(), aphids.end(),
+            [](const Aphid& aphid) { return !aphid.is_visible() || aphid.is_dead(); }),
+        aphids.end()
+    );
 }
 
 void Game::over(Font& font) {
@@ -71,10 +88,20 @@ void Game::over(Font& font) {
     OVER.setCharacterSize(100);
     OVER.setFillColor(Color::Black);
 
+    YOU.setFont(font);
+    YOU.setString("YOU ARE NEXT >>");
+    YOU.setCharacterSize(70);
+    YOU.setFillColor(Color::Red);
+
     FloatRect textBounds = OVER.getLocalBounds();
     OVER.setOrigin(textBounds.left + textBounds.width / 2.0f,
         textBounds.top + textBounds.height / 2.0f);
     OVER.setPosition(window_width / 2.0f, window_height / 2.0f);
+
+    FloatRect textBounds2 = YOU.getLocalBounds();
+    YOU.setOrigin(textBounds2.left + textBounds2.width / 2.0f,
+        textBounds2.top + textBounds2.height / 2.0f);
+    YOU.setPosition(window_width / 2.0f + 80, window_height / 2.0f + 80);
 }
 
 string Game::to_K(int x)

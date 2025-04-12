@@ -11,7 +11,7 @@ void Ant::upd_role() {
         return;
     }
     case 2:case 3: {
-        if (hp > max_hp / 2) {
+        if (max_hp <= 400) {
             role_id = 4;
             role = roles[role_id];
         }

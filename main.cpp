@@ -10,6 +10,7 @@ int main() {
     int x = 0, y = 0;
 
     game.spawn_res();
+    game.spawn_aphids();
 
     //Anthil setting
     CircleShape enemy_hill_1(start_radius);
@@ -20,9 +21,9 @@ int main() {
     enemy_hill_2.setPosition(Vector2f(window_width - start_radius, -start_radius));
     enemy_hill_3.setPosition(Vector2f(window_width - start_radius, window_height - start_radius));
 
-    enemy_hill_1.setFillColor(Color(0, 0, 0, 100));
-    enemy_hill_2.setFillColor(Color(0, 0, 0, 100));
-    enemy_hill_3.setFillColor(Color(0, 0, 0, 100));
+    enemy_hill_1.setFillColor(Color(0, 0, 0, 80));
+    enemy_hill_2.setFillColor(Color(0, 0, 0, 80));
+    enemy_hill_3.setFillColor(Color(0, 0, 0, 80));
 
     //Window setting
     RenderWindow window(VideoMode(window_width, window_height), L"Colony Simulator");
@@ -64,6 +65,8 @@ int main() {
             game.update();
             game.statsLines.clear();
             game.add_stats(font);
+            game.update_aphids();
+
             //Informers::update(game.anthill.colony, game.resources);
 
             //Spawn entities
@@ -156,6 +159,7 @@ int main() {
                 if (vision_circle && ant.get_role() != 0 && ant.get_role() != 1) window.draw(ant.get_vision_circle());
             }
         }
+        for (const auto& aphid : game.aphids) if (aphid.is_visible()) window.draw(aphid.get_shape());
         for (auto& enemy : game.raid.crowd) if (enemy.is_visible()) window.draw(enemy.get_shape());
         for (const auto& text : game.statsLines) window.draw(text);
         window.display();
@@ -166,6 +170,7 @@ int main() {
 
             window.clear(Color::White);
             window.draw(game.OVER);
+            window.draw(game.YOU);
             window.display();
 
             time.restart();
