@@ -73,3 +73,14 @@ void Anthill::upd_anthill(int ticks)
         colony.erase(remove_if(colony.begin(), colony.end(), [](const Ant& ant) { return ant.get_hp() <= 0; }), colony.end());
     }
 }
+void Anthill::hunger() {
+    int ant_count = colony.size();
+    if (food_count < ant_count) {
+        for (auto& ant : colony) {
+            int new_hp = ant.get_hp() - hunger_damage;
+            ant.set_hp(new_hp);
+        }
+    }
+    else food_count -= ant_count;
+   
+}
