@@ -69,9 +69,6 @@ void Anthill::upd_anthill(int ticks)
         born_baby();
         food_count -= food_for_born;
     }
-    for (auto& ant : colony) {
-        colony.erase(remove_if(colony.begin(), colony.end(), [](const Ant& ant) { return ant.get_hp() <= 0; }), colony.end());
-    }
 }
 void Anthill::hunger() {
     int ant_count = colony.size();
@@ -82,5 +79,4 @@ void Anthill::hunger() {
         }
     }
     else food_count -= ant_count;
-
 }

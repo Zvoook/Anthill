@@ -8,10 +8,10 @@ void Game::add_stats(Font& font) {
         statsLines.push_back(t);
         line++;
     };
-    makeText("Ants: " + to_string(anthill.get_ant_count()), Color::White);
+    makeText("Ants: " + to_K(anthill.get_ant_count()) + " ("+ to_K(anthill.get_max_ants()) + ")", Color::White);
     makeText("Enemies: " + to_string(raid.get_size()), Color::Red);
-    makeText("Food: " + to_string(anthill.get_food_count()), Color(0, 255, 0));
-    makeText("Sticks: " + to_string(anthill.get_stick_count()), Color(139, 69, 19));
+    makeText("Food: " + to_K(anthill.get_food_count()) + " (" + to_K(anthill.get_max_food()) + ")", Color(0, 255, 0));
+    makeText("Sticks: " + to_K(anthill.get_stick_count()) + " (FU: " + to_K(anthill.get_for_upd() - anthill.get_stick_count()) + ")", Color(139, 69, 19));
     makeText("---------------", Color(200, 200, 200));
     makeText("Babies: " + to_string(anthill.get_baby_count()), Color::White);
     makeText("Sitters: " + to_string(anthill.get_sitter_count()), Color(255, 102, 178));
@@ -43,4 +43,19 @@ void Game::spawn_res()
         if (i <= food_cluster_count) create_cluster(resources, x, y, food);
         else create_cluster(resources, x, y, stick);
     }
+}
+
+void Game::spawn_body()
+{
+    for (auto& ant: anthill.colony) {
+        if (ant.get_hp() <= 0) ant.dead(resources);
+        anthill.colony.erase(remove_if(anthill.colony.begin(), anthill.colony.end(), [](const Ant& ant) { return ant.get_hp() <= 0; }), anthill.colony.end());
+    }
+}
+
+string Game::to_K(int x)
+{
+    int y = int(x / 1000);
+    if (y > 0) return to_string(y) + "." + to_string((x % 1000)/100) + "K";
+    return to_string(x);
 }

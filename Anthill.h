@@ -30,6 +30,9 @@ public:
     int get_food_count() const { return food_count; }
     int get_stick_count() const { return stick_count; }
     int get_ant_count() const { return ants; }
+    int get_max_ants() const { return max_ants; }
+    int get_max_food() const { return max_food; }
+    int get_for_upd() const { return sticks_for_upd; }
 
 private:
     float rad;

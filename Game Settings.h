@@ -33,7 +33,7 @@ const int small_resource_size = 1;
 const int madium_resource_size = 5;
 const int big_resource_size = 10;
 const int max_resource_in_claster = 30;
-const int dist_btw_res = 0.1 * window_weidth;
+const int dist_btw_res = 0.15 * window_weidth;
 const int stick_claster_count = 0.01 * window_weidth;
 const int food_cluster_count = 0.01 * window_weidth;
 const int probability_of_small_resources = 70;
@@ -42,7 +42,7 @@ const int probability_of_medium_resources = 20;
 //Anthill settings
 const int start_radius = 0.07 * window_weidth;
 const int start_max_ant_count = 20;
-const int start_food_limit = 500;
+const int start_food_limit = 5800;
 const int start_stick_for_update = 1000;
 const int start_ant_count = 30;
 

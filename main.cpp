@@ -130,7 +130,7 @@ int main() {
             }
         }
         while (window.pollEvent(event)) {
-            if (event.type == Event::Closed) window.close();
+            if (event.type == Event::Closed || event.type == Event::KeyPressed && ((event.key.code == Keyboard::Space) || (event.key.code == Keyboard::Escape) || (event.key.code == Keyboard::BackSpace))) window.close();
             if (event.type == Event::KeyPressed && event.key.code == Keyboard::R) {
                 game.reset();
                 last_time = time.getElapsedTime().asMilliseconds();
