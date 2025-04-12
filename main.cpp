@@ -85,8 +85,11 @@ int main() {
                     enemy.move();
                     enemy.aged();
                 }
+                if (enemy.get_robbed()) {
+                    game.raid.crowd.clear();
+                    break;
+                }
             }
-            game.kill_raid();
 
             for (size_t i = 0; i < game.anthill.colony.size(); i++) {
                 for (size_t j = i + 1; j < game.anthill.colony.size(); j++) {
@@ -139,6 +142,24 @@ int main() {
                 }
             }
         }
+
+        window.clear(Color(102, 204, 0));
+        window.draw(game.anthill.get_shape());
+        window.draw(enemy_hill_1);
+        window.draw(enemy_hill_2);
+        window.draw(enemy_hill_3);
+
+        for (const auto& res : game.resources) if (res.is_visible()) window.draw(res.get_shape());
+        for (const auto& ant : game.anthill.colony) {
+            if (ant.is_visible()) {
+                window.draw(ant.get_shape());
+                if (vision_circle && ant.get_role() != 0 && ant.get_role() != 1) window.draw(ant.get_vision_circle());
+            }
+        }
+        for (auto& enemy : game.raid.crowd) if (enemy.is_visible()) window.draw(enemy.get_shape());
+        for (const auto& text : game.statsLines) window.draw(text);
+        window.display();
+
         if (((game.get_ticks() % (10 * second) == 0) && (game.anthill.colony.size() == 0)) ||
             game.anthill.get_shape().getRadius() <= 0.75 * start_radius) {
             game.over(font);
@@ -158,23 +179,6 @@ int main() {
             window.close();
             return 0;
         }
-
-        window.clear(Color(102, 204, 0));
-        window.draw(game.anthill.get_shape());
-        window.draw(enemy_hill_1);
-        window.draw(enemy_hill_2);
-        window.draw(enemy_hill_3);
-
-        for (const auto& res : game.resources) if (res.is_visible()) window.draw(res.get_shape());
-        for (const auto& ant : game.anthill.colony) {
-            if (ant.is_visible()) {
-                window.draw(ant.get_shape());
-                if (vision_circle && ant.get_role() != 0 && ant.get_role() != 1) window.draw(ant.get_vision_circle());
-            }
-        }
-        for (auto& enemy : game.raid.crowd) if (enemy.is_visible()) window.draw(enemy.get_shape());
-        for (const auto& text : game.statsLines) window.draw(text);
-        window.display();
     }
     return 0;
 }

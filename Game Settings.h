@@ -53,8 +53,7 @@ const int food_for_born = 10;
 const int feeding_period = 3 * second;
 
 //Enemy settings
-const int enemy_wave_period = 5 * second;
-const int life_time = 5 * second;
+const int enemy_wave_period = 10 * second;
 const int min_enemy_in_wave = 5;
 const int enemy_speed = 4;
 

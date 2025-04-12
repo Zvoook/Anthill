@@ -15,6 +15,7 @@ public:
 	vector<Resource> resources;
 	vector<Text> statsLines;
 	Text OVER;
+
 	void update() { anthill.upd_anthill(ticks); }
 	void tick() { ticks++; }
 	void add_stats(Font& font);

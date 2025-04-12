@@ -24,6 +24,9 @@ void Anthill::up_lvl() {
     sticks_for_upd *= 1.5;
     rad *= 1.2;
     shape.setRadius(rad);
+    pos.x = window_width / 2 - rad;
+    pos.y = window_height / 2 - rad;
+    shape.setPosition(Vector2f(pos.x, pos.y));
 }
 
 void Anthill::down_lvl() {
