@@ -12,24 +12,20 @@ int main() {
     game.spawn_res();
 
     //Anthil setting
-    CircleShape circle(start_radius);
     CircleShape enemy_hill_1(start_radius);
     CircleShape enemy_hill_2(start_radius);
     CircleShape enemy_hill_3(start_radius);
 
+    enemy_hill_1.setPosition(Vector2f(-start_radius, window_height - start_radius));
+    enemy_hill_2.setPosition(Vector2f(window_width - start_radius, -start_radius));
+    enemy_hill_3.setPosition(Vector2f(window_width - start_radius, window_height - start_radius));
 
-    circle.setPosition(Vector2f(window_weidth / 2 - start_radius, window_high / 2 - start_radius));
-    enemy_hill_1.setPosition(Vector2f(-start_radius, window_high -start_radius));
-    enemy_hill_2.setPosition(Vector2f(window_weidth - start_radius, -start_radius));
-    enemy_hill_3.setPosition(Vector2f(window_weidth - start_radius, window_high - start_radius));
-
-    circle.setFillColor(Color(115, 66, 34));
-    enemy_hill_1.setFillColor(Color(0,0,0,100));
+    enemy_hill_1.setFillColor(Color(0, 0, 0, 100));
     enemy_hill_2.setFillColor(Color(0, 0, 0, 100));
     enemy_hill_3.setFillColor(Color(0, 0, 0, 100));
 
     //Window setting
-    RenderWindow window(VideoMode(window_weidth, window_high), L"Colony Simulator");
+    RenderWindow window(VideoMode(window_width, window_height), L"Colony Simulator");
     Image icon;
     if (!icon.loadFromFile("anthill.png")) return -1;
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
@@ -49,14 +45,26 @@ int main() {
     statsText.setFillColor(Color::White);
     statsText.setPosition(5, 5);
     game.add_stats(font);
+    int FPS = fps;
 
     while (window.isOpen()) {
-        if (time.getElapsedTime().asMilliseconds() - last_time >= fps) {
+        while (window.pollEvent(event)) {
+            if (event.type == Event::Closed || event.type == Event::KeyPressed && ((event.key.code == Keyboard::Space) || (event.key.code == Keyboard::Escape) || (event.key.code == Keyboard::BackSpace))) window.close();
+            if (event.type == Event::KeyPressed && event.key.code == Keyboard::Right) { FPS -= 5; }
+            else if (event.type == Event::KeyPressed && event.key.code == Keyboard::Left) { FPS += 5; }
+            if (event.type == Event::KeyPressed && event.key.code == Keyboard::R) {
+                game.reset();
+                last_time = time.getElapsedTime().asMilliseconds();
+            }
+        }
+
+        if (time.getElapsedTime().asMilliseconds() - last_time >= FPS) {
             last_time = time.getElapsedTime().asMilliseconds();
             game.tick();
-            game.anthill.upd_anthill(game.get_ticks());
+            game.update();
             game.statsLines.clear();
             game.add_stats(font);
+            //Informers::update(game.anthill.colony, game.resources);
 
             //Spawn entities
             if (game.get_ticks() % enemy_wave_period == 0) game.raid.spawn_raid();
@@ -81,28 +89,28 @@ int main() {
             game.kill_raid();
 
             for (size_t i = 0; i < game.anthill.colony.size(); i++) {
-                 for (size_t j = i + 1; j < game.anthill.colony.size(); j++) {
-                     Vector2f pos1 = game.anthill.colony[i].get_shape().getPosition();
-                     Vector2f pos2 = game.anthill.colony[j].get_shape().getPosition();
-            
-                     float dx = pos1.x - pos2.x;
-                     float dy = pos1.y - pos2.y;
-                     float distance = sqrt(dx * dx + dy * dy);
-                     float min_dist = ant_size * 2.0f;
-            
-                     if (distance < min_dist && distance > 0.001f) {
-                         float overlap = (min_dist - distance) / 2.0f;
-                         float offsetX = (dx / distance) * overlap;
-                         float offsetY = (dy / distance) * overlap;
-            
-                         CircleShape& shape1 = const_cast<CircleShape&>(game.anthill.colony[i].get_shape());
-                         CircleShape& shape2 = const_cast<CircleShape&>(game.anthill.colony[j].get_shape());
-            
-                         shape1.setPosition(pos1.x + offsetX, pos1.y + offsetY);
-                         shape2.setPosition(pos2.x - offsetX, pos2.y - offsetY);
-                     }
-                 }
-             }
+                for (size_t j = i + 1; j < game.anthill.colony.size(); j++) {
+                    Vector2f pos1 = game.anthill.colony[i].get_shape().getPosition();
+                    Vector2f pos2 = game.anthill.colony[j].get_shape().getPosition();
+
+                    float dx = pos1.x - pos2.x;
+                    float dy = pos1.y - pos2.y;
+                    float distance = sqrt(dx * dx + dy * dy);
+                    float min_dist = ant_size * 2.0f;
+
+                    if (distance < min_dist && distance > 0.001f) {
+                        float overlap = (min_dist - distance) / 2.0f;
+                        float offsetX = (dx / distance) * overlap;
+                        float offsetY = (dy / distance) * overlap;
+
+                        CircleShape& shape1 = const_cast<CircleShape&>(game.anthill.colony[i].get_shape());
+                        CircleShape& shape2 = const_cast<CircleShape&>(game.anthill.colony[j].get_shape());
+
+                        shape1.setPosition(pos1.x + offsetX, pos1.y + offsetY);
+                        shape2.setPosition(pos2.x - offsetX, pos2.y - offsetY);
+                    }
+                }
+            }
 
             for (size_t i = 0; i < game.raid.get_size(); i++) {
                 for (size_t j = i + 1; j < game.raid.get_size(); j++) {
@@ -131,16 +139,28 @@ int main() {
                 }
             }
         }
-        while (window.pollEvent(event)) {
-            if (event.type == Event::Closed || event.type == Event::KeyPressed && ((event.key.code == Keyboard::Space) || (event.key.code == Keyboard::Escape) || (event.key.code == Keyboard::BackSpace))) window.close();
-            if (event.type == Event::KeyPressed && event.key.code == Keyboard::R) {
-                game.reset();
-                last_time = time.getElapsedTime().asMilliseconds();
+        if (((game.get_ticks() % (10 * second) == 0) && (game.anthill.colony.size() == 0)) ||
+            game.anthill.get_shape().getRadius() <= 0.75 * start_radius) {
+            game.over(font);
+
+            window.clear(Color::White);
+            window.draw(game.OVER);
+            window.display();
+
+            time.restart();
+            while (time.getElapsedTime().asSeconds() < 3.0f) {
+                Event event;
+                while (window.pollEvent(event)) {
+                    if (event.type == sf::Event::Closed)
+                        window.close();
+                }
             }
+            window.close();
+            return 0;
         }
 
         window.clear(Color(102, 204, 0));
-        window.draw(circle);
+        window.draw(game.anthill.get_shape());
         window.draw(enemy_hill_1);
         window.draw(enemy_hill_2);
         window.draw(enemy_hill_3);
@@ -149,7 +169,7 @@ int main() {
         for (const auto& ant : game.anthill.colony) {
             if (ant.is_visible()) {
                 window.draw(ant.get_shape());
-                if (vision_circle && ant.get_role()!=0 && ant.get_role() != 1) window.draw(ant.get_vision_circle());
+                if (vision_circle && ant.get_role() != 0 && ant.get_role() != 1) window.draw(ant.get_vision_circle());
             }
         }
         for (auto& enemy : game.raid.crowd) if (enemy.is_visible()) window.draw(enemy.get_shape());

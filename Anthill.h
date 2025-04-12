@@ -2,6 +2,13 @@
 #include "Ant.h"
 
 class Anthill {
+private:
+    float rad;
+    CircleShape shape;
+    Position pos;
+    int lvl, max_food, sticks_for_upd, max_ants;
+    static int food_count, stick_count;
+    int ants, babies, sitters, collectors, builders, soldiers, shepherds, cleaners;
 public:
     vector<Ant> colony;
     Anthill();
@@ -20,6 +27,7 @@ public:
     static void del_food() { food_count--; }
     static void del_stick() { stick_count--; }
 
+    const CircleShape& get_shape() const { return shape; }
     int get_soldier_count() const { return soldiers; }
     int get_builder_count() const { return builders; }
     int get_cleaner_count() const { return cleaners; }
@@ -33,10 +41,5 @@ public:
     int get_max_ants() const { return max_ants; }
     int get_max_food() const { return max_food; }
     int get_for_upd() const { return sticks_for_upd; }
-
-private:
-    float rad;
-    int lvl, max_food, sticks_for_upd, max_ants;
-    static int food_count, stick_count;
-    int ants, babies, sitters, collectors, builders, soldiers, shepherds, cleaners;
+    int get_radius()const { return rad; }
 };

@@ -22,6 +22,8 @@ void Game::add_stats(Font& font) {
     makeText("Cleaners: " + to_string(anthill.get_cleaner_count()), Color(102, 51, 0));
 }
 
+
+
 void Game::reset() {
     anthill = Anthill();
     kill_raid();
@@ -36,10 +38,10 @@ void Game::spawn_res()
     for (int i = 0; i <= stick_claster_count + food_cluster_count; ++i) {
         int x, y;
         do {
-            x = rand() % (window_weidth - 2 * dist_btw_res) + dist_btw_res;
-            y = rand() % (window_high - 2 * dist_btw_res) + dist_btw_res;
-        } while ((x > window_weidth / 2 - 3 * start_radius && x < window_weidth / 2 + 3 * start_radius) ||
-            (y > window_high / 2 - 3 * start_radius && y < window_high / 2 + 3 * start_radius) || ((x < 0.2 * window_weidth) && (y<0.3*window_high)));
+            x = rand() % (window_width - 2 * dist_btw_res) + dist_btw_res;
+            y = rand() % (window_height - 2 * dist_btw_res) + dist_btw_res;
+        } while ((x > window_width / 2 - 3 * start_radius && x < window_width / 2 + 3 * start_radius) ||
+            (y > window_height / 2 - 3 * start_radius && y < window_height / 2 + 3 * start_radius) || ((x < 0.2 * window_width) && (y<0.3*window_height)));
         if (i <= food_cluster_count) create_cluster(resources, x, y, food);
         else create_cluster(resources, x, y, stick);
     }
@@ -59,6 +61,20 @@ void Game::kill_raid()
         raid.crowd.clear();
         break;
     }
+}
+
+void Game::over(Font& font) {
+    statsLines.clear();
+
+    OVER.setFont(font);
+    OVER.setString("GAME OVER");
+    OVER.setCharacterSize(100);
+    OVER.setFillColor(Color::Black);
+
+    FloatRect textBounds = OVER.getLocalBounds();
+    OVER.setOrigin(textBounds.left + textBounds.width / 2.0f,
+        textBounds.top + textBounds.height / 2.0f);
+    OVER.setPosition(window_width / 2.0f, window_height / 2.0f);
 }
 
 string Game::to_K(int x)
