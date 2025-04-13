@@ -3,6 +3,7 @@ void Game::update(Font& font)
 {
     ticks++;
     anthill.upd_anthill(ticks, resources);
+    if (anthill.colony.size() > 0) has_started_colony = 1;
     statsLines.clear();
     add_stats(font);
     update_aphids();
@@ -17,7 +18,7 @@ void Game::add_stats(Font& font) {
         t.setPosition(10, 10 + line * 20);
         statsLines.push_back(t);
         line++;
-        };
+    };
     makeText("Ants: " + to_K(anthill.get_ant_count()) + " (" + to_K(anthill.get_max_ants()) + ")", Color::White);
     makeText("Enemies: " + to_string(raid.get_size()), Color::Red);
     makeText("Aphids: " + to_string(aphids.size()), Color(75, 0, 130));
@@ -131,11 +132,11 @@ void Game::update_enemies() {
             enemy.move();
             enemy.up();
         }
-        if (enemy.get_robbed()) {
-            raid.crowd.clear();
-            break;
-        }
     }
+    raid.crowd.erase(remove_if(raid.crowd.begin(), raid.crowd.end(),
+        [](const Enemy& enemy) {
+            return enemy.get_hp() <= 0 || !enemy.is_visible();
+        }), raid.crowd.end());
 }
 
 void Game::handle_collisions() {
@@ -186,6 +187,6 @@ void Game::handle_collisions() {
 }
 
 bool Game::check_game_over() {
-    return ((get_ticks() % (10 * second) == 0 && anthill.colony.empty()) ||
+    return ((has_started_colony && anthill.colony.empty()) ||
         anthill.get_shape().getRadius() <= 0.75 * start_radius);
 }

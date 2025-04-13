@@ -65,6 +65,25 @@ int main() {
             game.update_ants();
             game.update_enemies();
             game.handle_collisions();
+            if (game.check_game_over()) {
+                game.over(font);
+
+                window.clear(Color::White);
+                window.draw(game.OVER);
+                // window.draw(game.YOU);
+                window.display();
+
+                time.restart();
+                while (time.getElapsedTime().asSeconds() < 3.0f) {
+                    Event event;
+                    while (window.pollEvent(event)) {
+                        if (event.type == sf::Event::Closed)
+                            window.close();
+                    }
+                }
+                window.close();
+                return 0;
+            }
 
             //Informers::update(game.anthill.colony, game.resources);
 
@@ -87,25 +106,6 @@ int main() {
             for (const auto& text : game.statsLines) window.draw(text);
             window.display();
 
-            if (game.check_game_over()) {
-                game.over(font);
-
-                window.clear(Color::White);
-                window.draw(game.OVER);
-                // window.draw(game.YOU);
-                window.display();
-
-                time.restart();
-                while (time.getElapsedTime().asSeconds() < 3.0f) {
-                    Event event;
-                    while (window.pollEvent(event)) {
-                        if (event.type == sf::Event::Closed)
-                            window.close();
-                    }
-                }
-                window.close();
-                return 0;
-            }
         }
     }
     return 0;

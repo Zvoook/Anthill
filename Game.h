@@ -38,4 +38,5 @@ public:
 	string to_K(int x);
 private:
 	int ticks;
+	bool has_started_colony = false;
 };
