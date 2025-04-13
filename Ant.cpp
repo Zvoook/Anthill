@@ -109,16 +109,16 @@ CircleShape Ant::get_vision_circle() const {
     CircleShape vision(radius_vision);
     vision.setOrigin(radius_vision, radius_vision); // центр круга
     vision.setPosition(pos.x, pos.y);
-    vision.setFillColor(sf::Color(255, 255, 255, 20));  // белый, почти прозрачный
+    vision.setFillColor(sf::Color(255, 255, 255, 15));  // белый, почти прозрачный
     vision.setOutlineColor(sf::Color(0, 0, 255, 20)); // полупрозрачный контур
     vision.setOutlineThickness(1.f);
     return vision;
 }
 
-bool Ant::pick(Resource& res) {
-    if (!res.is_visible()) return 0;
-    if ((res.get_type() == food && role_id == 3) || (res.get_type() == stick && role_id == 2) || ((res.get_type() == body || res.get_type() == trash) && role_id == 6)) return 1;
-}
+//bool Ant::pick(Resource& res) {
+//    if (!res.is_visible()) return 0;
+//    if ((res.get_type() == food && role_id == 3) || (res.get_type() == stick && role_id == 2) || ((res.get_type() == body || res.get_type() == trash) && role_id == 6)) return 1;
+//}
 
 void Ant::upd_color()
 {
@@ -131,15 +131,6 @@ void Ant::upd_color()
     case 5: { shape.setFillColor(Color(0, 0, 204)); return; }
     case 6: { shape.setFillColor(Color(102, 51, 0)); return; }
     }
-}
-
-void Ant::dead(vector<Resource> resources)
-{
-    Resource res(body, small);
-    res.set_posit(pos.x, pos.y);
-    res.set_color(body);
-    res.set_shape_size(small);
-    resources.push_back(res);
 }
 
 float randomise_velocity()

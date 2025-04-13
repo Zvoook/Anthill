@@ -1,4 +1,14 @@
 #include "Game.h"
+void Game::update(Font& font)
+{
+    ticks++;
+    anthill.upd_anthill(ticks, resources);
+    statsLines.clear();
+    add_stats(font);
+    update_aphids();
+    if (get_ticks() % enemy_wave_period == 0) raid.spawn_raid();
+}
+
 void Game::add_stats(Font& font) {
     int line = 0;
     auto makeText = [&](const string& text, Color color) {
@@ -45,14 +55,6 @@ void Game::spawn_res()
             (y > window_height / 2 - 3 * start_radius && y < window_height / 2 + 3 * start_radius) || ((x < 0.2 * window_width) && (y<0.3*window_height)));
         if (i <= food_cluster_count) create_cluster(resources, x, y, food);
         else create_cluster(resources, x, y, stick);
-    }
-}
-
-void Game::spawn_body()
-{
-    for (auto& ant: anthill.colony) {
-        if (ant.get_hp() <= 0) ant.dead(resources);
-        anthill.colony.erase(remove_if(anthill.colony.begin(), anthill.colony.end(), [](const Ant& ant) { return ant.get_hp() <= 0; }), anthill.colony.end());
     }
 }
 

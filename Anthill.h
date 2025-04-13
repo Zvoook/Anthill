@@ -19,7 +19,7 @@ public:
     void hunger();
     void born_baby();
     void upd_ant_stats();
-    void upd_anthill(int ticks);
+    void upd_anthill(int ticks, vector<Resource>& resources);
     void default_count() { ants = soldiers = builders = cleaners = sitters = babies = shepherds = collectors = 0; }
     void kill_colony() { colony.clear(); }
     static void add_food() { food_count++; } 
@@ -42,4 +42,5 @@ public:
     int get_max_food() const { return max_food; }
     int get_for_upd() const { return sticks_for_upd; }
     int get_radius()const { return rad; }
+    void clear_colony(vector<Resource>& resources);
 };

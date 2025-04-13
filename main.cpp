@@ -61,17 +61,11 @@ int main() {
 
         if (time.getElapsedTime().asMilliseconds() - last_time >= FPS) {
             last_time = time.getElapsedTime().asMilliseconds();
-            game.tick();
-            game.update();
-            game.statsLines.clear();
-            game.add_stats(font);
-            game.update_aphids();
+            game.update(font);
 
             //Informers::update(game.anthill.colony, game.resources);
 
             //Spawn entities
-            if (game.get_ticks() % enemy_wave_period == 0) game.raid.spawn_raid();
-
             for (auto& ant : game.anthill.colony) {
                 ant.look_around(game.resources);
                 ant.move();
@@ -86,7 +80,7 @@ int main() {
             for (auto& enemy : game.raid.crowd) {
                 if (enemy.get_hp() > 0) {
                     enemy.move();
-                    enemy.aged();
+                    enemy.up();
                 }
                 if (enemy.get_robbed()) {
                     game.raid.crowd.clear();
@@ -146,7 +140,7 @@ int main() {
             }
         }
 
-        window.clear(Color(102, 204, 0));
+        window.clear(Color(102, 230, 70));
         window.draw(game.anthill.get_shape());
         window.draw(enemy_hill_1);
         window.draw(enemy_hill_2);
@@ -159,6 +153,7 @@ int main() {
                 if (vision_circle && ant.get_role() != 0 && ant.get_role() != 1) window.draw(ant.get_vision_circle());
             }
         }
+
         for (const auto& aphid : game.aphids) if (aphid.is_visible()) window.draw(aphid.get_shape());
         for (auto& enemy : game.raid.crowd) if (enemy.is_visible()) window.draw(enemy.get_shape());
         for (const auto& text : game.statsLines) window.draw(text);

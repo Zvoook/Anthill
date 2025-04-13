@@ -72,7 +72,7 @@ void Anthill::upd_ant_stats()
     }
 }
 
-void Anthill::upd_anthill(int ticks)
+void Anthill::upd_anthill(int ticks, vector<Resource>& resources)
 {
     upd_ant_stats();
     //if (ticks % feeding_period == 0) feeding();
@@ -82,6 +82,22 @@ void Anthill::upd_anthill(int ticks)
     }
     if (stick_count == sticks_for_upd) up_lvl();
     else if (stick_count <= 0.25 * sticks_for_upd && ticks % min_downgrade_period == 0) down_lvl();
+    clear_colony(resources);
+}
+
+void Anthill::clear_colony(vector<Resource>& resources)
+{
+    for (auto& ant : colony) {
+        if (ant.get_hp() <= 0) {
+            Resource res(body, small);
+            res.set_posit(pos.x, pos.y);
+            res.set_color(body);
+            res.set_shape_size(small);
+            res.set_shape_size(small_resource_size);
+            resources.push_back(res);
+        }
+        colony.erase(remove_if(colony.begin(), colony.end(), [](const Ant& ant) { return ant.get_hp() <= 0; }), colony.end());
+    }
 }
 
 void Anthill::hunger() {
