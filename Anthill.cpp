@@ -87,11 +87,16 @@ void Anthill::upd_anthill(int ticks, vector<Resource>& resources)
 
 void Anthill::clear_colony(vector<Resource>& resources)
 {
-    for (const auto& ant : colony) {
+    for (auto& ant : colony) {
         if (ant.get_hp() <= 0) {
-            Resource res(body, small, ant.get_pos());
+            Resource res(body, small);
+            res.set_posit(pos.x, pos.y);
+            res.set_color(body);
+            res.set_shape_size(small);
+            res.set_shape_size(small_resource_size);
             resources.push_back(res);
         }
+        colony.erase(remove_if(colony.begin(), colony.end(), [](const Ant& ant) { return ant.get_hp() <= 0; }), colony.end());
     }
 }
 

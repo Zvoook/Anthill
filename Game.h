@@ -18,11 +18,15 @@ public:
 	vector<Text> statsLines;
 	Text OVER, YOU;
 
-	void render(RenderWindow& window);
 	void update(Font& font);
 	void add_stats(Font& font);
 	void spawn_aphids();
 	void update_aphids();
+
+	void update_ants();
+	void update_enemies();
+	void handle_collisions();
+	bool check_game_over();
 
 	void reset();
 	void spawn_res();
