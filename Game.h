@@ -24,11 +24,6 @@ public:
 	void spawn_aphids();
 	void update_aphids();
 
-	void update_ants();
-	void update_enemies();
-	void handle_collisions();
-	bool check_game_over();
-
 	void reset();
 	void spawn_res();
 	void over(Font& font);
