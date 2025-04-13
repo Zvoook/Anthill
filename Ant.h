@@ -47,7 +47,11 @@ public:
 
     //Should be used
     bool pick(Resource& res);
-    void work() { role->work(); }
+    void work(std::vector<Resource>& resources, vector<Enemy>& enemies) {
+        if (role != nullptr) {
+            role->work(*this, resources, enemies);
+        }
+    }
 
     //Target
     void set_target(const Position& p) { target = p; has_target = true; }
