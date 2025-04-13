@@ -11,7 +11,7 @@ void Ant::upd_role() {
         return;
     }
     case 2:case 3: {
-        if (hp > max_hp / 2) {
+        if (max_hp <= 400) {
             role_id = 4;
             role = roles[role_id];
         }
@@ -39,6 +39,7 @@ void Ant::upd_role() {
 }
 
 void Ant::move() {
+    if (hp <= 0) return;
     if (has_target) {
         float dx = target.x - pos.x;
         float dy = target.y - pos.y;
@@ -53,7 +54,7 @@ void Ant::move() {
             velocity.x = 0;
             velocity.y = 0;
             if (inventory != no_res && !pos.in_anthill()) {
-                set_target(Position(window_weidth / 2, window_high / 2));
+                set_target(Position(window_width / 2, window_height / 2));
                 going_home = true;
             }
             else if (inventory != no_res && pos.in_anthill()) {
@@ -73,13 +74,13 @@ void Ant::move() {
         if (role_id == 0) return;
         if (role_id != 1) {
             if (age % velocity_changing_period == 0) set_velocity(randomise_velocity() * ant_speed, randomise_velocity() * ant_speed);
-            if (pos.x + velocity.x < 0 || pos.x + velocity.x > window_weidth) velocity.x = -velocity.x;
-            if (pos.y + velocity.y < 0 || pos.y + velocity.y > window_high) velocity.y = -velocity.y;
+            if (pos.x + velocity.x < 0 || pos.x + velocity.x > window_width) velocity.x = -velocity.x;
+            if (pos.y + velocity.y < 0 || pos.y + velocity.y > window_height) velocity.y = -velocity.y;
         }
         else {
             if (age % (velocity_changing_period * 2) == 0) set_velocity(randomise_velocity() * ant_speed, randomise_velocity() * ant_speed);
-            if (pos.x + velocity.x < window_weidth / 2 - 2 * start_radius || pos.x + velocity.x > window_weidth / 2 + 2 * start_radius)velocity.x = -velocity.x;
-            if (pos.y + velocity.y < window_high / 2 - 2 * start_radius || pos.y + velocity.y > window_high / 2 + 2 * start_radius) velocity.y = -velocity.y;
+            if (pos.x + velocity.x < window_width / 2 - 2 * start_radius || pos.x + velocity.x > window_width / 2 + 2 * start_radius)velocity.x = -velocity.x;
+            if (pos.y + velocity.y < window_height / 2 - 2 * start_radius || pos.y + velocity.y > window_height / 2 + 2 * start_radius) velocity.y = -velocity.y;
         }
         pos.x += velocity.x;
         pos.y += velocity.y;
@@ -88,6 +89,7 @@ void Ant::move() {
 }
 
 void Ant::look_around(std::vector<Resource>& resources) {
+    if (hp <= 0) return;
     if (has_target || inventory != no_res || going_home) return;
     for (auto& res : resources) {
         if (!res.is_visible()) continue;
@@ -95,7 +97,7 @@ void Ant::look_around(std::vector<Resource>& resources) {
         float dy = res.get_posit().y - pos.y;
         float dist = std::sqrt(dx * dx + dy * dy);
         if (dist < radius_vision) {
-            if ((res.get_type() == food && role_id == 2) || (res.get_type() == stick && role_id == 3)) {// РґРѕР±Р°РІРёС‚СЊ С‚СЂСѓРїС‹ Рё РјСѓСЃРѕСЂ
+            if ((res.get_type() == food && role_id == 2) || (res.get_type() == stick && role_id == 3)) {// добавить трупы и мусор
                 set_inventory(res.get_type());
                 set_target(res.get_posit());
                 res.set_invisible();
@@ -106,13 +108,13 @@ void Ant::look_around(std::vector<Resource>& resources) {
 }
 
 CircleShape Ant::get_vision_circle() const {
-        CircleShape vision(radius_vision);
-        vision.setOrigin(radius_vision, radius_vision); // С†РµРЅС‚СЂ РєСЂСѓРіР°
-        vision.setPosition(pos.x, pos.y);
-        vision.setFillColor(sf::Color(255, 255, 255, 20));  // Р±РµР»С‹Р№, РїРѕС‡С‚Рё РїСЂРѕР·СЂР°С‡РЅС‹Р№
-        vision.setOutlineColor(sf::Color(0, 0, 255, 20)); // РїРѕР»СѓРїСЂРѕР·СЂР°С‡РЅС‹Р№ РєРѕРЅС‚СѓСЂ
-        vision.setOutlineThickness(1.f);
-        return vision;
+    CircleShape vision(radius_vision);
+    vision.setOrigin(radius_vision, radius_vision); // центр круга
+    vision.setPosition(pos.x, pos.y);
+    vision.setFillColor(sf::Color(255, 255, 255, 20));  // белый, почти прозрачный
+    vision.setOutlineColor(sf::Color(0, 0, 255, 20)); // полупрозрачный контур
+    vision.setOutlineThickness(1.f);
+    return vision;
 }
 
 bool Ant::pick(Resource& res) {
@@ -122,6 +124,10 @@ bool Ant::pick(Resource& res) {
 
 void Ant::upd_color()
 {
+    if (hp <= 0 || already_dead) {
+        shape.setFillColor(Color(134, 138, 142));
+        return;
+    }
     switch (role_id) {
     case 0: { shape.setFillColor(Color::White); return; }
     case 1: { shape.setFillColor(Color(255, 102, 178)); return; }
@@ -133,13 +139,21 @@ void Ant::upd_color()
     }
 }
 
-void Ant::dead(vector<Resource> resources)
+void Ant::dead(vector<Resource>& resources)
 {
+    if (already_dead) return;
     Resource res(body, small);
-    res.set_posit(pos.x,pos.y);
+    res.set_posit(pos.x, pos.y);
     res.set_color(body);
     res.set_shape_size(small);
     resources.push_back(res);
+    hp = 0;
+    velocity.x = 0;
+    velocity.y = 0;
+    has_target = false;
+    inventory = no_res;
+    already_dead = true;
+
 }
 
 float randomise_velocity()
