@@ -72,28 +72,6 @@ void Anthill::upd_ant_stats()
     }
 }
 
-void Anthill::clear_colony(vector<Resource>& resources)
-{
-    vector<Ant> new_colony;
-
-    for (int i = 0; i < colony.size(); ++i) {
-        if (colony[i].get_hp() <= 0) {
-            // Спавн трупа
-            Resource corpse(body, small);
-            corpse.set_posit(colony[i].get_pos().x, colony[i].get_pos().y);
-            corpse.set_color(body);
-            corpse.set_shape_size(small_resource_size);
-            corpse.set_visible();
-            resources.push_back(corpse);
-        }
-        else {
-            new_colony.push_back(colony[i]);
-        }
-    }
-
-    colony = new_colony;
-}
-
 void Anthill::upd_anthill(int ticks, vector<Resource>& resources)
 {
     upd_ant_stats();
@@ -106,14 +84,15 @@ void Anthill::upd_anthill(int ticks, vector<Resource>& resources)
     else if (stick_count <= 0.25 * sticks_for_upd && ticks % min_downgrade_period == 0) down_lvl();
 }
 
-
 void Anthill::hunger() {
     int ant_count = colony.size();
     if (food_count < ant_count) {
         for (auto& ant : colony) {
-            int new_hp = ant.get_hp() - hungry_damage;
+            int new_hp = ant.get_hp() - hunger_damage;
             ant.set_hp(new_hp);
         }
     }
     else food_count -= ant_count;
+   
 }
+

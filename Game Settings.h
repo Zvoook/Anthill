@@ -11,8 +11,8 @@ using namespace std;
 using namespace sf;
 
 //Window settings
-const int window_width = 1000;
-const int window_height = 800;
+const int window_width = 1200;
+const int window_height = 1000;
 
 //Timer settings
 const int fps = 20; //ticks per ms
@@ -25,7 +25,7 @@ const int ant_speed = 8;
 const int velocity_changing_period = 10;
 //const int life_stages = 5;
 const bool vision_circle = true;
-const int hungry_damage = 30;
+const int hungry_damage = 1000;
 
 //Resource settings
 const int count_of_angles_in_form = 16;
@@ -50,8 +50,8 @@ const int honey_collect_time = 3 * second;
 //Anthill settings
 const int start_radius = 0.07 * window_width;
 const int start_max_ant_count = 20;
-const int start_food_limit = 1200;
-const int start_stick_for_update = 300;
+const int start_food_limit = 300;
+const int start_stick_for_update = 20;
 const int start_ant_count = 30;
 const int min_downgrade_period = 7 * second;
 

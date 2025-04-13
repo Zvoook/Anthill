@@ -9,12 +9,13 @@ static Role* roles[7] = { new Baby(), new Sitter(), new Collector(), new Builder
 class Ant : public Entity {
 private:
     int max_hp, role_id;
+    bool already_dead;
     Role* role;
     bool going_home;
     res_type inventory;
 
 public:
-    Ant(float x = 0, float y = 0) :Entity(x, y), role_id(0), going_home(false), inventory(no_res) {
+    Ant(float x = 0, float y = 0) :Entity(x, y), role_id(0), going_home(false), inventory(no_res), already_dead(false) {
         max_hp = hp;
         role = roles[role_id];
         shape.setRadius(ant_size);
@@ -25,9 +26,14 @@ public:
     void upd_color();
     void look_around(vector<Resource>& resources);
     void set_inventory(res_type type) { inventory = type; }
-    //bool pick(Resource& res);
-    void work(Ant* self) { role->work(Ant* self); }
-
+    bool pick(Resource& res);
+    void work(std::vector<Resource>& resources, vector<Enemy>& enemies) {
+        if (role != nullptr) {
+            role->work(*this, resources, enemies);
+        }
+    }
+    bool is_already_dead() const { return already_dead; }
+    void set_already_dead() { already_dead = true; }
     int get_role() const { return role_id; }
     res_type get_inventory() const { return inventory; }
     CircleShape get_vision_circle() const;

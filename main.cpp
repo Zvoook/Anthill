@@ -1,3 +1,4 @@
+
 #include "Game.h"
 
 #define Colony
@@ -63,8 +64,13 @@ int main() {
             last_time = time.getElapsedTime().asMilliseconds();
             game.update(font);
             game.update_ants();
+            game.spawn_body();
+            ant.upd_color();
             game.update_enemies();
             game.handle_collisions();
+            if (game.get_ticks() % feeding_period == 0) {
+                game.anthill.hunger(); // Проверка на голод каждый период кормления
+            }
             if (game.check_game_over()) {
                 game.over(font);
 
@@ -110,4 +116,5 @@ int main() {
     }
     return 0;
 }
+
 #endif

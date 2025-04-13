@@ -39,4 +39,3 @@ public:
 private:
 	int ticks;
 	bool has_started_colony = false;
-};
