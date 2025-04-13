@@ -7,7 +7,7 @@ private:
     bool has_target;
     bool robbed, going_home, yet_robbed;
 public:
-    Enemy(float x = 0, float y = 0) : Entity(), yet_robbed(0), home(x,y), going_home(false), robbed(false) {
+    Enemy(float x, float y) : Entity(x,y), yet_robbed(0), home(x,y), going_home(false), robbed(false) {
         shape.setRadius(ant_size);
         shape.setFillColor(Color::Red);
         shape.setPosition(x, y);
