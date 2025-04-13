@@ -24,7 +24,8 @@ public:
     };
     void decrease_quantity(int amount);
     void set_posit(float a, float b) { pos.x = a; pos.y = b; shape.setPosition(a, b); }
-    void set_invisible() { visible = false; }
+    void set_invisible() { visible = 0; }
+    void set_visible() { visible = 1; }
     void set_color(res_type type);
     void set_shape_size(int x) { shape.setRadius(x); }
 

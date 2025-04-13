@@ -87,7 +87,7 @@ int main() {
 
             //Informers::update(game.anthill.colony, game.resources);
 
-            window.clear(Color(102, 230, 70));
+            window.clear(Color(180, 240, 180));
             window.draw(game.anthill.get_shape());
             window.draw(enemy_hill_1);
             window.draw(enemy_hill_2);

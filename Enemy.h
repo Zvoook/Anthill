@@ -9,7 +9,7 @@ private:
 public:
     Enemy(float x, float y) : Entity(), yet_robbed(0), home(x,y), going_home(false), robbed(false) {
         shape.setRadius(ant_size);
-        shape.setFillColor(Color::Red);
+        shape.setFillColor(Color(220, 80, 80));
         shape.setPosition(x, y);
         pos = home;
     }

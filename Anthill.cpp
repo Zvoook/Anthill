@@ -13,7 +13,7 @@ Anthill::Anthill() :lvl(1), rad(start_radius) {
     max_ants = start_max_ant_count;
     sticks_for_upd = start_stick_for_update;
     max_food = start_food_limit;
-    shape.setFillColor(Color(115, 66, 34));
+    shape.setFillColor(Color(160, 100, 60));
 }
 
 void Anthill::up_lvl() {
@@ -74,20 +74,24 @@ void Anthill::upd_ant_stats()
 
 void Anthill::clear_colony(vector<Resource>& resources)
 {
-    for (auto& ant : colony) {
-        if (ant.get_hp() <= 0) {
-            ants--;
+    vector<Ant> new_colony;
+
+    for (int i = 0; i < colony.size(); ++i) {
+        if (colony[i].get_hp() <= 0) {
+            // Спавн трупа
             Resource corpse(body, small);
-            corpse.set_posit(ant.get_pos().x, ant.get_pos().y);
+            corpse.set_posit(colony[i].get_pos().x, colony[i].get_pos().y);
             corpse.set_color(body);
             corpse.set_shape_size(small_resource_size);
+            corpse.set_visible();
             resources.push_back(corpse);
+        }
+        else {
+            new_colony.push_back(colony[i]);
         }
     }
 
-    // Теперь безопасно очищаем
-    colony.erase(remove_if(colony.begin(), colony.end(),
-        [](const Ant& ant) { return ant.get_hp() <= 0; }), colony.end());
+    colony = new_colony;
 }
 
 void Anthill::upd_anthill(int ticks, vector<Resource>& resources)

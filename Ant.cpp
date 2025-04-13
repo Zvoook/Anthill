@@ -123,14 +123,15 @@ CircleShape Ant::get_vision_circle() const {
 void Ant::upd_color()
 {
     switch (role_id) {
-    case 0: { shape.setFillColor(Color::White); return; }
-    case 1: { shape.setFillColor(Color(255, 102, 178)); return; }
-    case 2: { shape.setFillColor(Color(255, 128, 0)); return; }
-    case 3: { shape.setFillColor(Color::Yellow); return; }
-    case 4: { shape.setFillColor(Color::Black); return; }
-    case 5: { shape.setFillColor(Color(0, 0, 204)); return; }
-    case 6: { shape.setFillColor(Color(102, 51, 0)); return; }
+    case 0: shape.setFillColor(Color(240, 240, 240)); break;         // белый → мягкий
+    case 1: shape.setFillColor(Color(255, 170, 204)); break;         // розовый → теплее
+    case 2: shape.setFillColor(Color(255, 180, 80)); break;          // оранжевый → светлее
+    case 3: shape.setFillColor(Color(255, 240, 100)); break;         // жёлтый → мягче
+    case 4: shape.setFillColor(Color(50, 50, 50)); break;            // чёрный → серее
+    case 5: shape.setFillColor(Color(100, 120, 255)); break;         // синий → светлее
+    case 6: shape.setFillColor(Color(140, 100, 60)); break;          // коричневый → светлее
     }
+
 }
 
 float randomise_velocity()

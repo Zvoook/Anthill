@@ -26,7 +26,7 @@ public:
     void look_around(vector<Resource>& resources);
     void set_inventory(res_type type) { inventory = type; }
     //bool pick(Resource& res);
-    void work() { role->work(); }
+    void work(Ant* self) { role->work(Ant* self); }
 
     int get_role() const { return role_id; }
     res_type get_inventory() const { return inventory; }

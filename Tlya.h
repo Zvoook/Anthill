@@ -21,7 +21,7 @@ public:
         is_shepherded(false),
         move_timer(0), visible(true) {
         shape.setRadius(aphid_size); 
-        shape.setFillColor(Color(75, 0, 130)); 
+        shape.setFillColor(Color(120, 90, 160));
         shape.setPosition(x, y);
         shape.setPointCount(8); 
     }
