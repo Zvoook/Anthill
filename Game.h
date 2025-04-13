@@ -18,6 +18,7 @@ public:
 	vector<Text> statsLines;
 	Text OVER, YOU;
 
+	void render(RenderWindow& window);
 	void update(Font& font);
 	void add_stats(Font& font);
 	void spawn_aphids();

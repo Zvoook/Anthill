@@ -68,17 +68,19 @@ int main() {
 
             //Informers::update(game.anthill.colony, game.resources);
 
+            //game.render(window);
             window.clear(Color(102, 230, 70));
-            window.draw(game.anthill.get_shape());
             window.draw(enemy_hill_1);
             window.draw(enemy_hill_2);
             window.draw(enemy_hill_3);
+            window.draw(game.anthill.get_shape());
 
             for (const auto& res : game.resources) if (res.is_visible()) window.draw(res.get_shape());
             for (const auto& ant : game.anthill.colony) {
                 if (ant.is_visible()) {
                     window.draw(ant.get_shape());
-                    if (vision_circle && ant.get_role() != 0 && ant.get_role() != 1) window.draw(ant.get_vision_circle());
+                    if (vision_circle && ant.get_role() != 0 && ant.get_role() != 1)
+                        window.draw(ant.get_vision_circle());
                 }
             }
 
@@ -111,3 +113,4 @@ int main() {
     return 0;
 }
 #endif
+
