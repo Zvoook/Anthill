@@ -1,11 +1,21 @@
 #include "fix_for_macos.hpp"
 #include "Game.h"
+void Game::update(Font& font)
+{
+    ticks++;
+    anthill.upd_anthill(ticks, resources);
+    statsLines.clear();
+    add_stats(font);
+    update_aphids();
+    if (get_ticks() % enemy_wave_period == 0) raid.spawn_raid();
+}
+
 void Game::add_stats(Font& font) {
     int line = 0;
     auto makeText = [&](const string& text, Color color) {
-        Text t(text, font, 20);
+        Text t(text, font, 18);
         t.setFillColor(color);
-        t.setPosition(10, 10 + line * 24);
+        t.setPosition(10, 10 + line * 20);
         statsLines.push_back(t);
         line++;
     };
@@ -14,7 +24,7 @@ void Game::add_stats(Font& font) {
     makeText("Aphids: " + to_string(aphids.size()), Color(75, 0, 130));
     makeText("Food: " + to_K(anthill.get_food_count()) + " (" + to_K(anthill.get_max_food()) + ")", Color(0, 255, 0));
     makeText("Sticks: " + to_K(anthill.get_stick_count()) + " (FU: " + to_K(anthill.get_for_upd() - anthill.get_stick_count()) + ")", Color(139, 69, 19));
-    makeText("---------------", Color(200, 200, 200));
+    makeText("---------------", Color(0, 0, 0));
     makeText("Babies: " + to_string(anthill.get_baby_count()), Color::White);
     makeText("Sitters: " + to_string(anthill.get_sitter_count()), Color(255, 102, 178));
     makeText("Collectors: " + to_string(anthill.get_collector_count()), Color(255, 128, 0));
@@ -49,14 +59,6 @@ void Game::spawn_res()
     }
 }
 
-void Game::spawn_body()
-{
-    for (auto& ant: anthill.colony) {
-        if (ant.get_hp() <= 0) ant.dead(resources);
-        anthill.colony.erase(remove_if(anthill.colony.begin(), anthill.colony.end(), [](const Ant& ant) { return ant.get_hp() <= 0; }), anthill.colony.end());
-    }
-}
-
 void Game::spawn_aphids() {
     for (int i = 0; i < aphid_cluster_count; ++i) {
         int x, y;
@@ -86,11 +88,11 @@ void Game::over(Font& font) {
 
     OVER.setFont(font);
     OVER.setString("GAME OVER");
-    OVER.setCharacterSize(100);
+    OVER.setCharacterSize(130);
     OVER.setFillColor(Color::Black);
 
     YOU.setFont(font);
-    YOU.setString("YOU ARE NEXT >>");
+    YOU.setString("YOU ARE NEXT");
     YOU.setCharacterSize(70);
     YOU.setFillColor(Color::Red);
 
@@ -102,7 +104,7 @@ void Game::over(Font& font) {
     FloatRect textBounds2 = YOU.getLocalBounds();
     YOU.setOrigin(textBounds2.left + textBounds2.width / 2.0f,
         textBounds2.top + textBounds2.height / 2.0f);
-    YOU.setPosition(window_width / 2.0f + 80, window_height / 2.0f + 80);
+    YOU.setPosition(window_width / 2.0f + 100, window_height / 2.0f + 80);
 }
 
 string Game::to_K(int x)
@@ -110,4 +112,81 @@ string Game::to_K(int x)
     int y = (int)(x / 1000);
     if (y > 0) return to_string(y) + "." + to_string((x % 1000)/100) + "K";
     return to_string(x);
+}
+
+void Game::update_ants() {
+    for (auto& ant : anthill.colony) {
+        ant.look_around(resources);
+        ant.move();
+        if (ant.get_hp() > 0) {
+            ant.up();
+            if (ant.get_age() % stage_time == 0 && ant.get_age())
+                ant.upd_role();
+        }
+    }
+}
+
+void Game::update_enemies() {
+    for (auto& enemy : raid.crowd) {
+        if (enemy.get_hp() > 0) {
+            enemy.move();
+            enemy.up();
+        }
+        if (enemy.get_robbed()) {
+            raid.crowd.clear();
+            break;
+        }
+    }
+}
+
+void Game::handle_collisions() {
+    // муравьи
+    for (size_t i = 0; i < anthill.colony.size(); i++) {
+        for (size_t j = i + 1; j < anthill.colony.size(); j++) {
+            Vector2f pos1 = anthill.colony[i].get_shape().getPosition();
+            Vector2f pos2 = anthill.colony[j].get_shape().getPosition();
+            float dx = pos1.x - pos2.x;
+            float dy = pos1.y - pos2.y;
+            float distance = sqrt(dx * dx + dy * dy);
+            float min_dist = ant_size * 2.0f;
+
+            if (distance < min_dist && distance > 0.001f) {
+                float overlap = (min_dist - distance) / 2.0f;
+                float offsetX = (dx / distance) * overlap;
+                float offsetY = (dy / distance) * overlap;
+
+                auto& shape1 = const_cast<CircleShape&>(anthill.colony[i].get_shape());
+                auto& shape2 = const_cast<CircleShape&>(anthill.colony[j].get_shape());
+                shape1.setPosition(pos1.x + offsetX, pos1.y + offsetY);
+                shape2.setPosition(pos2.x - offsetX, pos2.y - offsetY);
+            }
+        }
+    }
+
+    for (size_t i = 0; i < raid.crowd.size(); i++) {
+        for (size_t j = i + 1; j < raid.crowd.size(); j++) {
+            Vector2f pos1 = raid.crowd[i].get_shape().getPosition();
+            Vector2f pos2 = raid.crowd[j].get_shape().getPosition();
+            float dx = pos1.x - pos2.x;
+            float dy = pos1.y - pos2.y;
+            float distance = sqrt(dx * dx + dy * dy);
+
+            float radius_sum = raid.crowd[i].get_shape().getRadius() + raid.crowd[j].get_shape().getRadius();
+            if (distance < radius_sum && distance > 0.001f) {
+                float overlap = (radius_sum - distance) / 2.0f;
+                float offsetX = (dx / distance) * overlap;
+                float offsetY = (dy / distance) * overlap;
+
+                auto& shape1 = const_cast<CircleShape&>(raid.crowd[i].get_shape());
+                auto& shape2 = const_cast<CircleShape&>(raid.crowd[j].get_shape());
+                shape1.setPosition(pos1.x + offsetX, pos1.y + offsetY);
+                shape2.setPosition(pos2.x - offsetX, pos2.y - offsetY);
+            }
+        }
+    }
+}
+
+bool Game::check_game_over() {
+    return ((get_ticks() % (10 * second) == 0 && anthill.colony.empty()) ||
+        anthill.get_shape().getRadius() <= 0.75 * start_radius);
 }

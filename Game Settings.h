@@ -51,7 +51,7 @@ const int honey_collect_time = 3 * second;
 const int start_radius = 0.07 * window_width;
 const int start_max_ant_count = 20;
 const int start_food_limit = 32500;
-const int start_stick_for_update = 20;
+const int start_stick_for_update = 100;
 const int start_ant_count = 30;
 const int min_downgrade_period = 7 * second;
 

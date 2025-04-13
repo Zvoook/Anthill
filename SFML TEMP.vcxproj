@@ -140,6 +140,7 @@
     <ClCompile Include="Ant.cpp" />
     <ClCompile Include="Anthill.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Informers.cpp" />
     <ClCompile Include="MAIN.cpp" />
@@ -152,6 +153,7 @@
     <ClInclude Include="Ant.h" />
     <ClInclude Include="Anthill.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Entity.h" />
     <ClInclude Include="Raid.h" />
     <ClInclude Include="Game Settings.h" />
     <ClInclude Include="Game.h" />
