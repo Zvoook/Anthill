@@ -48,11 +48,17 @@ void Game::spawn_res()
     }
 }
 
-void Game::spawn_body(){
-    for (auto& ant : anthill.colony) {
-        if (ant.get_hp() <= 0 && ant.is_already_dead()) {
-            ant.dead(resources);
+void Game::spawn_body()
+{
+    vector<size_t> ants_dead;
+    for (size_t i = 0; i < anthill.colony.size(); i++) {
+        if (anthill.colony[i].get_hp() <= 0 && !anthill.colony[i].is_already_dead()) {
+            anthill.colony[i].dead(resources);
+            ants_dead.push_back(i);
         }
+    }
+    for (int i = ants_dead.size() - 1; i >= 0; i--) {
+        anthill.colony.erase(anthill.colony.begin() + ants_dead[i]);
     }
 }
 
