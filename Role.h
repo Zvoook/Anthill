@@ -11,7 +11,7 @@ class Game;
 class Role {
 public:
     virtual ~Role() = default;
-    // Изменяем сигнатуру метода work, чтобы он принимал необходимые параметры
+    // РР·РјРµРЅСЏРµРј СЃРёРіРЅР°С‚СѓСЂСѓ РјРµС‚РѕРґР° work, С‡С‚РѕР±С‹ РѕРЅ РїСЂРёРЅРёРјР°Р» РЅРµРѕР±С…РѕРґРёРјС‹Рµ РїР°СЂР°РјРµС‚СЂС‹
     virtual void work(Ant& ant, std::vector<Resource>& resources,vector<Enemy>& enemies) = 0;
 };
 

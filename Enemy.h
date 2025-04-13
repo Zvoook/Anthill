@@ -1,31 +1,18 @@
 #pragma once
 #include "Game Settings.h"
 #include "Ant.h"
-class Enemy :public Ant {
+class Enemy :public Entity {
 private:
-    int hp, age;
-    Position pos, target;
-    Vector2f velocity;
-    CircleShape shape;
+    Position home;
     bool has_target;
-    bool going_home;
-    bool robbed;
-    res_type inventory;
-    bool visible;
-    float radius_vision;
+    bool robbed, going_home, yet_robbed;
 public:
-    Enemy(float x = 0, float y = 0) :age(0), pos(x, y), hp(1), velocity(0, 0), target(0, 0), has_target(true), going_home(false), robbed(false), radius_vision(80.f) {
-        hp = rand() % 201 + 300;
+    Enemy(float x, float y) : Entity(), yet_robbed(0), home(x,y), going_home(false), robbed(false) {
         shape.setRadius(ant_size);
-        shape.setFillColor(Color::Red);
+        shape.setFillColor(Color(220, 80, 80));
         shape.setPosition(x, y);
-        visible = true;
+        pos = home;
     }
-    void move();
-    void set_velocity(float vx, float vy) { velocity.x = vx; velocity.y = vy; }
-    void aged() { age++; }
-
-    const CircleShape& get_shape() const { return shape; }
-    int get_hp() const { return hp; }
-    bool is_visible() const { return visible; }
+    void move() override;
+    bool get_robbed() const { return yet_robbed; }
 };

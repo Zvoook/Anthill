@@ -33,20 +33,26 @@
     <ClCompile Include="Ant.cpp">
       <Filter>Исходные файлы\ANTS</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="Informers.cpp">
       <Filter>Исходные файлы\ANTS</Filter>
     </ClCompile>
     <ClCompile Include="Anthill.cpp">
       <Filter>Исходные файлы\ANTS</Filter>
     </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Исходные файлы\ANTS</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Исходные файлы\ANTS</Filter>
+    </ClCompile>
     <ClCompile Include="Game.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\ANTS</Filter>
     </ClCompile>
     <ClCompile Include="Raid.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\ANTS</Filter>
+    </ClCompile>
+    <ClCompile Include="Tlya.cpp">
+      <Filter>Исходные файлы\ANTS</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -78,6 +84,12 @@
       <Filter>Исходные файлы\ANTS</Filter>
     </ClInclude>
     <ClInclude Include="Raid.h">
+      <Filter>Исходные файлы\ANTS</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Исходные файлы\ANTS</Filter>
+    </ClInclude>
+    <ClInclude Include="Tlya.h">
       <Filter>Исходные файлы\ANTS</Filter>
     </ClInclude>
   </ItemGroup>

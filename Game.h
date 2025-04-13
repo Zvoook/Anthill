@@ -18,15 +18,18 @@ public:
 	vector<Text> statsLines;
 	Text OVER, YOU;
 
-	void update() { anthill.upd_anthill(ticks); }
-	void tick() { ticks++; }
+	void update(Font& font);
 	void add_stats(Font& font);
 	void spawn_aphids();
 	void update_aphids();
 
+	void update_ants();
+	void update_enemies();
+	void handle_collisions();
+	bool check_game_over();
+
 	void reset();
 	void spawn_res();
-	void spawn_body();
 	void over(Font& font);
 	//void clean_ants();
 	//void clean_enemy();
@@ -35,4 +38,4 @@ public:
 	string to_K(int x);
 private:
 	int ticks;
-};
+	bool has_started_colony = false;

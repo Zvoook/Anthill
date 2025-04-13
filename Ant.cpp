@@ -97,7 +97,7 @@ void Ant::look_around(std::vector<Resource>& resources) {
         float dy = res.get_posit().y - pos.y;
         float dist = std::sqrt(dx * dx + dy * dy);
         if (dist < radius_vision) {
-            if ((res.get_type() == food && role_id == 2) || (res.get_type() == stick && role_id == 3)) {// добавить трупы и мусор
+            if ((res.get_type() == food && role_id == 2) || (res.get_type() == stick && role_id == 3)) {// Г¤Г®ГЎГ ГўГЁГІГј ГІГ°ГіГЇГ» ГЁ Г¬ГіГ±Г®Г°
                 set_inventory(res.get_type());
                 set_target(res.get_posit());
                 res.set_invisible();
@@ -109,10 +109,10 @@ void Ant::look_around(std::vector<Resource>& resources) {
 
 CircleShape Ant::get_vision_circle() const {
     CircleShape vision(radius_vision);
-    vision.setOrigin(radius_vision, radius_vision); // центр круга
+    vision.setOrigin(radius_vision, radius_vision); // Г‘В†ГђВµГђВЅГ‘В‚Г‘ВЂ ГђВєГ‘ВЂГ‘ВѓГђВіГђВ°
     vision.setPosition(pos.x, pos.y);
-    vision.setFillColor(sf::Color(255, 255, 255, 20));  // белый, почти прозрачный
-    vision.setOutlineColor(sf::Color(0, 0, 255, 20)); // полупрозрачный контур
+    vision.setFillColor(sf::Color(255, 255, 255, 15));  // ГђВ±ГђВµГђВ»Г‘В‹ГђВ№, ГђВїГђВѕГ‘В‡Г‘В‚ГђВё ГђВїГ‘ВЂГђВѕГђВ·Г‘ВЂГђВ°Г‘В‡ГђВЅГ‘В‹ГђВ№
+    vision.setOutlineColor(sf::Color(0, 0, 255, 20)); // ГђВїГђВѕГђВ»Г‘ВѓГђВїГ‘ВЂГђВѕГђВ·Г‘ВЂГђВ°Г‘В‡ГђВЅГ‘В‹ГђВ№ ГђВєГђВѕГђВЅГ‘В‚Г‘ВѓГ‘ВЂ
     vision.setOutlineThickness(1.f);
     return vision;
 }
@@ -138,7 +138,6 @@ void Ant::upd_color()
     case 6: { shape.setFillColor(Color(102, 51, 0)); return; }
     }
 }
-
 void Ant::dead(vector<Resource>& resources)
 {
     if (already_dead) return;
@@ -155,7 +154,6 @@ void Ant::dead(vector<Resource>& resources)
     already_dead = true;
 
 }
-
 float randomise_velocity()
 {
     int n = rand() % 3;
@@ -164,4 +162,3 @@ float randomise_velocity()
     case 1: return 0.0f;
     case 2: return 1.0f;
     }
-}

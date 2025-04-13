@@ -5,8 +5,8 @@ void Aphid::move() {
         velocity.x = randomise_velocity_aphid() * aphid_speed; 
         velocity.y = randomise_velocity_aphid() * aphid_speed;
     }
-    if (pos.x + velocity.x < 0 || pos.x + velocity.x > window_weidth) velocity.x = -velocity.x;
-    if (pos.y + velocity.y < 0 || pos.y + velocity.y > window_high) velocity.y = -velocity.y;
+    if (pos.x + velocity.x < 0 || pos.x + velocity.x > window_width) velocity.x = -velocity.x;
+    if (pos.y + velocity.y < 0 || pos.y + velocity.y > window_height) velocity.y = -velocity.y;
     pos.x += velocity.x;
     pos.y += velocity.y;
     shape.setPosition(pos.x, pos.y);
