@@ -1,9 +1,10 @@
-#include "fix_for_macos.hpp"
-#include "Game.h"
+
+﻿#include "Game.h"
 void Game::update(Font& font)
 {
     ticks++;
     anthill.upd_anthill(ticks, resources);
+    if (anthill.colony.size() > 0) has_started_colony = 1;
     statsLines.clear();
     add_stats(font);
     update_aphids();
@@ -18,11 +19,19 @@ void Game::add_stats(Font& font) {
         t.setPosition(10, 10 + line * 20);
         statsLines.push_back(t);
         line++;
-    };
-    makeText("Ants: " + to_K(anthill.get_ant_count()) + " ("+ to_K(anthill.get_max_ants()) + ")", Color::White);
+        };
+    // Подсчет ресурсов типа "body" (трупы)
+    int bodyResourcesCount = 0;
+    for (const auto& res : resources) {
+        if (res.is_visible() && res.get_type() == body) {
+            bodyResourcesCount++;
+        }
+    }
+    makeText("Ants: " + to_K(anthill.get_ant_count()) + " (" + to_K(anthill.get_max_ants()) + ")", Color::White);
     makeText("Enemies: " + to_string(raid.get_size()), Color::Red);
     makeText("Aphids: " + to_string(aphids.size()), Color(75, 0, 130));
     makeText("Food: " + to_K(anthill.get_food_count()) + " (" + to_K(anthill.get_max_food()) + ")", Color(0, 255, 0));
+    makeText("Bodies: " + to_string(bodyResourcesCount), Color(134, 138, 142));
     makeText("Sticks: " + to_K(anthill.get_stick_count()) + " (FU: " + to_K(anthill.get_for_upd() - anthill.get_stick_count()) + ")", Color(139, 69, 19));
     makeText("---------------", Color(0, 0, 0));
     makeText("Babies: " + to_string(anthill.get_baby_count()), Color::White);
@@ -40,10 +49,12 @@ void Game::reset() {
     anthill = Anthill();
     raid.crowd.clear();
     resources.clear();
+    aphids.clear();
     statsLines.clear();
     ticks = 0;
     spawn_res();
 }
+
 
 void Game::spawn_res()
 {
@@ -53,9 +64,22 @@ void Game::spawn_res()
             x = rand() % (window_width - 2 * dist_btw_res) + dist_btw_res;
             y = rand() % (window_height - 2 * dist_btw_res) + dist_btw_res;
         } while ((x > window_width / 2 - 3 * start_radius && x < window_width / 2 + 3 * start_radius) ||
-            (y > window_height / 2 - 3 * start_radius && y < window_height / 2 + 3 * start_radius) || ((x < 0.2 * window_width) && (y<0.3*window_height)));
+            (y > window_height / 2 - 3 * start_radius && y < window_height / 2 + 3 * start_radius) || ((x < 0.2 * window_width) && (y < 0.3 * window_height)));
         if (i <= food_cluster_count) create_cluster(resources, x, y, food);
         else create_cluster(resources, x, y, stick);
+    }
+}
+void Game::spawn_body()
+{
+    vector<size_t> ants_dead;
+    for (size_t i = 0; i < anthill.colony.size(); i++) {
+        if (anthill.colony[i].get_hp() <= 0 && !anthill.colony[i].is_already_dead()) {
+            anthill.colony[i].dead(resources);
+            ants_dead.push_back(i);
+        }
+    }
+    for (int i = ants_dead.size() - 1; i >= 0; i--) {
+        anthill.colony.erase(anthill.colony.begin() + ants_dead[i]);
     }
 }
 
@@ -110,7 +134,7 @@ void Game::over(Font& font) {
 string Game::to_K(int x)
 {
     int y = (int)(x / 1000);
-    if (y > 0) return to_string(y) + "." + to_string((x % 1000)/100) + "K";
+    if (y > 0) return to_string(y) + "." + to_string((x % 1000) / 100) + "K";
     return to_string(x);
 }
 
@@ -132,15 +156,15 @@ void Game::update_enemies() {
             enemy.move();
             enemy.up();
         }
-        if (enemy.get_robbed()) {
-            raid.crowd.clear();
-            break;
-        }
     }
+    raid.crowd.erase(remove_if(raid.crowd.begin(), raid.crowd.end(),
+        [](const Enemy& enemy) {
+            return enemy.get_hp() <= 0 || !enemy.is_visible();
+        }), raid.crowd.end());
 }
 
 void Game::handle_collisions() {
-    // �������
+    // ìóðàâüè
     for (size_t i = 0; i < anthill.colony.size(); i++) {
         for (size_t j = i + 1; j < anthill.colony.size(); j++) {
             Vector2f pos1 = anthill.colony[i].get_shape().getPosition();
@@ -187,6 +211,7 @@ void Game::handle_collisions() {
 }
 
 bool Game::check_game_over() {
-    return ((get_ticks() % (10 * second) == 0 && anthill.colony.empty()) ||
+    return ((has_started_colony && anthill.colony.empty()) ||
         anthill.get_shape().getRadius() <= 0.75 * start_radius);
 }
+

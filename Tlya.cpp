@@ -35,7 +35,7 @@ int Aphid::produce_honey() {
 void Aphid::update() {
     age++;
     produce_honey();
-    //if (age > 1000) hp--;
+    if (age > 1000) hp--;
     if (is_shepherded && hp < 100 && age % 30 == 0) hp++;
     move();
 }

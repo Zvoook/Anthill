@@ -1,4 +1,4 @@
-#include "fix_for_macos.hpp"
+
 #include "Game.h"
 
 #define Colony
@@ -64,30 +64,13 @@ int main() {
             last_time = time.getElapsedTime().asMilliseconds();
             game.update(font);
             game.update_ants();
+            game.spawn_body();
+            ant.upd_color();
             game.update_enemies();
             game.handle_collisions();
-
-            //Informers::update(game.anthill.colony, game.resources);
-
-            window.clear(Color(102, 230, 70));
-            window.draw(game.anthill.get_shape());
-            window.draw(enemy_hill_1);
-            window.draw(enemy_hill_2);
-            window.draw(enemy_hill_3);
-
-            for (const auto& res : game.resources) if (res.is_visible()) window.draw(res.get_shape());
-            for (const auto& ant : game.anthill.colony) {
-                if (ant.is_visible()) {
-                    window.draw(ant.get_shape());
-                    if (vision_circle && ant.get_role() != 0 && ant.get_role() != 1) window.draw(ant.get_vision_circle());
-                }
+            if (game.get_ticks() % feeding_period == 0) {
+                game.anthill.hunger(); // Проверка на голод каждый период кормления
             }
-
-            for (const auto& aphid : game.aphids) if (aphid.is_visible()) window.draw(aphid.get_shape());
-            for (auto& enemy : game.raid.crowd) if (enemy.is_visible()) window.draw(enemy.get_shape());
-            for (const auto& text : game.statsLines) window.draw(text);
-            window.display();
-
             if (game.check_game_over()) {
                 game.over(font);
 
@@ -107,8 +90,31 @@ int main() {
                 window.close();
                 return 0;
             }
+
+            //Informers::update(game.anthill.colony, game.resources);
+
+            window.clear(Color(180, 240, 180));
+            window.draw(game.anthill.get_shape());
+            window.draw(enemy_hill_1);
+            window.draw(enemy_hill_2);
+            window.draw(enemy_hill_3);
+
+            for (const auto& res : game.resources) if (res.is_visible()) window.draw(res.get_shape());
+            for (const auto& ant : game.anthill.colony) {
+                if (ant.is_visible()) {
+                    window.draw(ant.get_shape());
+                    if (vision_circle && ant.get_role() != 0 && ant.get_role() != 1) window.draw(ant.get_vision_circle());
+                }
+            }
+
+            for (const auto& aphid : game.aphids) if (aphid.is_visible()) window.draw(aphid.get_shape());
+            for (auto& enemy : game.raid.crowd) if (enemy.is_visible()) window.draw(enemy.get_shape());
+            for (const auto& text : game.statsLines) window.draw(text);
+            window.display();
+
         }
     }
     return 0;
 }
+
 #endif

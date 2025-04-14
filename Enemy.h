@@ -7,10 +7,11 @@ private:
     bool has_target;
     bool robbed, going_home, yet_robbed;
 public:
-    Enemy(float x, float y) : Entity(x,y), yet_robbed(0), home(x,y), going_home(false), robbed(false) {
+    Enemy(float x, float y) : Entity(), yet_robbed(0), home(x,y), going_home(false), robbed(false) {
         shape.setRadius(ant_size);
-        shape.setFillColor(Color::Red);
+        shape.setFillColor(Color(220, 80, 80));
         shape.setPosition(x, y);
+        pos = home;
     }
     void move() override;
     bool get_robbed() const { return yet_robbed; }

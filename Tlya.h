@@ -1,7 +1,7 @@
 #pragma once
 #include "Game Settings.h"
 #include "Position.h"
-// Класс тли - ходячий ресурс
+// РљР»Р°СЃСЃ С‚Р»Рё - С…РѕРґСЏС‡РёР№ СЂРµСЃСѓСЂСЃ
 class Aphid {
 private:
     int hp;                 
@@ -21,7 +21,7 @@ public:
         is_shepherded(false),
         move_timer(0), visible(true) {
         shape.setRadius(aphid_size); 
-        shape.setFillColor(Color(75, 0, 130)); 
+        shape.setFillColor(Color(153, 153, 255)); 
         shape.setPosition(x, y);
         shape.setPointCount(8); 
     }

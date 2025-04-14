@@ -23,10 +23,10 @@ void create_cluster(vector<Resource>& resources, float x, float y, res_type type
 void Resource::set_color(res_type type)
 {
     switch (type) {
-    case food:shape.setFillColor(Color(0, 153, 0)); break;
-    case stick:shape.setFillColor(Color(115, 66, 34)); break;
-    case body:shape.setFillColor(Color(134, 138, 142)); break;
-    case trash:shape.setFillColor(Color(128, 128, 50)); break;
+    case food:shape.setFillColor(Color(130, 200, 130)); break;
+    case stick:shape.setFillColor(Color(139, 90, 50)); break;
+    case body:shape.setFillColor(Color(180, 180, 180)); break;
+    case trash:shape.setFillColor(Color(170, 170, 100)); break;
     }
 }
 

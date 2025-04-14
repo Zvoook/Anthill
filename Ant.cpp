@@ -39,6 +39,7 @@ void Ant::upd_role() {
 }
 
 void Ant::move() {
+    if (hp <= 0) return;
     if (has_target) {
         float dx = target.x - pos.x;
         float dy = target.y - pos.y;
@@ -88,6 +89,7 @@ void Ant::move() {
 }
 
 void Ant::look_around(std::vector<Resource>& resources) {
+    if (hp <= 0) return;
     if (has_target || inventory != no_res || going_home) return;
     for (auto& res : resources) {
         if (!res.is_visible()) continue;
@@ -95,7 +97,7 @@ void Ant::look_around(std::vector<Resource>& resources) {
         float dy = res.get_posit().y - pos.y;
         float dist = std::sqrt(dx * dx + dy * dy);
         if (dist < radius_vision) {
-            if ((res.get_type() == food && role_id == 2) || (res.get_type() == stick && role_id == 3)) {// добавить трупы и мусор
+            if ((res.get_type() == food && role_id == 2) || (res.get_type() == stick && role_id == 3)) {// äîáàâèòü òðóïû è ìóñîð
                 set_inventory(res.get_type());
                 set_target(res.get_posit());
                 res.set_invisible();
@@ -107,21 +109,25 @@ void Ant::look_around(std::vector<Resource>& resources) {
 
 CircleShape Ant::get_vision_circle() const {
     CircleShape vision(radius_vision);
-    vision.setOrigin(radius_vision, radius_vision); // центр круга
+    vision.setOrigin(radius_vision, radius_vision); // ÑÐµÐ½ÑÑ ÐºÑÑÐ³Ð°
     vision.setPosition(pos.x, pos.y);
-    vision.setFillColor(sf::Color(255, 255, 255, 15));  // белый, почти прозрачный
-    vision.setOutlineColor(sf::Color(0, 0, 255, 20)); // полупрозрачный контур
+    vision.setFillColor(sf::Color(255, 255, 255, 15));  // Ð±ÐµÐ»ÑÐ¹, Ð¿Ð¾ÑÑÐ¸ Ð¿ÑÐ¾Ð·ÑÐ°ÑÐ½ÑÐ¹
+    vision.setOutlineColor(sf::Color(0, 0, 255, 20)); // Ð¿Ð¾Ð»ÑÐ¿ÑÐ¾Ð·ÑÐ°ÑÐ½ÑÐ¹ ÐºÐ¾Ð½ÑÑÑ
     vision.setOutlineThickness(1.f);
     return vision;
 }
 
-//bool Ant::pick(Resource& res) {
-//    if (!res.is_visible()) return 0;
-//    if ((res.get_type() == food && role_id == 3) || (res.get_type() == stick && role_id == 2) || ((res.get_type() == body || res.get_type() == trash) && role_id == 6)) return 1;
-//}
+bool Ant::pick(Resource& res) {
+    if (!res.is_visible()) return 0;
+    if ((res.get_type() == food && role_id == 3) || (res.get_type() == stick && role_id == 2) || ((res.get_type() == body || res.get_type() == trash) && role_id == 6)) return 1;
+}
 
 void Ant::upd_color()
 {
+    if (hp <= 0 || already_dead) {
+        shape.setFillColor(Color(134, 138, 142));
+        return;
+    }
     switch (role_id) {
     case 0: { shape.setFillColor(Color::White); return; }
     case 1: { shape.setFillColor(Color(255, 102, 178)); return; }
@@ -132,7 +138,22 @@ void Ant::upd_color()
     case 6: { shape.setFillColor(Color(102, 51, 0)); return; }
     }
 }
+void Ant::dead(vector<Resource>& resources)
+{
+    if (already_dead) return;
+    Resource res(body, small);
+    res.set_posit(pos.x, pos.y);
+    res.set_color(body);
+    res.set_shape_size(small);
+    resources.push_back(res);
+    hp = 0;
+    velocity.x = 0;
+    velocity.y = 0;
+    has_target = false;
+    inventory = no_res;
+    already_dead = true;
 
+}
 float randomise_velocity()
 {
     int n = rand() % 3;
@@ -141,4 +162,3 @@ float randomise_velocity()
     case 1: return 0.0f;
     case 2: return 1.0f;
     }
-}
