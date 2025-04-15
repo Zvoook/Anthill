@@ -1,7 +1,7 @@
 #include "Game.h"
 void Game::update(Font & font)
 {
-
+    Cemetery::set_current(&cemetery);
     ticks++;
     anthill.upd_anthill(ticks, resources);
     if (anthill.colony.size() > 0) has_started_colony = 1;
@@ -98,6 +98,7 @@ void Game::spawn_aphids() {
         create_aphid_cluster(aphids, x, y, count);
     }
 }
+
 
 void Game::update_aphids() {
     for (auto& aphid : aphids) if (aphid.is_visible()) aphid.update();
@@ -210,6 +211,7 @@ void Game::handle_collisions() {
         }
     }
 }
+
 
 bool Game::check_game_over() {
     return ((has_started_colony && anthill.colony.empty()) ||
