@@ -56,28 +56,28 @@ void Ant::move() {
             has_target = false;
 
             if (inventory != no_res) {
-                if (!pos.in_anthill() && role_id!=6) {
+                if (!pos.in_anthill() && role_id != 6) {
                     // несём внутрь
                     set_target(Position(window_width / 2, window_height / 2));
                     going_home = true;
                 }
                 else if (role_id == 6) {
-    // если это чистильщик, выгружаем в кладбище
-    Cemetery* cemetery = Cemetery::get_current();
-    if (cemetery) {
-        if (inventory == body) cemetery->add_body();
-        else if (inventory == trash) cemetery->add_trash();
-    }
-    inventory = no_res;
-    going_home = false;
-}
-                else {
-                    // достигли муравейника, выгружаем
-                    if (inventory == food) Anthill::add_food();
-                    else if (inventory == stick) Anthill::add_stick();
-                    inventory = no_res;
-                    going_home = false;
+                    // если это чистильщик, выгружаем в кладбище
+                    Cemetery* cemetery = Cemetery::get_current();
+                    if (cemetery) {
+                        if (inventory == body) cemetery->add_body();
+                        else if (inventory == trash) cemetery->add_trash();
+                    }
                 }
+                inventory = no_res;
+                going_home = false;
+            }
+            else {
+                // достигли муравейника, выгружаем
+                if (inventory == food) Anthill::add_food();
+                else if (inventory == stick) Anthill::add_stick();
+                inventory = no_res;
+                going_home = false;
             }
         }
 
