@@ -1,45 +1,98 @@
-#include "Game Settings.h"
-#include "Ant.h"
+#include "Anthill.h"
 
-class Anthill {
-private:
-    float rad;
-    CircleShape shape;
-    Position pos;
-    int lvl, max_food, sticks_for_upd, max_ants;
-    static int food_count, stick_count;
-    int ants, babies, sitters, collectors, builders, soldiers, shepherds, cleaners;
-public:
-    vector<Ant> colony;
-    Anthill();
-    ~Anthill() = default;
-    void up_lvl();
-    void down_lvl();
-    void feeding() { food_count -= ants; }
-    void hunger();
-    void born_baby();
-    void upd_ant_stats();
-    void upd_anthill(int ticks, vector<Resource>& resources);
-    void default_count() { ants = soldiers = builders = cleaners = sitters = babies = shepherds = collectors = 0; }
-    void kill_colony() { colony.clear(); }
-    static void add_food() { food_count++; }
-    static void add_stick() { stick_count++; }
-    static void del_food() { food_count--; }
-    static void del_stick() { stick_count--; }
+int Anthill::food_count = 0;
+int Anthill::stick_count = 0;
 
-    const CircleShape& get_shape() const { return shape; }
-    int get_soldier_count() const { return soldiers; }
-    int get_builder_count() const { return builders; }
-    int get_cleaner_count() const { return cleaners; }
-    int get_sitter_count() const { return sitters; }
-    int get_baby_count() const { return babies; }
-    int get_shepherd_count() const { return shepherds; }
-    int get_collector_count() const { return collectors; }
-    int get_food_count() const { return food_count; }
-    int get_stick_count() const { return stick_count; }
-    int get_ant_count() const { return ants; }
-    int get_max_ants() const { return max_ants; }
-    int get_max_food() const { return max_food; }
-    int get_for_upd() const { return sticks_for_upd; }
-    int get_radius()const { return rad; }
-};
+Anthill::Anthill() :lvl(1), rad(start_radius) {
+    shape.setRadius(rad);
+    pos.x = window_width / 2 - start_radius;
+    pos.y = window_height / 2 - start_radius;
+    shape.setPosition(Vector2f(pos.x, pos.y));
+    food_count = start_food_limit / 2;
+    stick_count = (int)(start_stick_for_update * 0.75);
+    default_count();
+    max_ants = start_max_ant_count;
+    sticks_for_upd = start_stick_for_update;
+    max_food = start_food_limit;
+    shape.setFillColor(Color(160, 100, 60));
+}
+
+void Anthill::up_lvl() {
+    lvl++;
+    stick_count /= 2;
+    max_ants *= 1.5;
+    max_food *= 1.5;
+    sticks_for_upd *= 1.5;
+    rad *= 1.2;
+    shape.setRadius(rad);
+    pos.x = window_width / 2 - rad;
+    pos.y = window_height / 2 - rad;
+    shape.setPosition(Vector2f(pos.x, pos.y));
+}
+
+void Anthill::down_lvl() {
+    lvl--;
+    rad *= 0.8;
+    max_ants = ants;
+    max_food *= 0.5;
+    sticks_for_upd *= 0.5;
+    if (food_count > max_food) food_count = max_food;
+    if (stick_count > sticks_for_upd) stick_count = sticks_for_upd;
+    shape.setRadius(rad);
+    pos.x = window_width / 2 - rad;
+    pos.y = window_height / 2 - rad;
+    shape.setPosition(Vector2f(pos.x, pos.y));
+}
+
+void Anthill::born_baby() {
+    int x, y;
+    if (ants < max_ants) {
+        do {
+            x = rand() % window_width;
+            y = rand() % window_height;
+        } while ((x < window_width / 2 - start_radius / 2) || (x > window_width / 2 + start_radius / 2) ||
+            (y < window_height / 2 - start_radius / 2) || (y > window_height / 2 + start_radius / 2));
+        colony.emplace_back(x, y);
+    }
+}
+
+void Anthill::upd_ant_stats()
+{
+    default_count();
+    for (auto& ant : colony) {
+        ants++;
+        switch (ant.get_role()) {
+        case 0:babies++; break;
+        case 1:sitters++; break;
+        case 2:collectors++; break;
+        case 3:builders++; break;
+        case 4:soldiers++; break;
+        case 5:shepherds++; break;
+        case 6:cleaners++; break;
+        }
+    }
+}
+
+void Anthill::upd_anthill(int ticks, vector<Resource>& resources)
+{
+    upd_ant_stats();
+    //hunger();
+    if (food_count > food_for_born && ticks % min_born_period == 0) {
+        born_baby();
+        food_count -= food_for_born;
+    }
+    if (stick_count == sticks_for_upd) up_lvl();
+    else if (stick_count <= 0.25 * sticks_for_upd && ticks % min_downgrade_period == 0) down_lvl();
+}
+
+void Anthill::hunger() {
+    int ant_count = colony.size();
+    if (food_count < ant_count) {
+        for (auto& ant : colony) {
+            int new_hp = ant.get_hp() - hunger_damage;
+            ant.set_hp(new_hp);
+        }
+    }
+    else food_count -= ant_count;
+
+}
