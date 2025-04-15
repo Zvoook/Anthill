@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "Game Settings.h"
 #include "Position.h"
 class Resource {

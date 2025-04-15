@@ -43,8 +43,8 @@ public:
     /*void attack(Ant& ant);
     void escape_from_enemy(Ant& ant);
     void set_on_enemy(Ant& ant);*/
-//private:
-//    int damage;
+    //private:
+    //    int damage;
 };
 
 class Shepperd : public Role {
