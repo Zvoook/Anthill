@@ -1,4 +1,3 @@
-
 #include "Game.h"
 
 #define Colony
@@ -65,11 +64,11 @@ int main() {
             game.update(font);
             game.update_ants();
             game.spawn_body();
-            ant.upd_color();
-            game.update_enemies();
+            //ant.upd_color();
+            //game.update_enemies();
             game.handle_collisions();
             if (game.get_ticks() % feeding_period == 0) {
-                game.anthill.hunger(); // РџСЂРѕРІРµСЂРєР° РЅР° РіРѕР»РѕРґ РєР°Р¶РґС‹Р№ РїРµСЂРёРѕРґ РєРѕСЂРјР»РµРЅРёСЏ
+                game.anthill.hunger(); // Проверка на голод каждый период кормления
             }
             if (game.check_game_over()) {
                 game.over(font);
@@ -83,7 +82,7 @@ int main() {
                 while (time.getElapsedTime().asSeconds() < 3.0f) {
                     Event event;
                     while (window.pollEvent(event)) {
-                        if (event.type == sf::Event::Closed)
+                        if (event.type == Event::Closed)
                             window.close();
                     }
                 }
@@ -98,6 +97,7 @@ int main() {
             window.draw(enemy_hill_1);
             window.draw(enemy_hill_2);
             window.draw(enemy_hill_3);
+            window.draw(game.cemetery.get_shape());
 
             for (const auto& res : game.resources) if (res.is_visible()) window.draw(res.get_shape());
             for (const auto& ant : game.anthill.colony) {
@@ -111,10 +111,8 @@ int main() {
             for (auto& enemy : game.raid.crowd) if (enemy.is_visible()) window.draw(enemy.get_shape());
             for (const auto& text : game.statsLines) window.draw(text);
             window.display();
-
         }
     }
     return 0;
 }
-
 #endif

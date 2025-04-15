@@ -1,10 +1,11 @@
 #pragma once
-#include <SFML/Audio.hpp>
-#include <sstream>
+#include "Game Settings.h"
+#include "Resource.h"
 #include "Anthill.h"
 #include "Raid.h"
 #include "Informers.h"
 #include "Tlya.h"
+#include "Cemetery.h"
 
 class Game {
 public:
@@ -12,6 +13,7 @@ public:
 	~Game() = default;
 	Anthill anthill;
 	Raid raid;
+	Cemetery cemetery;
 	vector<Resource> resources;
 	vector<Aphid> aphids;
 
@@ -27,6 +29,7 @@ public:
 	void update_enemies();
 	void handle_collisions();
 	bool check_game_over();
+	void spawn_body();
 
 	void reset();
 	void spawn_res();
@@ -39,3 +42,4 @@ public:
 private:
 	int ticks;
 	bool has_started_colony = false;
+};

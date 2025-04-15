@@ -1,7 +1,7 @@
-
-﻿#include "Game.h"
-void Game::update(Font& font)
+#include "Game.h"
+void Game::update(Font & font)
 {
+
     ticks++;
     anthill.upd_anthill(ticks, resources);
     if (anthill.colony.size() > 0) has_started_colony = 1;
@@ -69,6 +69,7 @@ void Game::spawn_res()
         else create_cluster(resources, x, y, stick);
     }
 }
+
 void Game::spawn_body()
 {
     vector<size_t> ants_dead;
@@ -140,7 +141,8 @@ string Game::to_K(int x)
 
 void Game::update_ants() {
     for (auto& ant : anthill.colony) {
-        ant.look_around(resources);
+        //ant.look_around(resources);
+        ant.work(resources, raid.crowd);
         ant.move();
         if (ant.get_hp() > 0) {
             ant.up();
@@ -164,7 +166,6 @@ void Game::update_enemies() {
 }
 
 void Game::handle_collisions() {
-    // ìóðàâüè
     for (size_t i = 0; i < anthill.colony.size(); i++) {
         for (size_t j = i + 1; j < anthill.colony.size(); j++) {
             Vector2f pos1 = anthill.colony[i].get_shape().getPosition();
@@ -214,4 +215,3 @@ bool Game::check_game_over() {
     return ((has_started_colony && anthill.colony.empty()) ||
         anthill.get_shape().getRadius() <= 0.75 * start_radius);
 }
-

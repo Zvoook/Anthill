@@ -18,7 +18,7 @@
 //    // Для каждого муравья с требуемой ролью, если он свободен (без цели) и находится в зоне видения ресурса,
 //    // назначается задание (цель = позиция ресурса). Если ресурс «большой» (его количество больше get_request_ants()),
 //    // дополнительно ищется еще один свободный муравей для его сбора.
-//    static void update(std::vector<Ant>& ants, std::vector<Resource>& resources) {
+//    static void update(vector<Ant>& ants, vector<Resource>& resources) {
 //        for (Resource& res : resources) {
 //            if (!res.is_visible() || res.get_quantity() <= 0)
 //                continue;
@@ -45,7 +45,7 @@
 //                Position resPos = res.get_posit();
 //                float dx = antPos.x - resPos.x;
 //                float dy = antPos.y - resPos.y;
-//                float distance = std::sqrt(dx * dx + dy * dy);
+//                float distance = sqrt(dx * dx + dy * dy);
 //                float vision = ant.get_vision_circle().getRadius();
 //
 //                if (distance <= vision) {
@@ -62,7 +62,7 @@
 //                                Position hPos = helper.get_pos();
 //                                float hdx = hPos.x - resPos.x;
 //                                float hdy = hPos.y - resPos.y;
-//                                float hdist = std::sqrt(hdx * hdx + hdy * hdy);
+//                                float hdist = sqrt(hdx * hdx + hdy * hdy);
 //                                if (hdist <= helper.get_vision_circle().getRadius()) {
 //                                    helper.set_target(res.get_posit());
 //                                    break; // Назначаем только одного помощника.
