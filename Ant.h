@@ -1,8 +1,8 @@
 #pragma once
 #include "Game Settings.h"
+#include "Entity.h"
 #include "Role.h"
 #include "Resource.h"
-#include "Entity.h"
 
 static Role* roles[7] = { new Baby(), new Sitter(), new Collector(), new Builder(), new Soldier(), new Shepperd(), new Cleaner() };
 
@@ -24,14 +24,15 @@ public:
     void move() override;
     void upd_role();
     void upd_color();
-    void look_around(vector<Resource>& resources);
+    bool look_around(vector<Resource>& resources);
     void set_inventory(res_type type) { inventory = type; }
     bool pick(Resource& res);
-    void work(std::vector<Resource>& resources, vector<Enemy>& enemies) {
+    void work(vector<Resource>& resources, vector<Enemy>& enemies) {
         if (role != nullptr) {
             role->work(*this, resources, enemies);
         }
     }
+    void dead(vector<Resource>& resources);
     bool is_already_dead() const { return already_dead; }
     void set_already_dead() { already_dead = true; }
     int get_role() const { return role_id; }

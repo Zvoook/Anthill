@@ -1,5 +1,5 @@
-#include "Game.h"
-void Game::update(Font & font)
+﻿#include "Game.h"
+void Game::update(Font& font)
 {
     Cemetery::set_current(&cemetery);
     ticks++;

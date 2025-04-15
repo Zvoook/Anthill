@@ -1,5 +1,4 @@
-п»ї#include "Enemy.h"
-
+#include "Enemy.h"
 #include "Anthill.h"
 
 void Enemy::move() {
@@ -38,7 +37,7 @@ void Enemy::move() {
             has_target = false;
         }
 
-        // СЃР»СѓС‡Р°Р№РЅРѕРµ РґРІРёР¶РµРЅРёРµ
+        // случайное движение
         if (age % velocity_changing_period == 0)
             set_velocity(randomise_velocity() * ant_speed, randomise_velocity() * enemy_speed);
 

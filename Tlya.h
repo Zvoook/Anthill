@@ -1,7 +1,7 @@
 #pragma once
 #include "Game Settings.h"
 #include "Position.h"
-// РљР»Р°СЃСЃ С‚Р»Рё - С…РѕРґСЏС‡РёР№ СЂРµСЃСѓСЂСЃ
+// Класс тли - ходячий ресурс
 class Aphid {
 private:
     int hp;                 
