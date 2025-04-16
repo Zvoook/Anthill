@@ -9,7 +9,7 @@ Anthill::Anthill() :lvl(1), rad(start_radius) {
     pos.y = window_height / 2 - start_radius;
     shape.setPosition(Vector2f(pos.x, pos.y));
     food_count = start_food_limit / 2;
-    stick_count = (int)(start_stick_for_update * 0.75);
+    stick_count = (int)(start_stick_for_update * 10000); //поменять на 0.75
     default_count();
     max_ants = start_max_ant_count;
     sticks_for_upd = start_stick_for_update;

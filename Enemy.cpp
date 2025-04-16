@@ -37,7 +37,7 @@ void Enemy::move() {
             has_target = false;
         }
 
-        // случайное движение
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         if (age % velocity_changing_period == 0)
             set_velocity(randomise_velocity() * ant_speed, randomise_velocity() * enemy_speed);
 
@@ -50,4 +50,11 @@ void Enemy::move() {
     pos.x += velocity.x;
     pos.y += velocity.y;
     shape.setPosition(pos.x, pos.y);
+}
+void Enemy::take_damage(int damage) {
+    hp -= damage;
+    if (hp <= 0) {
+        hp = 0;
+        visible = false;
+    }
 }

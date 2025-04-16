@@ -1,4 +1,5 @@
 ﻿#include "Ant.h"
+#include "Entity.h"
 #include "Anthill.h"
 #include "Game.h"
 
@@ -128,7 +129,7 @@ void Ant::move() {
 
 
 
-bool Ant::look_around(vector<Resource>& resources, vector<Aphid>& aphids) {
+bool Ant::look_around(vector<Resource>& resources, vector<Aphid>& aphids, vector<Enemy>& enemies) {
     if (hp <= 0 || has_target || inventory != no_res || going_home) return false;
 
     for (auto& res : resources) {
@@ -155,6 +156,21 @@ bool Ant::look_around(vector<Resource>& resources, vector<Aphid>& aphids) {
             float dist = sqrt(dx * dx + dy * dy);
             if (dist < radius_vision) {
                 set_target(aphid.get_pos());
+                return true;
+            }
+        }
+    }
+    if (role_id == 4) {
+        for (Enemy& enemy : enemies) {
+            if (enemy.get_hp() <= 0) {
+                enemy.set_invisible();
+            }
+            if (!enemy.is_visible()) continue;
+            float dx = enemy.get_pos().x - pos.x;
+            float dy = enemy.get_pos().y - pos.y;
+            float dist = sqrt(dx * dx + dy * dy);
+            if (dist < radius_vision) {
+                set_target(enemy.get_pos());
                 return true;
             }
         }
