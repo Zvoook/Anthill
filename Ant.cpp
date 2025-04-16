@@ -1,5 +1,6 @@
-#include "Ant.h"
+﻿#include "Ant.h"
 #include "Anthill.h"
+#include "Game.h"
 
 void Ant::upd_role() {
     switch (role_id) {
@@ -37,7 +38,6 @@ void Ant::upd_role() {
     }
     }
 }
-
 void Ant::move() {
     if (hp <= 0) return;
 
@@ -54,49 +54,69 @@ void Ant::move() {
             pos = target;
             velocity = { 0, 0 };
             has_target = false;
-
-            if (inventory != no_res) {
-                if (!pos.in_anthill() && role_id != 6) {
-                    // несём внутрь
-                    set_target(Position(window_width / 2, window_height / 2));
-                    going_home = true;
+            if (role_id == 5 && inventory == no_res) { // Shepperd
+                for (Aphid& aphid : Game::get_current()->aphids) {
+                    float adx = aphid.get_pos().x - pos.x;
+                    float ady = aphid.get_pos().y - pos.y;
+                    float adist = sqrt(adx * adx + ady * ady);
+                    if (adist < 5.f) {
+                        int honey = aphid.produce_honey();
+                        for (int i = 0; i < honey; ++i)
+                            Anthill::add_food();  // добавляем мёд в хранилище
+                        has_collected_honey = true;
+                        going_home = true;
+                        set_target(Position(window_width / 2, window_height / 2));
+                        break;
+                    }
                 }
-                else if (role_id == 6) {
-                    // если это чистильщик, выгружаем в кладбище
+            }
+            if (inventory != no_res) {
+                if (pos.in_anthill() && role_id != 6) {
+                    if (inventory == food) {
+                        Anthill::add_food();
+                    }
+                    else if (inventory == stick) {
+                        Anthill::add_stick();
+                    }
+                    inventory = no_res;
+                    going_home = false;
+                }
+                else if (role_id == 6) { 
                     Cemetery* cemetery = Cemetery::get_current();
                     if (cemetery) {
                         if (inventory == body) cemetery->add_body();
                         else if (inventory == trash) cemetery->add_trash();
                     }
+                    inventory = no_res;
+                    going_home = false;
                 }
-                inventory = no_res;
-                going_home = false;
-            }
-            else {
-                // достигли муравейника, выгружаем
-                if (inventory == food) Anthill::add_food();
-                else if (inventory == stick) Anthill::add_stick();
-                inventory = no_res;
-                going_home = false;
+                else if (!pos.in_anthill()) {
+                    set_target(Position(window_width / 2, window_height / 2));
+                    going_home = true;
+                }
             }
         }
 
         pos.x += velocity.x;
         pos.y += velocity.y;
         shape.setPosition(pos.x, pos.y);
+
     }
     else {
-        // если нет цели, просто дрейфуем
         if (role_id == 0) return;
-        if (role_id != 1) {
-            if (age % velocity_changing_period == 0) set_velocity(randomise_velocity() * ant_speed, randomise_velocity() * ant_speed);
+        if (role_id != 1) { 
+            if (age % velocity_changing_period == 0)
+                set_velocity(randomise_velocity() * ant_speed, randomise_velocity() * ant_speed);
             if (pos.x + velocity.x < 0 || pos.x + velocity.x > window_width) velocity.x = -velocity.x;
             if (pos.y + velocity.y < 0 || pos.y + velocity.y > window_height) velocity.y = -velocity.y;
         }
-        else {
-            if (age % velocity_changing_period == 0) set_velocity(randomise_velocity() * ant_speed, randomise_velocity() * ant_speed);
-            if (pos.x + velocity.x < window_width / 2 - 2 * start_radius || pos.x + velocity.x > window_width / 2 + 2 * start_radius)velocity.x = -velocity.x;
-            if (pos.y + velocity.y < window_height / 2 - 2 * start_radius || pos.y + velocity.y > window_height / 2 + 2 * start_radius) velocity.y = -velocity.y;
+        else { 
+            if (age % velocity_changing_period == 0)
+                set_velocity(randomise_velocity() * ant_speed, randomise_velocity() * ant_speed);
+            if (pos.x + velocity.x < window_width / 2 - 2 * start_radius || pos.x + velocity.x > window_width / 2 + 2 * start_radius)
+                velocity.x = -velocity.x;
+            if (pos.y + velocity.y < window_height / 2 - 2 * start_radius || pos.y + velocity.y > window_height / 2 + 2 * start_radius)
+                velocity.y = -velocity.y;
         }
 
         pos.x += velocity.x;
@@ -106,7 +126,9 @@ void Ant::move() {
 }
 
 
-bool Ant::look_around(vector<Resource>& resources) {
+
+
+bool Ant::look_around(vector<Resource>& resources, vector<Aphid>& aphids) {
     if (hp <= 0 || has_target || inventory != no_res || going_home) return false;
 
     for (auto& res : resources) {
@@ -125,8 +147,22 @@ bool Ant::look_around(vector<Resource>& resources) {
             }
         }
     }
+    if (role_id == 5) {
+        for (Aphid& aphid : aphids) {
+            if (!aphid.is_visible()) continue;
+            float dx = aphid.get_pos().x - pos.x;
+            float dy = aphid.get_pos().y - pos.y;
+            float dist = sqrt(dx * dx + dy * dy);
+            if (dist < radius_vision) {
+                set_target(aphid.get_pos());
+                return true;
+            }
+        }
+    }
+
     return false;
 }
+
 
 
 CircleShape Ant::get_vision_circle() const {

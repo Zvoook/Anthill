@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <sstream>
@@ -69,5 +69,5 @@ const int min_enemy_in_wave = 5;
 const int enemy_speed = 4;
 
 enum info_type { food_info, stick_info, enemy };
-enum res_type { no_res, food, stick, body, trash };
+enum res_type { no_res, food, stick, aphid, body, trash };
 enum res_size { small = madium_resource_size, medium = madium_resource_size, big = big_resource_size };

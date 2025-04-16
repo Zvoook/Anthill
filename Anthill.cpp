@@ -1,4 +1,4 @@
-#include "Anthill.h"
+﻿#include "Anthill.h"
 
 int Anthill::food_count = 0;
 int Anthill::stick_count = 0;
