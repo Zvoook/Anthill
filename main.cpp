@@ -32,11 +32,11 @@ int main() {
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
     //MUSIC
-    Music backgroundMusic;
+    /*Music backgroundMusic;
     if (!backgroundMusic.openFromFile("Voroniny.ogg")) return -1;
     backgroundMusic.setLoop(true);
     backgroundMusic.setVolume(100);
-    backgroundMusic.play();
+    backgroundMusic.play();*/
 
     //Events and font
     Event event;
@@ -65,7 +65,7 @@ int main() {
             game.update_ants();
             game.spawn_body();
             //ant.upd_color();
-            //game.update_enemies();
+            game.update_enemies();
             game.handle_collisions();
             if (game.get_ticks() % feeding_period == 0) {
                 game.anthill.hunger(); // ѕроверка на голод каждый период кормлени€
@@ -100,8 +100,18 @@ int main() {
             window.draw(game.cemetery.get_shape());
 
             for (const auto& res : game.resources) if (res.is_visible()) window.draw(res.get_shape());
-            for (const auto& ant : game.anthill.colony) {
+            for (auto& ant : game.anthill.colony) {
                 if (ant.is_visible()) {
+                    if (ant.get_role() == 0 && ant.is_warmed()) {
+                        CircleShape aura(ant_size * 3.f);
+                        aura.setOrigin(aura.getRadius(), aura.getRadius());
+                        aura.setPosition(ant.get_pos().x, ant.get_pos().y);
+                        aura.setFillColor(Color(255, 255, 100, 100));
+                        aura.setOutlineColor(Color(255, 255, 0, 200));
+                        aura.setOutlineThickness(1.f);
+                        window.draw(aura);
+                        if (ant.is_warmed()) ant.set_warmed(false);
+                    }
                     window.draw(ant.get_shape());
                     if (vision_circle && ant.get_role() != 0 && ant.get_role() != 1) window.draw(ant.get_vision_circle());
                 }

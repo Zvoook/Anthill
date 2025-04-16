@@ -1,23 +1,31 @@
-#include "Role.h"
+﻿#include "Role.h"
 #include "Ant.h"
 #include "Anthill.h"
 #include "Resource.h"
 #include "Tlya.h"
+#include "Enemy.h"
 
-//Soldier::Soldier() {
-//    damage = rand() % 21 + 30;
-//}
-//
-//void Sitter::work(Ant* self, GameContext* ctx) {
-//    if (!ctx->enemies->empty()) {
-//        for (Ant& ant : *ctx->ants) {
-//            if (ant.get_role() == 0 && !ant.has_valid_target()) {
-//                ant.set_target(Position(window_width / 2, window_height / 2));
-//                break;
-//            }
-//        }
-//    }
-//}
+void Baby::work(Ant& ant, vector<Resource>&, vector<Enemy>&) { /*if (ant.is_warmed()) ant.set_warmed(false)*/ ; }
+
+void Sitter::work(Ant& ant, vector<Resource>&, vector<Enemy>&) {
+    for (Ant& other : Anthill::get_instance()->colony) {
+        if (other.get_role() != 0 || other.get_hp() <= 0) continue; // ищем живую личинку
+
+        float dx = other.get_pos().x - ant.get_pos().x;
+        float dy = other.get_pos().y - ant.get_pos().y;
+        float dist = sqrt(dx * dx + dy * dy);
+
+        if (dist < 3.f * ant_size) {
+            other.age_up(0.25 * stage_time);
+            other.set_warmed(true);
+            break;
+        }
+    }
+
+    if (!ant.get_pos().in_anthill() && !ant.has_valid_target()) {
+        ant.set_target(Position(window_width / 2, window_height / 2));
+    }
+}
 
 void Collector::work(Ant& ant, vector<Resource>& resources, vector<Enemy>& enemy) {
     if (ant.get_inventory() == no_res) ant.look_around(resources);
@@ -50,17 +58,12 @@ void Builder::work(Ant& ant, vector<Resource>& resources, vector<Enemy>& enemy) 
 //    }
 //}
 //
-//void Shepperd::work(Ant* self, GameContext* ctx) {
-//    for (Aphid& a : *ctx->aphids) {
-//        if (!a.is_shepherd() && a.is_visible()) {
-//            a.set_shepherd();
-//            self->set_target(a.get_pos());
-//            Anthill::add_food();
-//            break;
-//        }
-//    }
-//}
-//
+
+void Shepperd::work(Ant& ant, vector<Resource>& resources, vector<Enemy>& enemy) {
+    if (ant.get_inventory() == no_res) ant.look_around(resources);
+    else if (!ant.has_valid_target() && !ant.get_pos().in_anthill())  ant.set_target(Position(window_width / 2, window_height / 2));
+}
+
 
 void Cleaner::work(Ant& ant, vector<Resource>& resources, vector<Enemy>&) {
     Cemetery* cemetery = Cemetery::get_current();

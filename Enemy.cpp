@@ -35,6 +35,7 @@ void Enemy::move() {
             Anthill::del_stick();
             going_home = true;
             has_target = false;
+            yet_robbed = true;
         }
 
         // случайное движение

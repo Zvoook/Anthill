@@ -5,6 +5,7 @@
 class Ant;
 class Enemy;
 class Resource;
+class Anthill;
 
 class Role {
 public:
@@ -15,13 +16,13 @@ public:
 class Baby : public Role {
 public:
     Baby() = default;
-    void work(Ant& ant, vector<Resource>& resources, vector<Enemy>& enemies) override {};
+    void work(Ant& ant, vector<Resource>&, vector<Enemy>&) override;
 };
 
 class Sitter : public Role {
 public:
     Sitter() = default;
-    void work(Ant& ant, vector<Resource>& resources, vector<Enemy>& enemies) override {};
+    void work(Ant& ant, vector<Resource>& resources, vector<Enemy>& enemies) override;
 };
 
 class Collector : public Role {
@@ -50,7 +51,7 @@ public:
 class Shepperd : public Role {
 public:
     Shepperd() = default;
-    void work(Ant& ant, vector<Resource>& resources, vector<Enemy>& enemies) override {};
+    void work(Ant& ant, vector<Resource>& resources, vector<Enemy>& enemies) override;
 };
 
 class Cleaner : public Role {

@@ -44,5 +44,6 @@ public:
     int get_hp() const { return hp; }
     int get_age() const { return age; }
 };
+
 void create_aphid_cluster(vector<Aphid>& aphids, float x, float y, int count);
 float randomise_velocity_aphid();

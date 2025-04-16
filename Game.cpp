@@ -147,8 +147,7 @@ void Game::update_ants() {
         ant.move();
         if (ant.get_hp() > 0) {
             ant.up();
-            if (ant.get_age() % stage_time == 0 && ant.get_age())
-                ant.upd_role();
+            if (ant.get_age() % stage_time == 0 && ant.get_age()) ant.upd_role();
         }
     }
 }

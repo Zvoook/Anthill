@@ -28,6 +28,7 @@ const int velocity_changing_period = 10;
 //const int life_stages = 5;
 const bool vision_circle = true;
 const int hungry_damage = 1000;
+const int protect_time = 2 * second;
 
 //Resource settings
 const int count_of_angles_in_form = 16;
@@ -69,5 +70,5 @@ const int min_enemy_in_wave = 5;
 const int enemy_speed = 4;
 
 enum info_type { food_info, stick_info, enemy };
-enum res_type { no_res, food, stick, body, trash };
+enum res_type { no_res, food, stick, aphid, body, trash };
 enum res_size { small = madium_resource_size, medium = madium_resource_size, big = big_resource_size };
