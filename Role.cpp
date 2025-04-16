@@ -17,11 +17,9 @@ void Sitter::work(Ant& ant, vector<Resource>&, vector<Enemy>&) {
 
         if (dist < 3.f * ant_size) {
             other.age_up(0.25 * stage_time);
-            other.set_warmed(true);
             break;
         }
     }
-
     if (!ant.get_pos().in_anthill() && !ant.has_valid_target()) {
         ant.set_target(Position(window_width / 2, window_height / 2));
     }

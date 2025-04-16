@@ -9,7 +9,7 @@
 
 class Game {
 public:
-  Game() :ticks(0) {};
+  Game() :ticks(0), res_cnt(0) {};
   ~Game() = default;
   Anthill anthill;
   Raid raid;
@@ -32,7 +32,7 @@ public:
   void spawn_body();
 
   void reset();
-  void spawn_res();
+  void spawn_res(int s = stick_claster_count, int f = food_cluster_count);
   void over(Font& font);
   //void clean_ants();
   //void clean_enemy();
@@ -42,4 +42,5 @@ public:
 private:
   int ticks;
   bool has_started_colony = false;
+  int res_cnt;
 };

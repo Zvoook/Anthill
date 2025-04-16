@@ -41,9 +41,6 @@ public:
     int get_role() const { return role_id; }
     res_type get_inventory() const { return inventory; }
     CircleShape get_vision_circle() const;
-
-    void set_warmed(bool w) { being_warmed = w; }
-    bool is_warmed() const { return being_warmed; }
 };
 
 float randomise_velocity();
