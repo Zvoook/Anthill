@@ -19,8 +19,9 @@ public:
         shape.setRadius(small_resource_size);
         shape.setPosition(pos.x, pos.y);
         set_color(t); // ← вот это!
-        if (s == medium) quantity = 3;
-        else if (s == big) quantity = 7;
+        if (s == small) quantity = 1;
+        else if (s == medium) quantity = 3;
+        else if (s == big) quantity = 5;
     };
     void decrease_quantity(int amount);
     void set_posit(float a, float b) { pos.x = a; pos.y = b; shape.setPosition(a, b); }

@@ -31,8 +31,12 @@ void Resource::set_color(res_type type)
 }
 
 void Resource::decrease_quantity(int amount) {
+    // только для палок и еды!
+    if (type != food && type != stick) return;
+
     quantity -= amount;
     if (quantity < 0) quantity = 0;
+
     float radius = 0.0f;
     float k = 1.0f;
     if (size == small) radius = small_resource_size;
@@ -44,6 +48,9 @@ void Resource::decrease_quantity(int amount) {
         radius = big_resource_size;
         k = static_cast<float>(quantity) / 7.0f;
     }
-    shape.setRadius(k * radius);
+
+    shape.setRadius(std::max(1.f, k * radius));
+    shape.setPosition(pos.x, pos.y);
+
     if (quantity == 0) set_invisible();
 }

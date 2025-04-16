@@ -15,9 +15,11 @@ private:
     Role* role;
     bool going_home;
     res_type inventory;
+    int carrying_from_id;
+
 
 public:
-    Ant(float x = 0, float y = 0) :Entity(x, y), role_id(0), going_home(false), inventory(no_res), already_dead(false), has_collected_honey(false) {
+    Ant(float x = 0, float y = 0) :Entity(x, y), role_id(0), going_home(false), inventory(no_res), already_dead(false), has_collected_honey(false), carrying_from_id (-1) {
         max_hp = hp;
         role = roles[role_id];
         shape.setRadius(ant_size);

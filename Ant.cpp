@@ -46,7 +46,20 @@ void Ant::move() {
         float dy = target.y - pos.y;
         float dist = sqrt(dx * dx + dy * dy);
 
-        if (dist > 5.f) {
+        float min_dist = 5.f;
+
+        // Учитываем радиус ресурса, если он есть
+        if (carrying_from_id != -1) {
+            for (auto& res : Game::get_current()->resources) {
+                if (res.get_id() == carrying_from_id) {
+                    float r = res.get_shape().getRadius();
+                    min_dist = std::max(5.f, r * 0.75f);
+                    break;
+                }
+            }
+        }
+
+        if (dist > min_dist) {
             velocity.x = (dx / dist) * ant_speed;
             velocity.y = (dy / dist) * ant_speed;
         }
@@ -54,7 +67,9 @@ void Ant::move() {
             pos = target;
             velocity = { 0, 0 };
             has_target = false;
-            if (role_id == 5 && inventory == no_res) { // Shepperd
+
+            // ==== Пастух и тля ====
+            if (role_id == 5 && inventory == no_res) {
                 for (Aphid& aphid : Game::get_current()->aphids) {
                     float adx = aphid.get_pos().x - pos.x;
                     float ady = aphid.get_pos().y - pos.y;
@@ -62,7 +77,7 @@ void Ant::move() {
                     if (adist < 5.f) {
                         int honey = aphid.produce_honey();
                         for (int i = 0; i < honey; ++i)
-                            Anthill::add_food();  // добавляем мёд в хранилище
+                            Anthill::add_food();
                         has_collected_honey = true;
                         going_home = true;
                         set_target(Position(window_width / 2, window_height / 2));
@@ -70,7 +85,10 @@ void Ant::move() {
                     }
                 }
             }
+
+            // ==== Доставка ресурсов ====
             if (inventory != no_res) {
+                // 🏠 Муравейник
                 if (pos.in_anthill() && role_id != 6) {
                     if (inventory == food) {
                         Anthill::add_food();
@@ -78,18 +96,43 @@ void Ant::move() {
                     else if (inventory == stick) {
                         Anthill::add_stick();
                     }
+
+                    // уменьшение количества (только еда/палка)
+                    for (auto& res : Game::get_current()->resources) {
+                        if (res.get_id() == carrying_from_id &&
+                            (res.get_type() == food || res.get_type() == stick)) {
+                            res.decrease_quantity(1);
+                            break;
+                        }
+                    }
+
+                    carrying_from_id = -1;
                     inventory = no_res;
                     going_home = false;
                 }
-                else if (role_id == 6) { 
+
+                // 🪦 Кладбище (чистильщик)
+                else if (role_id == 6) {
                     Cemetery* cemetery = Cemetery::get_current();
                     if (cemetery) {
                         if (inventory == body) cemetery->add_body();
                         else if (inventory == trash) cemetery->add_trash();
                     }
+
+                    // вручную скрываем труп/мусор
+                    for (auto& res : Game::get_current()->resources) {
+                        if (res.get_id() == carrying_from_id) {
+                            res.set_invisible(); // не через decrease_quantity!
+                            break;
+                        }
+                    }
+
+                    carrying_from_id = -1;
                     inventory = no_res;
                     going_home = false;
                 }
+
+                // 📦 Ещё не в anthill, нужно дойти
                 else if (!pos.in_anthill()) {
                     set_target(Position(window_width / 2, window_height / 2));
                     going_home = true;
@@ -103,14 +146,16 @@ void Ant::move() {
 
     }
     else {
+        // === Случайное движение (вне целей) ===
         if (role_id == 0) return;
-        if (role_id != 1) { 
+
+        if (role_id != 1) {
             if (age % velocity_changing_period == 0)
                 set_velocity(randomise_velocity() * ant_speed, randomise_velocity() * ant_speed);
             if (pos.x + velocity.x < 0 || pos.x + velocity.x > window_width) velocity.x = -velocity.x;
             if (pos.y + velocity.y < 0 || pos.y + velocity.y > window_height) velocity.y = -velocity.y;
         }
-        else { 
+        else {
             if (age % velocity_changing_period == 0)
                 set_velocity(randomise_velocity() * ant_speed, randomise_velocity() * ant_speed);
             if (pos.x + velocity.x < window_width / 2 - 2 * start_radius || pos.x + velocity.x > window_width / 2 + 2 * start_radius)
@@ -124,6 +169,7 @@ void Ant::move() {
         shape.setPosition(pos.x, pos.y);
     }
 }
+
 
 
 
@@ -142,7 +188,7 @@ bool Ant::look_around(vector<Resource>& resources, vector<Aphid>& aphids) {
                 ((res.get_type() == body || res.get_type() == trash) && role_id == 6)) {
                 set_inventory(res.get_type());
                 set_target(res.get_posit());
-                res.set_invisible();
+                carrying_from_id = res.get_id();
                 return true;
             }
         }
