@@ -54,6 +54,9 @@
     <ClCompile Include="Tlya.cpp">
       <Filter>Исходные файлы\ANTS</Filter>
     </ClCompile>
+    <ClCompile Include="Cemetery.cpp">
+      <Filter>Исходные файлы\ANTS</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Position.h">
@@ -90,6 +93,9 @@
       <Filter>Исходные файлы\ANTS</Filter>
     </ClInclude>
     <ClInclude Include="Tlya.h">
+      <Filter>Исходные файлы\ANTS</Filter>
+    </ClInclude>
+    <ClInclude Include="Cemetery.h">
       <Filter>Исходные файлы\ANTS</Filter>
     </ClInclude>
   </ItemGroup>

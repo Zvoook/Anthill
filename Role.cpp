@@ -1,98 +1,75 @@
 #include "Role.h"
 #include "Ant.h"
+#include "Anthill.h"
 #include "Resource.h"
-#include "Cemetery.h"
+#include "Tlya.h"
 
-void Sitter:: work(Ant& ant, std::vector<Resource>& resources,vector<Enemy>& enemies)
-{
-    // Логика для няни
-    // На данный момент пустая реализация
+//Soldier::Soldier() {
+//    damage = rand() % 21 + 30;
+//}
+//
+//void Sitter::work(Ant* self, GameContext* ctx) {
+//    if (!ctx->enemies->empty()) {
+//        for (Ant& ant : *ctx->ants) {
+//            if (ant.get_role() == 0 && !ant.has_valid_target()) {
+//                ant.set_target(Position(window_width / 2, window_height / 2));
+//                break;
+//            }
+//        }
+//    }
+//}
+
+void Collector::work(Ant& ant, vector<Resource>& resources, vector<Enemy>& enemy) {
+    if (ant.get_inventory() == no_res) ant.look_around(resources);
+    else if (!ant.has_valid_target() && !ant.get_pos().in_anthill()) ant.set_target(Position(window_width / 2, window_height / 2));
 }
 
-void Builder:: work(Ant& ant, std::vector<Resource>& resources,vector<Enemy>& enemies)
-{
-    // Логика для строителя
-    // На данный момент пустая реализация
+void Builder::work(Ant& ant, vector<Resource>& resources, vector<Enemy>& enemy) {
+    if (ant.get_inventory() == no_res) ant.look_around(resources);
+    else if (!ant.has_valid_target() && !ant.get_pos().in_anthill()) ant.set_target(Position(window_width / 2, window_height / 2));
 }
 
-void Collector:: work(Ant& ant, std::vector<Resource>& resources,vector<Enemy>& enemies)
-{
-    // Логика для сборщика
-    // На данный момент пустая реализация
-}
+//void Soldier::work(Ant* self, GameContext* ctx) {
+//    if (!ctx->enemies->empty()) {
+//        float min_dist = 1e9;
+//        Position target_pos;
+//        for (Enemy& e : *ctx->enemies) {
+//            float dx = e.get_pos().x - self->get_pos().x;
+//            float dy = e.get_pos().y - self->get_pos().y;
+//            float dist = sqrt(dx * dx + dy * dy);
+//            if (dist < min_dist) {
+//                min_dist = dist;
+//                target_pos = e.get_pos();
+//            }
+//        }
+//        self->set_target(target_pos);
+//    }
+//    else {
+//        if (self->get_age() % velocity_changing_period == 0)
+//            self->set_velocity(randomise_velocity() * ant_speed, randomise_velocity() * ant_speed);
+//    }
+//}
+//
+//void Shepperd::work(Ant* self, GameContext* ctx) {
+//    for (Aphid& a : *ctx->aphids) {
+//        if (!a.is_shepherd() && a.is_visible()) {
+//            a.set_shepherd();
+//            self->set_target(a.get_pos());
+//            Anthill::add_food();
+//            break;
+//        }
+//    }
+//}
+//
 
-Soldier::Soldier() {
-    damage = rand() % 21 + 30;
-}
+void Cleaner::work(Ant& ant, vector<Resource>& resources, vector<Enemy>&) {
+    Cemetery* cemetery = Cemetery::get_current();
+    if (!cemetery) return;
 
-void Soldier:: work(Ant& ant, std::vector<Resource>& resources,vector<Enemy>& enemies)
-{
-    // Логика для солдата
-    // Можно добавить проверку наличия врагов
-    // if (raid_flag == 1)
-}
-
-void Soldier::attack(Ant& ant) {
-    // Логика атаки врага
-}
-
-void Soldier::escape_from_enemy(Ant& ant) {
-    // Логика отступления от врага
-}
-
-void Soldier::set_on_enemy(Ant& ant) {
-    // Логика наведения на врага
-}
-
-void Shepperd:: work(Ant& ant, std::vector<Resource>& resources,vector<Enemy>& enemies)
-{
-    // Логика для пастуха
-    // Например, поиск и обслуживание тли
-}
-
-void Cleaner:: work(Ant& ant, std::vector<Resource>& resources,vector<Enemy>& enemies)
-{
-    // Теперь у нас есть прямой доступ к муравью и ресурсам
-    // Можем напрямую вызывать другие методы
-
-    //// Если муравей не несет отходы - ищем новые задачи
-    //if (!is_carrying_waste(ant)) {
-    //    seek_bodies(resources, ant);
-    //    seek_trash(resources, ant);
-    //}
-    //// Если муравей несет отходы и не имеет цели, направляем на кладбище
-    //else if (!ant.has_valid_target()) {
-    //   // deliver_to_cemetery(ant);
-    //}
-}
-
-// Остальные методы Cleaner остаются без изменений
-void Cleaner::seek_bodies(std::vector<Resource>& resources, Ant& ant)
-{
-    // Если муравей уже несёт что-то или имеет цель, выходим
-    if (ant.has_valid_target() || ant.get_inventory() != no_res)
-        return;
-
-    // Просматриваем доступные ресурсы в поисках трупов
-    for (auto& res : resources) {
-        if (!res.is_visible() || res.get_type() != body)
-            continue;
-
-        // Проверяем, находится ли труп в поле зрения муравья
-        Position antPos = ant.get_pos();
-        Position resPos = res.get_posit();
-        float dx = antPos.x - resPos.x;
-        float dy = antPos.y - resPos.y;
-        float distance = std::sqrt(dx * dx + dy * dy);
-
-        if (distance <= ant.get_vision_circle().getRadius()) {
-            // Муравей нашёл труп - установим цель и инвентарь
-            ant.set_target(resPos);
-            ant.set_inventory(body);
-            res.set_invisible(); // Помечаем ресурс как подобранный
-            break;
-        }
+    if (ant.get_inventory() == no_res) {
+        ant.look_around(resources);
+    }
+    else if (!cemetery->in_cemetery(ant.get_pos())) {
+        ant.set_target(cemetery->get_center());
     }
 }
-
-// Остальные методы без изменений...

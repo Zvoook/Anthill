@@ -1,5 +1,4 @@
-﻿#include "Enemy.h"
-
+#include "Enemy.h"
 #include "Anthill.h"
 
 void Enemy::move() {

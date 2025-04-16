@@ -1,5 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
+#include <sstream>
 #include <iostream>
 #include <vector>
 #include <random>
@@ -50,10 +52,11 @@ const int honey_collect_time = 3 * second;
 //Anthill settings
 const int start_radius = 0.07 * window_width;
 const int start_max_ant_count = 20;
-const int start_food_limit = 300;
+const int start_food_limit = 800;
 const int start_stick_for_update = 20;
 const int start_ant_count = 30;
 const int min_downgrade_period = 7 * second;
+const int hunger_damage = 1;
 
 //Ant born and feeding
 const int min_born_period = 2 * second;
