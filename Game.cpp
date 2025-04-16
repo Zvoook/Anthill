@@ -221,3 +221,9 @@ bool Game::check_game_over() {
     return ((has_started_colony && anthill.colony.empty()) ||
         anthill.get_shape().getRadius() <= 0.75 * start_radius);
 }
+
+void Game::upd_res()
+{
+    res_cnt = 0;
+    for (auto& res : resources) if (res.is_visible()) res_cnt++;
+}

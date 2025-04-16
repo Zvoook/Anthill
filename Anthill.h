@@ -25,7 +25,7 @@ public:
     void default_count() { ants = soldiers = builders = cleaners = sitters = babies = shepherds = collectors = 0; }
     void kill_colony() { colony.clear(); }
     static void add_food() { food_count++; }
-    static void add_stick() { stick_count++; }
+    static void add_stick() { stick_count+=stick_score; }
     static void del_food() { food_count--; }
     static void del_stick() { stick_count--; }
 

@@ -29,13 +29,13 @@ public:
     void move() override;
     void upd_role();
     void upd_color();
-  void take_damage(int enemy_damage) { hp -= enemy_damage; }
-  float get_radius_vision() { return radius_vision; }
+    void take_damage(int enemy_damage) { hp -= enemy_damage; }
+    float get_radius_vision() { return radius_vision; }
     int get_attack_power() { return damage; }
-    bool look_around(vector<Resource>& resources, vector<Aphid>& aphids, vector<Enemy>& enemies);
+    void look_around(vector<Resource>& resources, vector<Enemy>& enemies, vector<Aphid>& aphids);
     void set_inventory(res_type type) { inventory = type; }
     bool pick(Resource& res);
-    void work(vector<Resource>& resources, vector<Enemy>& enemies);
+    void work(vector<Resource>& resources, vector<Enemy>& enemies, vector<Aphid>& aphids);
     void set_protection_timer(int time) { protection_timer = time; }
     void decrease_protection() { if (protection_timer > 0) protection_timer--; }
     void dead(vector<Resource>& resources);

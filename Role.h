@@ -1,6 +1,5 @@
 #pragma once
-#include <Enemy.h>
-
+#include "Enemy.h"
 #include "Game Settings.h"
 #include "Cemetery.h"
 #include "Tlya.h"
@@ -45,12 +44,9 @@ public:
     Soldier() = default;
     void work(Ant& ant, vector<Resource>&, vector<Enemy>& enemies, vector<Aphid>&)  override;
     void attack(Ant& ant, Enemy& enemy);
-    void regen(Ant& ant);
-    void escape_from_enemy(Ant& ant);
     void set_on_enemy(Ant& ant, Enemy& enemy);
 private:
     bool is_regenerating;
-
 };
 
 class Shepperd : public Role {

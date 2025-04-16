@@ -6,9 +6,7 @@
 #include "Tlya.h"
 #include "Enemy.h"
 
-void Baby::work(Ant& ant, vector<Resource>&, vector<Enemy>&) { /*if (ant.is_warmed()) ant.set_warmed(false)*/ ; }
-
-void Sitter::work(Ant& ant, vector<Resource>&, vector<Enemy>&) {
+void Sitter::work(Ant& ant, vector<Resource>& resources, vector<Enemy>& enemies, vector<Aphid>& aphids) {
     for (Ant& other : Anthill::get_instance()->colony) {
         if (other.get_role() != 0 || other.get_hp() <= 0) continue; // ищем живую личинку
 
@@ -27,12 +25,12 @@ void Sitter::work(Ant& ant, vector<Resource>&, vector<Enemy>&) {
 }
 
 void Collector::work(Ant& ant, vector<Resource>& resources, vector<Enemy>& enemies, vector<Aphid>& aphids) {
-    if (ant.get_inventory() == no_res) ant.look_around(resources, aphids, enemies);
+    if (ant.get_inventory() == no_res) ant.look_around(resources, enemies, aphids);
     else if (!ant.has_valid_target() && !ant.get_pos().in_anthill()) ant.set_target(Position(window_width / 2, window_height / 2));
 }
 
 void Builder::work(Ant& ant, vector<Resource>& resources, vector<Enemy>& enemies, vector<Aphid>& aphids) {
-    if (ant.get_inventory() == no_res) ant.look_around(resources, aphids, enemies);
+    if (ant.get_inventory() == no_res) ant.look_around(resources, enemies, aphids);
     else if (!ant.has_valid_target() && !ant.get_pos().in_anthill()) ant.set_target(Position(window_width / 2, window_height / 2));
 }
 
@@ -83,7 +81,7 @@ void Soldier::set_on_enemy(Ant& ant, Enemy& enemy) {
 
 void Shepperd::work(Ant& ant, vector<Resource>& resources, vector<Enemy>& enemies, vector<Aphid>& aphids) {
     if (ant.get_inventory() == no_res) {
-        ant.look_around(resources, aphids, enemies);
+        ant.look_around(resources, enemies, aphids);
     }
     else if (!ant.has_valid_target() && !ant.get_pos().in_anthill()) {
         ant.set_target(Position(window_width / 2, window_height / 2));
@@ -96,7 +94,7 @@ void Cleaner::work(Ant& ant, vector<Resource>& resources, vector<Enemy>& enemies
     if (!cemetery) return;
 
     if (ant.get_inventory() == no_res) {
-        ant.look_around(resources, aphids, enemies);
+        ant.look_around(resources, enemies, aphids);
     }
     else if (!cemetery->in_cemetery(ant.get_pos())) {
         ant.set_target(cemetery->get_center());

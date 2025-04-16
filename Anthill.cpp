@@ -11,7 +11,7 @@ Anthill::Anthill() :lvl(1), rad(start_radius) {
     pos.y = window_height / 2 - start_radius;
     shape.setPosition(Vector2f(pos.x, pos.y));
     food_count = start_food_limit / 2;
-    stick_count = (int)(start_stick_for_update * 10000); //поменять на 0.75
+    stick_count = (int)(start_stick_for_update * 0.75); //поменять на 0.75
     default_count();
     max_ants = start_max_ant_count;
     sticks_for_upd = start_stick_for_update;
@@ -83,7 +83,7 @@ void Anthill::upd_anthill(int ticks, vector<Resource>& resources)
         born_baby();
         food_count -= food_for_born;
     }
-    if (stick_count == sticks_for_upd) up_lvl();
+    if (stick_count >= sticks_for_upd) up_lvl();
     else if (stick_count <= 0.25 * sticks_for_upd && ticks % min_downgrade_period == 0) down_lvl();
 }
 

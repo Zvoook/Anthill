@@ -32,11 +32,11 @@ int main() {
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
     //MUSIC
-   /* Music backgroundMusic;
-    if (!backgroundMusic.openFromFile("Voroniny.ogg")) return -1;
+    Music backgroundMusic;
+    if (!backgroundMusic.openFromFile("music2.ogg")) return -1;
     backgroundMusic.setLoop(true);
-    backgroundMusic.setVolume(100);
-    backgroundMusic.play();*/
+    backgroundMusic.setVolume(20);
+    backgroundMusic.play();
 
     //Events and font
     Event event;
@@ -62,6 +62,7 @@ int main() {
         if (time.getElapsedTime().asMilliseconds() - last_time >= FPS) {
             last_time = time.getElapsedTime().asMilliseconds();
             game.update(font);
+            game.upd_res();
             game.update_ants();
             game.spawn_body();
             if (game.get_ticks() % res_regen_time == 0) {
@@ -73,7 +74,7 @@ int main() {
             game.update_enemies();
             game.handle_collisions();
             if (game.get_ticks() % feeding_period == 0) {
-                game.anthill.hunger(); // Ïðîâåðêà íà ãîëîä êàæäûé ïåðèîä êîðìëåíèÿ
+                game.anthill.hunger();
             }
             if (game.check_game_over()) {
                 game.over(font);
