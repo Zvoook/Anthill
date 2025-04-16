@@ -1,4 +1,5 @@
-﻿#include "Game Settings.h"
+﻿#pragma once
+#include "Game Settings.h"
 #include "Ant.h"
 
 class Anthill {

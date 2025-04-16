@@ -20,6 +20,10 @@ public:
 	vector<Text> statsLines;
 	Text OVER, YOU;
 
+
+	static Game* current;
+	static Game* get_current() { return current; }
+	static void set_current(Game* g) { current = g; }
 	void update(Font& font);
 	void add_stats(Font& font);
 	void spawn_aphids();

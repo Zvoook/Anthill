@@ -1,6 +1,9 @@
 ﻿#include "Game.h"
+
+Game* Game::current = nullptr;
 void Game::update(Font& font)
 {
+    Game::set_current(this);
     Cemetery::set_current(&cemetery);
     ticks++;
     anthill.upd_anthill(ticks, resources);
@@ -143,7 +146,7 @@ string Game::to_K(int x)
 void Game::update_ants() {
     for (auto& ant : anthill.colony) {
         //ant.look_around(resources);
-        ant.work(resources, raid.crowd);
+        ant.work(resources, raid.crowd, aphids);
         ant.move();
         if (ant.get_hp() > 0) {
             ant.up();
