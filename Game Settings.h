@@ -1,4 +1,5 @@
-#pragma once
+﻿#pragma once
+#include "fix_for_macos.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <sstream>
@@ -28,6 +29,7 @@ const int velocity_changing_period = 10;
 //const int life_stages = 5;
 const bool vision_circle = true;
 const int hungry_damage = 1000;
+const int soldier_radius_vision = 1500.f;
 const int protect_time = 2 * second;
 
 //Resource settings
@@ -56,8 +58,8 @@ const int honey_collect_time = 3 * second;
 //Anthill settings
 const int start_radius = 0.07 * window_width;
 const int start_max_ant_count = 20;
-const int start_food_limit = 1500;
-const int start_stick_for_update = 1200;
+const int start_food_limit = 80000;
+const int start_stick_for_update = 20;
 const int start_ant_count = 30;
 const int min_downgrade_period = 7 * second;
 const int hunger_damage = 1;
@@ -71,6 +73,7 @@ const int feeding_period = 3 * second;
 const int enemy_wave_period = 10 * second;
 const int min_enemy_in_wave = 5;
 const int enemy_speed = 4;
+const int enemy_damage = 50;
 
 enum info_type { food_info, stick_info, enemy };
 enum res_type { no_res, food, stick, aphid, body, trash };

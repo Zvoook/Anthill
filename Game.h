@@ -17,19 +17,17 @@ public:
   vector<Resource> resources;
   vector<Aphid> aphids;
 
-  vector<Text> statsLines;
-  Text OVER, YOU;
+	vector<Text> statsLines;
+	Text OVER, YOU;
 
-  void update(Font& font);
-  void add_stats(Font& font);
-  void spawn_aphids();
-  void update_aphids();
 
-  void update_ants();
-  void update_enemies();
-  void handle_collisions();
-  bool check_game_over();
-  void spawn_body();
+	static Game* current;
+	static Game* get_current() { return current; }
+	static void set_current(Game* g) { current = g; }
+	void update(Font& font);
+	void add_stats(Font& font);
+	void spawn_aphids();
+	void update_aphids();
 
   void reset();
   void spawn_res(int s = stick_claster_count, int f = food_cluster_count);

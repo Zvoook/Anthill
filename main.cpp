@@ -1,4 +1,4 @@
-#include "Game.h"
+п»ї#include "Game.h"
 
 #define Colony
 #ifdef Colony
@@ -32,7 +32,7 @@ int main() {
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
     //MUSIC
-    /*Music backgroundMusic;
+   /* Music backgroundMusic;
     if (!backgroundMusic.openFromFile("Voroniny.ogg")) return -1;
     backgroundMusic.setLoop(true);
     backgroundMusic.setVolume(100);
@@ -73,7 +73,7 @@ int main() {
             game.update_enemies();
             game.handle_collisions();
             if (game.get_ticks() % feeding_period == 0) {
-                game.anthill.hunger(); // Проверка на голод каждый период кормления
+                game.anthill.hunger(); // ГЏГ°Г®ГўГҐГ°ГЄГ  Г­Г  ГЈГ®Г«Г®Г¤ ГЄГ Г¦Г¤Г»Г© ГЇГҐГ°ГЁГ®Г¤ ГЄГ®Г°Г¬Г«ГҐГ­ГЁГї
             }
             if (game.check_game_over()) {
                 game.over(font);
