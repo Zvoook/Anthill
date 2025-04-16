@@ -8,6 +8,7 @@
 class Ant;
 class Enemy;
 class Resource;
+class Anthill;
 
 class Role {
 public:
@@ -24,7 +25,7 @@ public:
 class Sitter : public Role {
 public:
     Sitter() = default;
-    void work(Ant& ant, vector<Resource>& resources, vector<Enemy>& enemies, vector<Aphid>& aphids)  override {};
+    void work(Ant& ant, vector<Resource>& resources, vector<Enemy>& enemies, vector<Aphid>& aphids)  override;
 };
 
 class Collector : public Role {

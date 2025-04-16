@@ -11,6 +11,7 @@ private:
     static int food_count, stick_count;
     int ants, babies, sitters, collectors, builders, soldiers, shepherds, cleaners;
 public:
+    static Anthill* instance;
     vector<Ant> colony;
     Anthill();
     ~Anthill() = default;
@@ -28,6 +29,7 @@ public:
     static void del_food() { food_count--; }
     static void del_stick() { stick_count--; }
 
+    static Anthill* get_instance() { return instance; }
     const CircleShape& get_shape() const { return shape; }
     int get_soldier_count() const { return soldiers; }
     int get_builder_count() const { return builders; }

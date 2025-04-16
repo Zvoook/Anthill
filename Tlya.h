@@ -1,7 +1,7 @@
 #pragma once
 #include "Game Settings.h"
 #include "Position.h"
-// Класс тли - ходячий ресурс
+// пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ - пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 class Aphid {
 private:
     int hp;
@@ -36,4 +36,5 @@ public:
     int get_age() const { return age; }
 };
 void create_aphid_cluster(vector<Aphid>& aphids, float x, float y, int count);
+
 float randomise_velocity_aphid();

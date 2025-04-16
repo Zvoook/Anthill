@@ -64,6 +64,11 @@ int main() {
             game.update(font);
             game.update_ants();
             game.spawn_body();
+            if (game.get_ticks() % res_regen_time == 0) {
+                int n = rand() % 2;
+                if (n) game.spawn_res(1,0);
+                else game.spawn_res(0, 1);
+            }
             //ant.upd_color();
             game.update_enemies();
             game.handle_collisions();

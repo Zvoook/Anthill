@@ -46,7 +46,6 @@ void Ant::move() {
         float dx = target.x - pos.x;
         float dy = target.y - pos.y;
         float dist = sqrt(dx * dx + dy * dy);
-
         if (dist > 5.f) {
             velocity.x = (dx / dist) * ant_speed;
             velocity.y = (dy / dist) * ant_speed;
@@ -82,7 +81,7 @@ void Ant::move() {
                     inventory = no_res;
                     going_home = false;
                 }
-                else if (role_id == 6) { 
+                else if (role_id == 6) {
                     Cemetery* cemetery = Cemetery::get_current();
                     if (cemetery) {
                         if (inventory == body) cemetery->add_body();
@@ -126,29 +125,9 @@ void Ant::move() {
     }
 }
 
-
-
-
-bool Ant::look_around(vector<Resource>& resources, vector<Aphid>& aphids, vector<Enemy>& enemies) {
-    if (hp <= 0 || has_target || inventory != no_res || going_home) return false;
-
-    for (auto& res : resources) {
-        if (!res.is_visible()) continue;
-        float dx = res.get_posit().x - pos.x;
-        float dy = res.get_posit().y - pos.y;
-        float dist = sqrt(dx * dx + dy * dy);
-        if (dist < radius_vision) {
-            if ((res.get_type() == food && role_id == 2) ||
-                (res.get_type() == stick && role_id == 3) ||
-                ((res.get_type() == body || res.get_type() == trash) && role_id == 6)) {
-                set_inventory(res.get_type());
-                set_target(res.get_posit());
-                res.set_invisible();
-                return true;
-            }
-        }
-    }
-    if (role_id == 5) {
+void Ant::look_around(vector<Resource>& resources) {
+    if (hp <= 0 || has_target || inventory != no_res || going_home) return;
+     if (role_id == 5) {
         for (Aphid& aphid : aphids) {
             if (!aphid.is_visible()) continue;
             float dx = aphid.get_pos().x - pos.x;
@@ -156,11 +135,10 @@ bool Ant::look_around(vector<Resource>& resources, vector<Aphid>& aphids, vector
             float dist = sqrt(dx * dx + dy * dy);
             if (dist < radius_vision) {
                 set_target(aphid.get_pos());
-                return true;
             }
         }
     }
-    if (role_id == 4) {
+    else if (role_id == 4) {
         for (Enemy& enemy : enemies) {
             if (enemy.get_hp() <= 0) {
                 enemy.set_invisible();
@@ -171,22 +149,43 @@ bool Ant::look_around(vector<Resource>& resources, vector<Aphid>& aphids, vector
             float dist = sqrt(dx * dx + dy * dy);
             if (dist < radius_vision) {
                 set_target(enemy.get_pos());
-                return true;
             }
         }
     }
-
-    return false;
+  else {
+    for (auto& res : resources) {
+        if (!res.is_visible()) continue;
+        float dx = res.get_posit().x - pos.x;
+        float dy = res.get_posit().y - pos.y;
+        float dist = sqrt(dx * dx + dy * dy);
+        if (dist < radius_vision) {
+            // Collector / Builder / Cleaner
+            if ((res.get_type() == food && role_id == 2) ||
+                (res.get_type() == stick && role_id == 3) ||
+                ((res.get_type() == body || res.get_type() == trash) && role_id == 6)) {
+                set_inventory(res.get_type());
+                set_target(res.get_posit());
+                res.set_invisible();
+            }
+            // Shepperd
+            if (res.get_type() == aphid && role_id == 5) {
+                if (dist < 5.f) {
+                    inventory = food;
+                    set_target(Position(window_width / 2, window_height / 2));
+                    going_home = true;
+                }
+                else set_target(res.get_posit());
+            }
+        }
+    }
 }
-
-
 
 CircleShape Ant::get_vision_circle() const {
     CircleShape vision(radius_vision);
-    vision.setOrigin(radius_vision, radius_vision); // ÑÐµÐ½ÑÑ ÐºÑÑÐ³Ð°
+    vision.setOrigin(radius_vision, radius_vision);
     vision.setPosition(pos.x, pos.y);
-    vision.setFillColor(Color(255, 255, 255, 15));  // Ð±ÐµÐ»ÑÐ¹, Ð¿Ð¾ÑÑÐ¸ Ð¿ÑÐ¾Ð·ÑÐ°ÑÐ½ÑÐ¹
-    vision.setOutlineColor(Color(0, 0, 255, 20)); // Ð¿Ð¾Ð»ÑÐ¿ÑÐ¾Ð·ÑÐ°ÑÐ½ÑÐ¹ ÐºÐ¾Ð½ÑÑÑ
+    vision.setFillColor(Color(255, 255, 255, 15));
+    vision.setOutlineColor(Color(0, 0, 255, 20));
     vision.setOutlineThickness(1.f);
     return vision;
 }
@@ -196,6 +195,13 @@ bool Ant::pick(Resource& res) {
     if ((res.get_type() == food && role_id == 3) || (res.get_type() == stick && role_id == 2) || ((res.get_type() == body || res.get_type() == trash) && role_id == 6)) return 1;
 }
 
+void Ant::work(vector<Resource>& resources, vector<Enemy>& enemies)
+{
+    if (role != nullptr) {
+        role->work(*this, resources, enemies);
+    }
+}
+
 void Ant::upd_color()
 {
     if (hp <= 0 || already_dead) {
@@ -203,8 +209,11 @@ void Ant::upd_color()
         return;
     }
     switch (role_id) {
-    case 0: { shape.setFillColor(Color::White); return; }
-    case 1: { shape.setFillColor(Color(255, 102, 178)); return; }
+    case 0: {
+        int shade = std::max(30, hp);
+        shape.setFillColor(Color(shade, shade, shade));
+        return;
+    }    case 1: { shape.setFillColor(Color(255, 102, 178)); return; }
     case 2: { shape.setFillColor(Color(255, 128, 0)); return; }
     case 3: { shape.setFillColor(Color::Yellow); return; }
     case 4: { shape.setFillColor(Color::Black); return; }
@@ -212,6 +221,7 @@ void Ant::upd_color()
     case 6: { shape.setFillColor(Color(102, 51, 0)); return; }
     }
 }
+
 void Ant::dead(vector<Resource>& resources)
 {
     if (already_dead) return;
@@ -227,6 +237,7 @@ void Ant::dead(vector<Resource>& resources)
     inventory = no_res;
     already_dead = true;
 }
+
 float randomise_velocity()
 {
     int n = rand() % 3;

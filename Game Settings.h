@@ -30,16 +30,20 @@ const int velocity_changing_period = 10;
 const bool vision_circle = true;
 const int hungry_damage = 1000;
 const int soldier_radius_vision = 1500.f;
+const int protect_time = 2 * second;
 
 //Resource settings
+const int res_regen_time = 8 * second;
+const int max_res_op_map = 100;
+
 const int count_of_angles_in_form = 16;
 const int small_resource_size = 1;
 const int madium_resource_size = 5;
 const int big_resource_size = 10;
-const int max_resource_in_claster = 30;
-const int dist_btw_res = 0.15 * window_width;
-const int stick_claster_count = 0.01 * window_width;
-const int food_cluster_count = 0.01 * window_width;
+const int max_resource_in_claster = 15;
+const int dist_btw_res = 0.17 * window_width;
+const int stick_claster_count = 0.003 * window_width;
+const int food_cluster_count = 0.003 * window_width;
 const int probability_of_small_resources = 70;
 const int probability_of_medium_resources = 20;
 

@@ -59,17 +59,19 @@ void Game::reset() {
 }
 
 
-void Game::spawn_res()
+void Game::spawn_res(int s, int f)
 {
-    for (int i = 0; i <= stick_claster_count + food_cluster_count; ++i) {
+    if (res_cnt > max_res_op_map) return;
+    for (int i = 0; i <= s + f; ++i) {
         int x, y;
         do {
             x = rand() % (window_width - 2 * dist_btw_res) + dist_btw_res;
             y = rand() % (window_height - 2 * dist_btw_res) + dist_btw_res;
         } while ((x > window_width / 2 - 3 * start_radius && x < window_width / 2 + 3 * start_radius) ||
             (y > window_height / 2 - 3 * start_radius && y < window_height / 2 + 3 * start_radius) || ((x < 0.2 * window_width) && (y < 0.3 * window_height)));
-        if (i <= food_cluster_count) create_cluster(resources, x, y, food);
+        if (i <= s) create_cluster(resources, x, y, food);
         else create_cluster(resources, x, y, stick);
+        res_cnt += max_resource_in_claster;
     }
 }
 
@@ -150,8 +152,7 @@ void Game::update_ants() {
         ant.move();
         if (ant.get_hp() > 0) {
             ant.up();
-            if (ant.get_age() % stage_time == 0 && ant.get_age())
-                ant.upd_role();
+            if (ant.get_age() % stage_time == 0 && ant.get_age()) ant.upd_role();
         }
     }
 }

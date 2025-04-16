@@ -1,21 +1,30 @@
-#include "Role.h"
+﻿#include "Role.h"
 #include "Ant.h"
 #include "Enemy.h"
 #include "Anthill.h"
 #include "Resource.h"
 #include "Tlya.h"
+#include "Enemy.h"
 
-//
-//void Sitter::work(Ant* self, GameContext* ctx) {
-//    if (!ctx->enemies->empty()) {
-//        for (Ant& ant : *ctx->ants) {
-//            if (ant.get_role() == 0 && !ant.has_valid_target()) {
-//                ant.set_target(Position(window_width / 2, window_height / 2));
-//                break;
-//            }
-//        }
-//    }
-//}
+void Baby::work(Ant& ant, vector<Resource>&, vector<Enemy>&) { /*if (ant.is_warmed()) ant.set_warmed(false)*/ ; }
+
+void Sitter::work(Ant& ant, vector<Resource>&, vector<Enemy>&) {
+    for (Ant& other : Anthill::get_instance()->colony) {
+        if (other.get_role() != 0 || other.get_hp() <= 0) continue; // ищем живую личинку
+
+        float dx = other.get_pos().x - ant.get_pos().x;
+        float dy = other.get_pos().y - ant.get_pos().y;
+        float dist = sqrt(dx * dx + dy * dy);
+
+        if (dist < 3.f * ant_size) {
+            other.age_up(0.25 * stage_time);
+            break;
+        }
+    }
+    if (!ant.get_pos().in_anthill() && !ant.has_valid_target()) {
+        ant.set_target(Position(window_width / 2, window_height / 2));
+    }
+}
 
 void Collector::work(Ant& ant, vector<Resource>& resources, vector<Enemy>& enemies, vector<Aphid>& aphids) {
     if (ant.get_inventory() == no_res) ant.look_around(resources, aphids, enemies);
@@ -26,8 +35,6 @@ void Builder::work(Ant& ant, vector<Resource>& resources, vector<Enemy>& enemies
     if (ant.get_inventory() == no_res) ant.look_around(resources, aphids, enemies);
     else if (!ant.has_valid_target() && !ant.get_pos().in_anthill()) ant.set_target(Position(window_width / 2, window_height / 2));
 }
-
-
 
 void Soldier::work(Ant& ant, vector<Resource>& resources, vector<Enemy>& enemies, vector<Aphid>& aphids) {
     // if (ant.get_hp() < 30) {
@@ -73,9 +80,6 @@ void Soldier::attack(Ant& ant, Enemy& enemy) {
 void Soldier::set_on_enemy(Ant& ant, Enemy& enemy) {
     ant.set_target(enemy.get_pos());
 }
-
-
-
 
 void Shepperd::work(Ant& ant, vector<Resource>& resources, vector<Enemy>& enemies, vector<Aphid>& aphids) {
     if (ant.get_inventory() == no_res) {

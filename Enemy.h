@@ -16,4 +16,5 @@ public:
     void take_damage(int damage);
     void move() override;
     bool get_robbed() const { return yet_robbed; }
+    bool is_active() const {return hp > 0 && visible;}
 };

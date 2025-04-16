@@ -1,9 +1,11 @@
 ﻿#include "Anthill.h"
 
+Anthill* Anthill::instance = nullptr;
 int Anthill::food_count = 0;
 int Anthill::stick_count = 0;
 
 Anthill::Anthill() :lvl(1), rad(start_radius) {
+    instance = this;
     shape.setRadius(rad);
     pos.x = window_width / 2 - start_radius;
     pos.y = window_height / 2 - start_radius;
@@ -88,11 +90,7 @@ void Anthill::upd_anthill(int ticks, vector<Resource>& resources)
 void Anthill::hunger() {
     int ant_count = colony.size();
     if (food_count < ant_count) {
-        for (auto& ant : colony) {
-            int new_hp = ant.get_hp() - hunger_damage;
-            ant.set_hp(new_hp);
-        }
+        for (auto& ant : colony) ant.set_hp(ant.get_hp() - hunger_damage);
     }
     else food_count -= ant_count;
-
 }
