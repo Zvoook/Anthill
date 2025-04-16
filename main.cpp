@@ -65,7 +65,7 @@ int main() {
             game.update_ants();
             game.spawn_body();
             //ant.upd_color();
-            //game.update_enemies();
+            game.update_enemies();
             game.handle_collisions();
             if (game.get_ticks() % feeding_period == 0) {
                 game.anthill.hunger(); // Ïðîâåðêà íà ãîëîä êàæäûé ïåðèîä êîðìëåíèÿ
