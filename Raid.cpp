@@ -2,7 +2,7 @@
 
 void Raid::spawn_raid()
 {
-	int n = rand() % 3 + 1, c = rand() % 6 + min_enemy_in_wave;
+	int n = rand() % 3 + 1, c = rand() % max_diffusion_enemy_in_wave + min_enemy_in_wave;
 	int x = 20, y = 20;
 	switch (n) {
 	case 1: x = window_width - x; break;

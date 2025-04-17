@@ -33,7 +33,7 @@ int main() {
 
     //MUSIC
     Music backgroundMusic;
-    if (!backgroundMusic.openFromFile("music2.ogg")) return -1;
+    if (!backgroundMusic.openFromFile("Voroniny.ogg")) return -1;
     backgroundMusic.setLoop(true);
     backgroundMusic.setVolume(20);
     backgroundMusic.play();
@@ -73,12 +73,12 @@ int main() {
             game.update_enemies();
             game.check_collisions();
             if (game.get_ticks() % feeding_period == 0) game.anthill.hunger();
-            if (game.check_game_over()) {
+            if (game.check_game_over() != 0) {
                 game.over(font);
 
                 window.clear(Color::White);
                 window.draw(game.OVER);
-                // window.draw(game.YOU);
+                window.draw(game.INFO);
                 window.display();
 
                 time.restart();

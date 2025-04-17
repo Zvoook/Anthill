@@ -45,8 +45,6 @@ public:
     void work(Ant& ant, vector<Resource>&, vector<Enemy>& enemies, vector<Aphid>&)  override;
     void attack(Ant& ant, Enemy& enemy);
     void set_on_enemy(Ant& ant, Enemy& enemy);
-private:
-    bool is_regenerating;
 };
 
 class Shepperd : public Role {

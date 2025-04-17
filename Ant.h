@@ -21,7 +21,7 @@ private:
 public:
     Ant(float x = 0, float y = 0) :Entity(x, y), role_id(0), going_home(false), inventory(no_res), is_regenerating(false), already_dead(false), has_collected_honey(false) {
         max_hp = hp;
-        damage = rand() % 100 + 150;
+        damage = rand() % 21 + 40;
         role = roles[role_id];
         shape.setRadius(ant_size);
     };

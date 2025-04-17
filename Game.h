@@ -22,7 +22,7 @@ public:
 	vector<Aphid> aphids;
 
 	vector<Text> statsLines;
-	Text OVER, YOU;
+	Text OVER, INFO;
 	static Game* current;
 	static void set_current(Game* g) { current = g; }
 
@@ -38,7 +38,7 @@ public:
 	void update(Font& font);
 
 	void check_collisions();
-	bool check_game_over();
+	int check_game_over();
 	
 	string to_K(int x);
 	void reset();

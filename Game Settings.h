@@ -22,10 +22,11 @@ const int second = 1000 / fps;
 const int feeding_period = 5 * second;           // 5 секунд на кормление
 const int hunger_damage = 2;                     // умеренный голод
 const int stage_time = 6 * second;               // ускоренная стадия взросления
-const int min_born_period = 3 * second;          // рождение реже
+const int min_born_period = 0.1 * second;          // рождение реже
 const int food_for_born = 20;                    // рождение дороже
 
 //Ant settings
+const int max_ants_on_map = 100;
 const int ant_size = 0.0075 * window_width;
 const int ant_speed = 6; // было 8 — слишком быстро, глаза не успевают
 const int velocity_changing_period = 15; // больше стабильности
@@ -65,11 +66,13 @@ const int start_ant_count = 25;                  //
 const int min_downgrade_period = 7 * second;
 
 //Enemy settings
-const int enemy_damage = 50;
+const int enemy_damage = 24;
 const int enemy_wave_period = 15 * second;       // рейды каждые 15 секунд
-const int min_enemy_in_wave = 3;                 // минимум врагов в рейде
+const int min_enemy_in_wave = 2;                 // минимум врагов в рейде
+const int max_diffusion_enemy_in_wave = 10;          // разброс числа врагов в рейде
 const int enemy_speed = 4;
 const int rob_res_count = 140;
+const int time_without_enemy = (rand()%3 + 2) * enemy_wave_period;       // рейды каждые 15 секунд
 
 enum info_type { food_info, stick_info, enemy };
 enum res_type { no_res, food, stick, aphid, body, trash };

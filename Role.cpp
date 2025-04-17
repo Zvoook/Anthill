@@ -35,11 +35,6 @@ void Builder::work(Ant& ant, vector<Resource>& resources, vector<Enemy>& enemies
 }
 
 void Soldier::work(Ant& ant, vector<Resource>& resources, vector<Enemy>& enemies, vector<Aphid>& aphids) {
-    // if (ant.get_hp() < 30) {
-    //     escape_from_enemy(ant);
-    //     return;
-    // }
-
     for (auto& enemy : enemies) {
         if (!enemy.is_visible()) continue;
 
@@ -56,7 +51,6 @@ void Soldier::work(Ant& ant, vector<Resource>& resources, vector<Enemy>& enemies
             return;
         }
     }
-
     ant.move();
 }
 
@@ -64,16 +58,6 @@ void Soldier::attack(Ant& ant, Enemy& enemy) {
     enemy.take_damage(ant.get_attack_power());
     ant.take_damage(enemy_damage);
 }
-//
-// void Soldier::regen(Ant& ant) {
-//     if (ant.set_hp(ant.get_hp()) = ant.get_hp() + 100);
-// }
-
-// void Soldier::escape_from_enemy(Ant& ant) {
-//     if (ant.get_hp() < 100) {
-//         ant.set_target(Position(window_width / 2, window_height / 2));
-//     }
-// }
 
 void Soldier::set_on_enemy(Ant& ant, Enemy& enemy) {
     ant.set_target(enemy.get_pos());

@@ -29,13 +29,15 @@ void Game::add_stats(Font& font) {
             bodyResourcesCount++;
         }
     }
-    makeText("Ants: " + to_K(anthill.get_ant_count()) + " (" + to_K(anthill.get_max_ants()) + ")", Color::White);
+    makeText("Level: " + to_string(anthill.get_lvl()), Color::Black);
+    makeText("Ants: " + to_K(anthill.get_ant_count()) + " (" + to_K(anthill.get_max_ants()) + ")", Color::Black);
     makeText("Enemies: " + to_string(raid.get_size()), Color::Red);
-    makeText("Aphids: " + to_string(aphids.size()), Color(75, 0, 130));
-    makeText("Food: " + to_K(anthill.get_food_count()) + " (" + to_K(anthill.get_max_food()) + ")", Color(0, 255, 0));
-    makeText("Bodies: " + to_string(bodyResourcesCount), Color(134, 138, 142));
+    makeText("Food: " + to_K(anthill.get_food_count()), Color(0, 100, 0));
     makeText("Sticks: " + to_K(anthill.get_stick_count()) + " (FU: " + to_K(anthill.get_for_upd() - anthill.get_stick_count()) + ")", Color(139, 69, 19));
-    makeText("---------------", Color(0, 0, 0));
+    makeText("Aphids: " + to_string(aphids.size()), Color(75, 0, 130));
+    makeText("Bodies: " + to_string(bodyResourcesCount), Color(125, 116, 109));
+
+    makeText(" ", Color(0, 0, 0));
     makeText("Babies: " + to_string(anthill.get_baby_count()), Color::White);
     makeText("Sitters: " + to_string(anthill.get_sitter_count()), Color(255, 102, 178));
     makeText("Collectors: " + to_string(anthill.get_collector_count()), Color(255, 128, 0));
@@ -115,23 +117,33 @@ void Game::over(Font& font) {
 
     OVER.setFont(font);
     OVER.setString("GAME OVER");
-    OVER.setCharacterSize(130);
+    OVER.setCharacterSize(180);
     OVER.setFillColor(Color::Black);
 
-    YOU.setFont(font);
-    YOU.setString("YOU ARE NEXT");
-    YOU.setCharacterSize(70);
-    YOU.setFillColor(Color::Red);
+    INFO.setFont(font);
+    if (check_game_over() == -1) {
+        INFO.setString("Colony is empty!");
+        INFO.setFillColor(Color::Black);
+    }
+    else if (check_game_over() == -2) {
+        INFO.setString("Colony was so downgraded!");
+        INFO.setFillColor(Color::Green);
+    }
+    else if (check_game_over() == -3) {
+        INFO.setString("Colony have no enought food!");
+        INFO.setFillColor(Color::Red);
+    }
+    INFO.setCharacterSize(70);
 
     FloatRect textBounds = OVER.getLocalBounds();
     OVER.setOrigin(textBounds.left + textBounds.width / 2.0f,
         textBounds.top + textBounds.height / 2.0f);
-    OVER.setPosition(window_width / 2.0f, window_height / 2.0f);
+    OVER.setPosition(window_width / 2.0f, window_height / 2.0f-100);
 
-    FloatRect textBounds2 = YOU.getLocalBounds();
-    YOU.setOrigin(textBounds2.left + textBounds2.width / 2.0f,
+    FloatRect textBounds2 = INFO.getLocalBounds();
+    INFO.setOrigin(textBounds2.left + textBounds2.width / 2.0f,
         textBounds2.top + textBounds2.height / 2.0f);
-    YOU.setPosition(window_width / 2.0f + 100, window_height / 2.0f + 80);
+    INFO.setPosition(window_width / 2.0f, window_height / 2.0f + 100);
 }
 
 string Game::to_K(int x)
@@ -153,6 +165,9 @@ void Game::update_ants() {
 }
 
 void Game::update_enemies() {
+    if (ticks < time_without_enemy) return;
+    int n = rand()%2;
+    raid.dif_up(n);
     for (auto& enemy : raid.crowd) {
         if (enemy.get_hp() > 0) {
             enemy.move();
@@ -211,9 +226,11 @@ void Game::check_collisions() {
     }
 }
 
-bool Game::check_game_over() {
-    return ((has_started_colony && anthill.colony.empty()) ||
-        anthill.get_shape().getRadius() <= 0.75 * start_radius);
+int Game::check_game_over() {
+    if ((has_started_colony && anthill.colony.empty())) return -1;
+    if (anthill.get_shape().getRadius() <= 0.8 * start_radius) return -2;
+    if (anthill.get_food_count() < 0) return -3;
+    return 0;
 }
 
 void Game::upd_res()

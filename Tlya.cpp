@@ -12,7 +12,7 @@ void Aphid::move() {
 }
 
 int Aphid::produce_honey() {
-    return rand() % 21 + 40;
+    return rand() % 5 + 3;
 }
 
 void Aphid::update() {
