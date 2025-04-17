@@ -1,39 +1,118 @@
-#include "Ants.h"
-#define weidth 1920
-#define high 1080
-#define update_time 250
-#define stick_claster_count 2
-#define food_cluster_count 3
+﻿#include "Game.h"
 
-#define COLONY
-#ifdef COLONY
+#define Colony
+#ifdef Colony
 int main() {
+    srand(static_cast<unsigned>(time(nullptr)));
+    Game game;
     Clock time;
     float last_time = 0;
-    vector<Ant> colony, new_gen;
-    vector<Resource> resourses;
-    int count = 0;
-    for (int i = 0; i <= stick_claster_count + food_cluster_count; ++i) {
-        int x = abs(rand() % weidth - 300);
-        int y = abs(rand() % high - 100);
-        if (count <= food_cluster_count) create_cluster(resourses, x, y, food);
-        else create_cluster(resourses, x, y, stick);
-    }
+    int x = 0, y = 0;
 
-    while (1) {
-        if (time.getElapsedTime().asMilliseconds() - last_time >= update_time) {
+    game.spawn_res();
+    game.spawn_aphids();
+
+    //Anthil setting
+    CircleShape enemy_hill_1(start_radius);
+    CircleShape enemy_hill_2(start_radius);
+    CircleShape enemy_hill_3(start_radius);
+
+    enemy_hill_1.setPosition(Vector2f(-start_radius, window_height - start_radius));
+    enemy_hill_2.setPosition(Vector2f(window_width - start_radius, -start_radius));
+    enemy_hill_3.setPosition(Vector2f(window_width - start_radius, window_height - start_radius));
+
+    enemy_hill_1.setFillColor(Color(0, 0, 0, 80));
+    enemy_hill_2.setFillColor(Color(0, 0, 0, 80));
+    enemy_hill_3.setFillColor(Color(0, 0, 0, 80));
+
+    //Window setting
+    RenderWindow window(VideoMode(window_width, window_height), L"Colony Simulator");
+    Image icon;
+    if (!icon.loadFromFile("anthill.png")) return -1;
+    window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+
+    //MUSIC
+    Music backgroundMusic;
+    if (!backgroundMusic.openFromFile("Voroniny.ogg")) return -1;
+    backgroundMusic.setLoop(true);
+    backgroundMusic.setVolume(20);
+    backgroundMusic.play();
+
+    //Events and font
+    Event event;
+    Font font;
+    if (!font.loadFromFile("Arial.ttf")) return -1;
+    Text statsText("", font, 25);
+    statsText.setFillColor(Color::White);
+    statsText.setPosition(5, 5);
+    game.add_stats(font);
+    int FPS = fps;
+
+    while (window.isOpen()) {
+        while (window.pollEvent(event)) {
+            if (event.type == Event::Closed || event.type == Event::KeyPressed && ((event.key.code == Keyboard::Space) || (event.key.code == Keyboard::Escape) || (event.key.code == Keyboard::BackSpace))) window.close();
+            if (event.type == Event::KeyPressed && event.key.code == Keyboard::Right) { FPS -= 5; }
+            else if (event.type == Event::KeyPressed && event.key.code == Keyboard::Left) { FPS += 5; }
+            if (event.type == Event::KeyPressed && event.key.code == Keyboard::R) {
+                game.reset();
+                last_time = time.getElapsedTime().asMilliseconds();
+            }
+        }
+
+        if (time.getElapsedTime().asMilliseconds() - last_time >= FPS) {
             last_time = time.getElapsedTime().asMilliseconds();
-            for (auto& ant : colony) ant.update();
+            game.update(font);
+            game.upd_res();
+            game.update_ants();
+            game.spawn_body();
+            if (game.get_ticks() % res_regen_time == 0) {
+                int n = rand() % 2;
+                if (n) game.spawn_res(1,0);
+                else game.spawn_res(0, 1);
+            }
+            game.update_enemies();
+            game.check_collisions();
+            if (game.get_ticks() % feeding_period == 0) game.anthill.hunger();
+            if (game.check_game_over() != 0) {
+                game.over(font);
+
+                window.clear(Color::White);
+                window.draw(game.OVER);
+                window.draw(game.INFO);
+                window.display();
+
+                time.restart();
+                while (time.getElapsedTime().asSeconds() < 3.0f) {
+                    Event event;
+                    while (window.pollEvent(event)) {
+                        if (event.type == Event::Closed)
+                            window.close();
+                    }
+                }
+                window.close();
+                return 0;
+            }
+
+            window.clear(Color(180, 240, 180));
+            window.draw(game.anthill.get_shape());
+            window.draw(enemy_hill_1);
+            window.draw(enemy_hill_2);
+            window.draw(enemy_hill_3);
+            window.draw(game.cemetery.get_shape());
+
+            for (const auto& res : game.resources) if (res.is_visible()) window.draw(res.get_shape());
+            for (const auto& ant : game.anthill.colony) {
+                if (ant.is_visible()) {
+                    window.draw(ant.get_shape());
+                    if (vision_circle && ant.get_role() != 0 && ant.get_role() != 1) window.draw(ant.get_vision_circle());
+                }
+            }
+            for (const auto& aphid : game.aphids) if (aphid.is_visible()) window.draw(aphid.get_shape());
+            for (auto& enemy : game.raid.crowd) if (enemy.is_visible()) window.draw(enemy.get_shape());
+            for (const auto& text : game.statsLines) window.draw(text);
+            window.display();
         }
     }
-
-	RenderWindow window(VideoMode(weidth, high), L"Муравейник");
-    Event event;
-    while (window.isOpen()) {
-        while (window.pollEvent(event)) if (event.type == Event::Closed) window.close();
-        window.clear(Color::Green);
-        window.display();
-    }
-	return 0;
+    return 0;
 }
 #endif
