@@ -26,7 +26,7 @@ void Anthill::up_lvl() {
     else max_ants_on_map;
     max_food *= 1.2;
     sticks_for_upd *= 1.2;
-    rad *= 1.1;
+    if (rad * 1.1 < 11 * start_radius) rad *= 1.1;
     shape.setRadius(rad);
     pos.x = window_width / 2 - rad;
     pos.y = window_height / 2 - rad;
@@ -74,8 +74,10 @@ void Anthill::upd_ant_stats()
 void Anthill::upd_anthill(int ticks, vector<Resource>& resources)
 {
     upd_ant_stats();
-    if ((colony.size() == 0 || colony.size() < start_max_ant_count) && (food_count > food_for_born + (4 * ants)) && (ticks % min_born_period == 0)) born_baby();
-    else if (food_count >= food_for_born + (ants * 2) && ticks % min_born_period == 0 && ants < max_ants) born_baby();
+    if (ticks % min_born_period == 0) {
+        if ((colony.size() == 0 || colony.size() < start_max_ant_count) && (food_count > food_for_born + (4 * ants + 1))) born_baby();
+        else if (food_count >= food_for_born + (ants + 1 * 2) && ants < max_ants) born_baby();
+    }
     if (stick_count >= sticks_for_upd) up_lvl();
     else if (stick_count <= 0.25 * sticks_for_upd && ticks % min_downgrade_period == 0) down_lvl();
 }

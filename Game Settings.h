@@ -29,7 +29,7 @@ const int food_for_born = 20;                    // рождение дорож�
 const int max_ants_on_map = 100;
 const int ant_size = 0.0075 * window_width;
 const int ant_speed = 6; // было 8 — слишком быстро, глаза не успевают
-const int velocity_changing_period = 15; // больше стабильности
+const int velocity_changing_period = 10; // больше стабильности
 const bool vision_circle = true;
 const int soldier_radius_vision = 1500.f;
 

@@ -11,7 +11,7 @@ void Game::update(Font& font)
     statsLines.clear();
     add_stats(font);
     update_aphids();
-    if (get_ticks() % enemy_wave_period == 0) raid.spawn_raid();
+    if (get_ticks() % enemy_wave_period == 0 && ticks >= time_without_enemy) raid.spawn_raid();
 }
 
 void Game::add_stats(Font& font) {
@@ -165,7 +165,6 @@ void Game::update_ants() {
 }
 
 void Game::update_enemies() {
-    if (ticks < time_without_enemy) return;
     int n = rand()%2;
     raid.dif_up(n);
     for (auto& enemy : raid.crowd) {
