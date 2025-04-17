@@ -1,7 +1,6 @@
 #pragma once
 #include "Game Settings.h"
 #include "Position.h"
-// ����� ��� - ������� ������
 class Aphid {
 private:
     int hp;

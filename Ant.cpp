@@ -39,9 +39,9 @@ void Ant::upd_role() {
     }
     }
 }
+
 void Ant::move() {
     if (hp <= 0) return;
-
     if (has_valid_target()) {
         float dx = target.x - pos.x;
         float dy = target.y - pos.y;
@@ -54,7 +54,7 @@ void Ant::move() {
             pos = target;
             velocity = { 0, 0 };
             has_target = false;
-            if (role_id == 5 && inventory == no_res) { // Shepperd
+            if (role_id == 5 && inventory == no_res) {
                 for (Aphid& aphid : Game::get_current()->aphids) {
                     float adx = aphid.get_pos().x - pos.x;
                     float ady = aphid.get_pos().y - pos.y;
@@ -62,7 +62,7 @@ void Ant::move() {
                     if (adist < 5.f) {
                         int honey = aphid.produce_honey();
                         for (int i = 0; i < honey; ++i)
-                            Anthill::add_food();  // добавляем мёд в хранилище
+                            Anthill::add_food();
                         has_collected_honey = true;
                         going_home = true;
                         set_target(Position(window_width / 2, window_height / 2));
@@ -96,11 +96,9 @@ void Ant::move() {
                 }
             }
         }
-
         pos.x += velocity.x;
         pos.y += velocity.y;
         shape.setPosition(pos.x, pos.y);
-
     }
     else {
         if (role_id == 0) return;
@@ -118,7 +116,6 @@ void Ant::move() {
             if (pos.y + velocity.y < window_height / 2 - 2 * start_radius || pos.y + velocity.y > window_height / 2 + 2 * start_radius)
                 velocity.y = -velocity.y;
         }
-
         pos.x += velocity.x;
         pos.y += velocity.y;
         shape.setPosition(pos.x, pos.y);
@@ -189,11 +186,6 @@ CircleShape Ant::get_vision_circle() const {
     vision.setOutlineColor(Color(0, 0, 255, 20));
     vision.setOutlineThickness(1.f);
     return vision;
-}
-
-bool Ant::pick(Resource& res) {
-    if (!res.is_visible()) return 0;
-    if ((res.get_type() == food && role_id == 3) || (res.get_type() == stick && role_id == 2) || ((res.get_type() == body || res.get_type() == trash) && role_id == 6)) return 1;
 }
 
 void Ant::work(vector<Resource>& resources, vector<Enemy>& enemies, vector<Aphid>& aphids)

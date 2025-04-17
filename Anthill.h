@@ -18,19 +18,21 @@ public:
     void up_lvl();
     void down_lvl();
     void feeding() { food_count -= ants; }
-    void hunger();
     void born_baby();
     void upd_ant_stats();
     void upd_anthill(int ticks, vector<Resource>& resources);
-    void default_count() { ants = soldiers = builders = cleaners = sitters = babies = shepherds = collectors = 0; }
+    void default_count();
     void kill_colony() { colony.clear(); }
-    static void add_food() { food_count++; }
+    void hunger();
+    static void add_food() { food_count+=food_score; }
     static void add_stick() { stick_count+=stick_score; }
-    static void del_food() { food_count--; }
-    static void del_stick() { stick_count--; }
+    static void del_food() { food_count-= rob_res_count/min_enemy_in_wave; }
+    static void del_stick() { stick_count-= rob_res_count/min_enemy_in_wave; }
 
     static Anthill* get_instance() { return instance; }
     const CircleShape& get_shape() const { return shape; }
+    int get_radius()const { return rad; }
+    int get_lvl() const { return lvl; }
     int get_soldier_count() const { return soldiers; }
     int get_builder_count() const { return builders; }
     int get_cleaner_count() const { return cleaners; }
@@ -44,5 +46,4 @@ public:
     int get_max_ants() const { return max_ants; }
     int get_max_food() const { return max_food; }
     int get_for_upd() const { return sticks_for_upd; }
-    int get_radius()const { return rad; }
 };

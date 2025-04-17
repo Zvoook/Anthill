@@ -36,9 +36,6 @@
     <ClCompile Include="Enemy.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Informers.cpp">
-      <Filter>Исходные файлы\ANTS</Filter>
-    </ClCompile>
     <ClCompile Include="Anthill.cpp">
       <Filter>Исходные файлы\ANTS</Filter>
     </ClCompile>

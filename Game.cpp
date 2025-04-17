@@ -23,7 +23,6 @@ void Game::add_stats(Font& font) {
         statsLines.push_back(t);
         line++;
         };
-    // Подсчет ресурсов типа "body" (трупы)
     int bodyResourcesCount = 0;
     for (const auto& res : resources) {
         if (res.is_visible() && res.get_type() == body) {
@@ -46,8 +45,6 @@ void Game::add_stats(Font& font) {
     makeText("Cleaners: " + to_string(anthill.get_cleaner_count()), Color(102, 51, 0));
 }
 
-
-
 void Game::reset() {
     anthill = Anthill();
     raid.crowd.clear();
@@ -57,7 +54,6 @@ void Game::reset() {
     ticks = 0;
     spawn_res();
 }
-
 
 void Game::spawn_res(int s, int f)
 {
@@ -147,10 +143,9 @@ string Game::to_K(int x)
 
 void Game::update_ants() {
     for (auto& ant : anthill.colony) {
-        //ant.look_around(resources);
-        ant.work(resources, raid.crowd, aphids);
-        ant.move();
         if (ant.get_hp() > 0) {
+            ant.work(resources, raid.crowd, aphids);
+            ant.move();
             ant.up();
             if (ant.get_age() % stage_time == 0 && ant.get_age()) ant.upd_role();
         }
@@ -170,7 +165,7 @@ void Game::update_enemies() {
         }), raid.crowd.end());
 }
 
-void Game::handle_collisions() {
+void Game::check_collisions() {
     for (size_t i = 0; i < anthill.colony.size(); i++) {
         for (size_t j = i + 1; j < anthill.colony.size(); j++) {
             Vector2f pos1 = anthill.colony[i].get_shape().getPosition();
@@ -215,7 +210,6 @@ void Game::handle_collisions() {
         }
     }
 }
-
 
 bool Game::check_game_over() {
     return ((has_started_colony && anthill.colony.empty()) ||

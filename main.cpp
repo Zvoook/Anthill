@@ -70,12 +70,9 @@ int main() {
                 if (n) game.spawn_res(1,0);
                 else game.spawn_res(0, 1);
             }
-            //ant.upd_color();
             game.update_enemies();
-            game.handle_collisions();
-            if (game.get_ticks() % feeding_period == 0) {
-                game.anthill.hunger();
-            }
+            game.check_collisions();
+            if (game.get_ticks() % feeding_period == 0) game.anthill.hunger();
             if (game.check_game_over()) {
                 game.over(font);
 
@@ -96,8 +93,6 @@ int main() {
                 return 0;
             }
 
-            //Informers::update(game.anthill.colony, game.resources);
-
             window.clear(Color(180, 240, 180));
             window.draw(game.anthill.get_shape());
             window.draw(enemy_hill_1);
@@ -112,7 +107,6 @@ int main() {
                     if (vision_circle && ant.get_role() != 0 && ant.get_role() != 1) window.draw(ant.get_vision_circle());
                 }
             }
-
             for (const auto& aphid : game.aphids) if (aphid.is_visible()) window.draw(aphid.get_shape());
             for (auto& enemy : game.raid.crowd) if (enemy.is_visible()) window.draw(enemy.get_shape());
             for (const auto& text : game.statsLines) window.draw(text);

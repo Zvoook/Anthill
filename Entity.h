@@ -11,9 +11,8 @@ protected:
     bool has_target, visible;
     float radius_vision;
 public:
-    Entity(float x = 0, float y = 0, float radius = ant_size, Color color = Color::White) : pos(x, y), velocity(0, 0), age(0),
-        has_target(false), radius_vision(80.f), target(0, 0), visible(true)
-    {
+    Entity(float x = 0, float y = 0, float radius = ant_size, Color color = Color::White) : pos(x, y),
+        velocity(0, 0), age(0), has_target(false), radius_vision(80.f), target(0, 0), visible(true) {
         hp = rand() % 201 + 300;
         shape.setRadius(radius);
         shape.setFillColor(color);
@@ -23,6 +22,7 @@ public:
 
     virtual ~Entity() = default;
     virtual void move() = 0;
+
     void set_velocity(float vx, float vy);
     void set_hp(int x) { if (hp > 0) hp = x;  else hp = 0; }
     void set_target(const Position& p) { target = p; has_target = true; }

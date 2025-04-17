@@ -12,12 +12,11 @@ void Aphid::move() {
 }
 
 int Aphid::produce_honey() {
-    return rand() % 500 + 100;
+    return rand() % 21 + 40;
 }
 
 void Aphid::update() {
     age++;
-    //if (age > 10000) hp--;
     move();
 }
 
